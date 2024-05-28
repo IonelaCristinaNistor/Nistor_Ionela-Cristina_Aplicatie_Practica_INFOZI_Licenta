@@ -10,7 +10,7 @@ function HomeScreen() {
       <h1>Latest Products</h1>
       <Row>
         {artworks.map(artwork => (
-            <Col ley={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
+            <Col className='d-flex align-items-stretch' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
                 <Artwork artwork={artwork}></Artwork>
             </Col>
         ))}

@@ -1,9 +1,12 @@
-import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import React from 'react';
+
+import "../index.css";
+
+import { Container, Row, Col } from 'react-bootstrap';
 
 function Footer() {
   return (
-    <div>
+    <div class="footer-copyright">
       <footer>
         <Container>
             <Row>

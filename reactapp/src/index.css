@@ -1,3 +1,39 @@
 main {
     min-height: 80vh;
+    margin-top: 80px;
+    background-image: url("../public/background.jpg");
+}
+
+.footer-copyright {
+    background-image: url("../public/background.jpg");
+    opacity: 90%;
+    color: black;
+}
+
+.navbar
+{
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
+    opacity: 95%;
+    background-image: url("../public/background.jpg");
+    font-size: 2ch;
+    font-weight: bolder;
+}
+
+.card.card {
+    background-color: #f9e7ef91;
+    border-radius: 10px;
+    box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card.card:hover {
+    transform: translateY(-10px);
+}
+
+.artwork-image {
+    height: 200px;
+    object-fit: none;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
 }

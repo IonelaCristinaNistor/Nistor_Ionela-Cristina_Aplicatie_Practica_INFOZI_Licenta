@@ -1,21 +1,30 @@
-import { Container } from 'react-bootstrap'
+import "./index.css"
+
+import HomeScreen from './screens/HomeScreen';
+import ArtworksScreen from './screens/ArtworksScreen'
 
 import Header from './components/Header'
 import Footer from './components/Footer';
 
-import HomeScreen from './screens/HomeScreen';
+import { Container } from 'react-bootstrap'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <div>
+    <Router>
+
+      <main className='py-3'>      
       <Header />
-      <main className='py-3'>
         <Container>
-        <HomeScreen />
+          <Routes>
+            {" "}
+          <Route path='/' element={<HomeScreen />} />
+          <Route path='/artwork/:id' element={<ArtworksScreen />} />
+          </Routes>
         </Container>
       </main>
       <Footer />
-    </div>
+    </Router>
   );
 }
 

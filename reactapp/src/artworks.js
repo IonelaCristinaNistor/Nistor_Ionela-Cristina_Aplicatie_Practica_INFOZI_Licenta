@@ -7,8 +7,9 @@ const artworks = [
       'price': 100000000,
       'category': 'Post-Impressionism',
       'date': '1889-06-01',
-      'availability': 'available',
-      'image': '/images/Starry_Night.jpg'
+      'availability': 0,
+      'image': '/images/Starry_Night.jpg',
+      'likes_count': 10
     },
     {
       'artwork_id': 2,
@@ -18,8 +19,9 @@ const artworks = [
       'price': 860000000,
       'category': 'Renaissance',
       'date': '1503-10-01',
-      'availability': 'sold',
-      'image': '/images/Mona_Lisa.jpg'
+      'availability': 1,
+      'image': '/images/Mona_Lisa.jpg',
+      'likes_count': 17
 
     },
     {
@@ -30,8 +32,9 @@ const artworks = [
       'price': 55000000,
       'category': 'Surrealism',
       'date': '1931-04-01',
-      'availability': 'available',
-      'image': '/images/the_persistance_of_memory.jpg'
+      'availability': 1,
+      'image': '/images/the_persistance_of_memory.jpg',
+      'likes_count': 1
     },
     {
       'artwork_id': 4,
@@ -41,8 +44,9 @@ const artworks = [
       'price': 120000000,
       'category': 'Expressionism',
       'date': '1893-01-01',
-      'availability': 'available',
-      'image': '/images/the_scream.jpg'
+      'availability': 1,
+      'image': '/images/the_scream.jpg',
+      'likes_count': 5
     },
     {
       'artwork_id': 5,
@@ -52,8 +56,9 @@ const artworks = [
       'price': 75000000,
       'category': 'Baroque',
       'date': '1665-01-01',
-      'availability': 'sold',
-      'image': '/images/the_girl.jpg'
+      'availability': 0,
+      'image': '/images/the_girl.jpg',
+      'likes_count': 10
     },
     {
       'artwork_id': 6,
@@ -63,8 +68,9 @@ const artworks = [
       'price': 200000000,
       'category': 'Baroque',
       'date': '1642-01-01',
-      'availability': 'available',
-      'image': '/images/the_night_watch.jpg'
+      'availability': 1,
+      'image': '/images/the_night_watch.jpg',
+      'likes_count': 12
     }
   ];
   
