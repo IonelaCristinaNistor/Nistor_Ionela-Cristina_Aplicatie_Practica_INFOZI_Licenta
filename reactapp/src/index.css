@@ -37,3 +37,18 @@ main {
     object-fit: none;
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
 }
+
+div.list-group-item {
+    background-color: #f9e7ef91;
+    color: black !important;
+    padding: 10px;
+    opacity: 90%;
+}
+
+.image-list {
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #f9e7ef91;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

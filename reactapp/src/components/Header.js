@@ -13,7 +13,7 @@ function NavScrollExample() {
     <Navbar expand="lg" fixed='top' className="rounded" class="fixedNavbar">
       <Container fluid>
 
-        <Image src='icons40.png' roundedCircle className='px-2'></Image>
+        <Image src='../icons40.png' roundedCircle className='px-2'></Image>
 
         <LinkContainer to='/'>
           <Navbar.Brand>Gallery</Navbar.Brand>
