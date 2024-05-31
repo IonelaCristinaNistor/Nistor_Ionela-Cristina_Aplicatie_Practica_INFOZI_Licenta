@@ -1,10 +1,25 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
+import axios from 'axios'
+
 import { Row, Col } from 'react-bootstrap'
 import Artwork from '../components/Artwork'
 
-import artworks from '../artworks'
-
 function HomeScreen() {
+  
+   const [artworks, setArtworks] = useState([])
+
+  useEffect(() => {
+
+    async function fetchArtworks() {
+
+    const { data } = await axios.get('/api/artworks/')
+    setArtworks(data)
+   }
+
+   fetchArtworks()
+
+    }, [])
+
   return (
     <div>
       <h1>Latest Products</h1>
