@@ -1,20 +1,18 @@
-import { configureStore, combineReducers} from '@reduxjs/toolkit'
-import { thunk } from 'redux-thunk'
-import { ARTWORKListReducer } from './artworkReducers'
- 
- 
-const reducer = combineReducers({
-    artworkList: ARTWORKListReducer,
-})
- 
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { thunk } from 'redux-thunk';
+
+import artworkListReducer from './reducers/artworkReducers';
+
+const rootReducer = combineReducers({
+  artworkList: artworkListReducer,
+});
+
 export const initialState = {}
- 
-const middleware = [thunk]
- 
+
 const store = configureStore({
-    reducer: reducer,
-    preloadedState: initialState,
-    middleware: middleware,
-})
- 
-export default store
+  reducer: rootReducer,
+  preloadedState: initialState,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+});
+
+export default store;
