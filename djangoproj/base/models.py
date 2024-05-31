@@ -5,14 +5,13 @@ from django.contrib.auth.models import User
 class Artwork(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200, null=True, blank=True)
-    artist_name = models.CharField(max_length=200, null=True, blank=True)
+    artist_name = models.CharField(max_length=200, null=True, blank=True) 
+    image = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     availability = models.IntegerField(null=True, blank=True)
-    likes_count = models.IntegerField(null=True, blank=True)
-    # image = models.ImageField(upload_to='images/', null=True, blank=True)
     artwork_id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

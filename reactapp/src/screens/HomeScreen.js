@@ -1,35 +1,35 @@
-import React,{ useState, useEffect } from 'react'
-import axios from 'axios'
+import React,{ useEffect } from 'react'
 
 import { Row, Col } from 'react-bootstrap'
 import Artwork from '../components/Artwork'
+import { useDispatch, useSelector } from 'react-redux'
+import { listArtworks} from '../artworkActions'
+
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
 
 function HomeScreen() {
+  const dispatch = useDispatch()
+  const artworkList = useSelector(state => state.artworkList)
+  const { artworks } = artworkList 
   
-   const [artworks, setArtworks] = useState([])
-
   useEffect(() => {
-
-    async function fetchArtworks() {
-
-    const { data } = await axios.get('/api/artworks/')
-    setArtworks(data)
-   }
-
-   fetchArtworks()
+    dispatch(listArtworks())
 
     }, [])
 
   return (
     <div>
-      <h1>Latest Products</h1>
-      <Row>
+      <Header />
+      <Row className='shopscreen-row mx-auto'>
         {artworks.map(artwork => (
             <Col className='d-flex align-items-stretch' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
-                <Artwork artwork={artwork}></Artwork>
+                <Artwork artwork={artwork} />
             </Col>
         ))}
       </Row>
+      <Footer />
     </div>
   )
 }

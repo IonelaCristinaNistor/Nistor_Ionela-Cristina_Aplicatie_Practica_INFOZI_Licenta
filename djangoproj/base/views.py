@@ -2,7 +2,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from .models import Artwork
 from .artworks import artworks
+from .serializer import ArtworkSerializer
 
 # Create your views here.
 
@@ -27,14 +30,14 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getArtworks(request):
-    return Response(artworks)
+    artworks = Artwork.objects.all()
+    serializer = ArtworkSerializer(artworks, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getArtwork(request, pk):
-    artwork = None
-    for i in artworks:
-        if i['artwork_id'] == pk:
-            artwork = i
-            break
+    artwork = Artwork.objects.get(artwork_id=pk)
+    serializer = ArtworkSerializer(artwork, many=False)
         
-    return Response(artwork)
+    return Response(serializer.data)
