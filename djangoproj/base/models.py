@@ -54,8 +54,7 @@ class OrderItem(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
     quantity = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
-    image = models.CharField(max_length=200, null=True, blank=True)
-    # image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
     item_id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

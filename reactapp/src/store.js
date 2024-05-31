@@ -1,10 +1,11 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
 
-import artworkListReducer from './reducers/artworkReducers';
+import { artworkListReducer, artworkInformationReducer } from './reducers/artworkReducers';
 
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
+  artworkInformation: artworkInformationReducer,
 });
 
 export const initialState = {}

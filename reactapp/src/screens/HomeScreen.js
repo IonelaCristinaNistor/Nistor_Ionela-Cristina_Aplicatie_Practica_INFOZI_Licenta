@@ -1,35 +1,37 @@
-import React,{ useState, useEffect } from 'react'
-import axios from 'axios'
-
+import React,{ useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
+import { listArtworks } from '../actions/artworkActions'
+
+import SpinnerComponent from '../components/SpinnerComponent'
+import Message from '../components/Message'
+
 import Artwork from '../components/Artwork'
 
 function HomeScreen() {
-  
-   const [artworks, setArtworks] = useState([])
+  const dispatch = useDispatch()
+  const artworkList = useSelector(state => state.artworkList)
+  const { error, loading, artworks } = artworkList
 
   useEffect(() => {
-
-    async function fetchArtworks() {
-
-    const { data } = await axios.get('/api/artworks/')
-    setArtworks(data)
-   }
-
-   fetchArtworks()
-
-    }, [])
+    dispatch(listArtworks())
+    }, [dispatch])
 
   return (
     <div>
       <h1>Latest Products</h1>
-      <Row>
-        {artworks.map(artwork => (
-            <Col className='d-flex align-items-stretch' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
-                <Artwork artwork={artwork}></Artwork>
-            </Col>
-        ))}
-      </Row>
+
+      {loading ? <SpinnerComponent />
+            :error ? <Message variant='danger'>{ error }</Message>
+            :
+            <Row>
+              {artworks.map(artwork => (
+                  <Col className='d-flex align-items-stretch' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
+                      <Artwork artwork={artwork}></Artwork>
+                  </Col>
+              ))}
+            </Row>       
+      }
     </div>
   )
 }

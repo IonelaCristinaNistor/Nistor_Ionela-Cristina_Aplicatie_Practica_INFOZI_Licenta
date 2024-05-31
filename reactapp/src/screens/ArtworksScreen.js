@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import "../index.css";
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 import Reactions from "../components/Reactions";
-import axios from 'axios';
+import { listArtworksInformation } from '../actions/artworkActions'
 
-function ArtworksScreen() { // Removed the `match` parameter as it's not needed
 
-  const [artwork, setArtwork] = useState({})
-  const { id } = useParams();
+function ArtworksScreen() {
+  const { artwork_id } = useParams
+  const dispatch = useDispatch()
+  const artworkInformation = useSelector(state => state.artworkInformation)
+  const { error, loading, artwork} = artworkInformation
 
   useEffect(() => {
-    async function fetchArtwork() {
-      const { data } = await axios.get(`/api/artworks/${id}`)
-      setArtwork(data)
-    }
-    fetchArtwork()
-  }, [id])
+    dispatch(listArtworksInformation(artwork_id))
+  }, [dispatch, artwork_id])
 
   return (
     <div>
