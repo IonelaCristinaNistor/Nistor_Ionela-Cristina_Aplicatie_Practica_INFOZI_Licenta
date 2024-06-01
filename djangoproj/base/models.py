@@ -13,6 +13,7 @@ class Artwork(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     availability = models.IntegerField(null=True, blank=True)
     artwork_id = models.AutoField(primary_key=True, editable=False)
+    likes_count = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title

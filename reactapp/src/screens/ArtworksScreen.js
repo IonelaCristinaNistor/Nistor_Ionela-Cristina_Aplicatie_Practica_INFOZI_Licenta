@@ -3,25 +3,31 @@ import "../index.css";
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
-import Reactions from "../components/Reactions";
 import { listArtworksInformation } from '../actions/artworkActions'
 
+import Reactions from "../components/Reactions";
+import SpinnerComponent from '../components/SpinnerComponent'
+import Message from '../components/Message'
 
 function ArtworksScreen() {
-  const { artwork_id } = useParams
   const dispatch = useDispatch()
+  const { artwork_id } = useParams
   const artworkInformation = useSelector(state => state.artworkInformation)
   const { error, loading, artwork} = artworkInformation
 
   useEffect(() => {
+    if(artwork_id)
     dispatch(listArtworksInformation(artwork_id))
-  }, [dispatch, artwork_id])
-
+  }, [dispatch, artwork_id]);
+  
   return (
     <div>
       <Link to='/' className='btn btn-primary rounded my-2'>Go Back</Link>
-
-      <Row className='row_artworks'>
+      { loading ?
+        <SpinnerComponent />
+        :error ? <Message variant='danger'>{error}</Message>
+        : (
+        <Row className='row_artworks'>
         <Col md={6} className='d-flex align-items-center justify-content-center'>
           <Image src={artwork.image} alt={artwork.title} fluid className="image-list"/>
         </Col>
@@ -59,7 +65,8 @@ function ArtworksScreen() {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-      </Row>
+      </Row>      
+      )}
     </div>
   );
 }

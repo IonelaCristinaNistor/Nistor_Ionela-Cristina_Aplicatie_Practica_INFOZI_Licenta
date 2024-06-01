@@ -30,23 +30,23 @@ export const listArtworks = () => async(dispatch) => {
 
 }
 
-export const listArtworksInformation = (id) => async(dispatch) => {
+export const listArtworksInformation = (artwork_id) => async(dispatch) => {
     try{
         dispatch({type: ARTWORK_INFORMATION_REQUEST})
 
-        const { data } = await axios.get('/api/artworks/${id}')
+        const { data } = await axios.get(`/api/artworks/${artwork_id}`);
 
         dispatch({
             type: ARTWORK_INFORMATION_SUCCESS,
-            payload: data
-        })
+            payload: data,
+        });
     }catch(error) {
         dispatch({
             type: ARTWORK_INFORMATION_FAIL,
             payload: error.response && error.response.data.message
                     ? error.response.data.message
                     : error.message,
-        })
+        });
     }
 
-}
+};

@@ -26,7 +26,7 @@ import {
   export const artworkInformationReducer = (state = {artwork: {likes_count: []}}, action) => {
     switch (action.type) {
       case ARTWORK_INFORMATION_REQUEST:
-        return { loading: true, ...state};
+        return { ...state, loading: true};
 
       case ARTWORK_INFORMATION_SUCCESS:
         return { loading: false, artwork: action.payload };
