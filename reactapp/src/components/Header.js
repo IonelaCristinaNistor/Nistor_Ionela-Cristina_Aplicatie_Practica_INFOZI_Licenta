@@ -10,7 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 function NavScrollExample() {
   return (
     <header>
-    <Navbar expand="lg" fixed='top' className="rounded" class="fixedNavbar">
+    <Navbar expand="lg" fixed='top' className="roundedm fixedNavbar">
       <Container fluid>
 
         <Image src='../icons40.png' roundedCircle className='px-2'></Image>
@@ -42,7 +42,7 @@ function NavScrollExample() {
             <Nav.Link><i className="fa-solid fa-shopping-cart"></i> Cart</Nav.Link>
             </LinkContainer>
             <LinkContainer to='/login'>
-            <Nav.Link><i class="fa-solid fa-right-to-bracket"></i> Login</Nav.Link>
+            <Nav.Link><i className="fa-solid fa-right-to-bracket"></i> Login</Nav.Link>
             </LinkContainer>
           </Nav>
 

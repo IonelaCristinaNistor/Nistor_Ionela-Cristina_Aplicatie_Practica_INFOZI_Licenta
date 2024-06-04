@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 function Artwork({ artwork }) {
   return (
-    <Card className="my-2 mt-3 p-3 border-secondary d-flex flex-column" class="card">
+    <Card className="card my-2 mt-3 p-3 border-secondary d-flex flex-column">
         <Link to={`/artwork/${artwork.artwork_id}`}>
             <Card.Img src={artwork.image} className='artwork-image'/>
         </Link>
