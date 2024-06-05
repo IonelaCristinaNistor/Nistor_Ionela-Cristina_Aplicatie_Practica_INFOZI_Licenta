@@ -2,6 +2,8 @@ main {
     min-height: 80vh;
     margin-top: 80px;
     background-image: url("../public/background.jpg");
+    font-family: "Merriweather", serif;
+    font-style: normal
 }
 
  /* footer */
@@ -10,12 +12,16 @@ main {
     background-image: url("../public/background.jpg");
     opacity: 90%;
     color: black;
+    font-family: "Merriweather", serif;
+    font-style: normal
 }
 
 .footerLink {
     color: black;
     text-decoration: none;
     font-size: large;
+    font-family: "Merriweather", serif;
+    font-style: normal
 }
 
 .footerLink:hover
@@ -103,4 +109,43 @@ div.list-group-item {
   
   ::-webkit-scrollbar-thumb:hover {
     background: #480050;
-  }  
+  } 
+  
+  /* CART */
+
+  .linkTitleCart {
+    color: black;
+    text-decoration: none;
+    font-size: large;
+  }
+
+  .cartRow {
+    margin: 20px;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .cartItemContainer {
+    text-align: center;
+    font-size: larger;
+}
+
+  @media (max-width: 780px) {
+    .imageCart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cartItemContainer {
+        text-align: center;
+    }
+
+    .formSelect {
+      align-items: center;
+    }
+
+    .cartItemContainer div {
+      font-size: 30px;
+    }
+  }

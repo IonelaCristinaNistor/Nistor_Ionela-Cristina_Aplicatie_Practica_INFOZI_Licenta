@@ -19,14 +19,14 @@ function HomeScreen() {
 
   return (
     <div>
-      <h1>Latest Products</h1>
+      <h1 className='d-flex justify-content-center'>Latest Products</h1>
 
       {loading ? <SpinnerComponent />
             :error ? <Message variant='danger'>{ error }</Message>
             :
             <Row>
               {artworks.map(artwork => (
-                  <Col className='d-flex align-items-stretch' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
+                  <Col className='d-flex justify-content-center' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
                       <Artwork artwork={artwork}></Artwork>
                   </Col>
               ))}

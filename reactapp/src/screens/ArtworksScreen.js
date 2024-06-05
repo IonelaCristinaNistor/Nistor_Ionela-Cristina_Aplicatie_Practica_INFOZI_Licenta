@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Row, Col, Image, ListGroup, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
 import Reactions from '../components/Reactions';
@@ -16,6 +16,12 @@ function ArtworkScreen() {
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
     }, [dispatch, id]);
+
+    const [artworkQuantity, setArtQuantity] =  useState(1)
+    const navigate = useNavigate()
+    const addItemInCart = () => {
+        navigate(`/cart/${id}?artworkQuantity=${artworkQuantity}`);
+    };
 
     return (
         <div>
@@ -49,8 +55,28 @@ function ArtworkScreen() {
                                     <Col>{artwork.availability > 0 ? 'In Stock' : 'Out of Stock'}</Col>
                                 </Row>
                             </ListGroup.Item>
+
+                            {artwork.availability > 0 && (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Quantity</Col>
+                                        <Col xs='auto' className='my-2'>
+                                            <Form.Select as="select" value={artworkQuantity} onChange={(m) => setArtQuantity(m.target.value)}>
+                                                {
+                                                    [...Array(artwork.availability).keys()].map((cnt) =>(
+                                                        <option key={ cnt + 1 } value={ cnt + 1 }>
+                                                            { cnt + 1 }
+                                                        </option>
+                                                    ))
+                                                }
+                                            </Form.Select>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            )}
+
                             <ListGroup.Item>
-                                <Button className='btn btn-block' disabled={artwork.availability === 0} type='button'>
+                                <Button onClick={addItemInCart} className='btn btn-block' type='button' disabled = {artwork.availability === 0}>
                                     Add to cart
                                 </Button>
                             </ListGroup.Item>

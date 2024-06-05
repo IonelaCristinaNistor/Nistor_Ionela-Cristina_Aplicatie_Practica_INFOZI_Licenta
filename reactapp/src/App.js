@@ -1,6 +1,7 @@
 import "./index.css"
 import HomeScreen from './screens/HomeScreen';
 import ArtworksScreen from './screens/ArtworksScreen'
+import Cart from "./screens/Cart";
 import Header from './components/Header'
 import Footer from './components/Footer';
 import { Container } from 'react-bootstrap'
@@ -17,6 +18,7 @@ function App() {
             {" "}
           <Route path='/' element={<HomeScreen />} />
           <Route path='/artwork/:id' element={<ArtworksScreen />} />
+          <Route path='/cart/:id?' element={<Cart />} />
           </Routes>
         </Container>
       </main>

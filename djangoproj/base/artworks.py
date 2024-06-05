@@ -7,7 +7,7 @@ artworks = [
       'price': '100000000',
       'category': 'Post-Impressionism',
       'date': '1889-06-01',
-      'availability': 0,
+      'availability': '0',
       'image': '/images/Starry_Night.jpg',
       'likes_count': 10
     },
@@ -19,7 +19,7 @@ artworks = [
       'price': '860000000',
       'category': 'Renaissance',
       'date': '1503-10-01',
-      'availability': '1',
+      'availability': '0',
       'image': '/images/Mona_Lisa.jpg',
       'likes_count': '17'
 

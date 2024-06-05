@@ -19,7 +19,7 @@ const artworks = [
       'price': 860000000,
       'category': 'Renaissance',
       'date': '1503-10-01',
-      'availability': 1,
+      'availability': 8,
       'image': '/images/Mona_Lisa.jpg',
       'likes_count': 17
 
