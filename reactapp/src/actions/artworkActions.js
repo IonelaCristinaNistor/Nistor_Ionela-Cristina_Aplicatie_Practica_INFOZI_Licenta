@@ -44,9 +44,9 @@ export const listArtworkDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ARTWORK_DETAILS_FAIL,
-            payload: error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message, //default message
         });
     }
 };
