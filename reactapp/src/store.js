@@ -3,7 +3,7 @@ import { thunk } from 'redux-thunk';
 
 import { artworkListReducer, artworkDetailsReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer } from './reducers/userReducers'
 
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  userUpdate: userUpdateReducer,
 });
 
 const cartItemsStorage = localStorage.getItem('cartItems') ? 
@@ -20,9 +21,12 @@ const cartItemsStorage = localStorage.getItem('cartItems') ?
 const userInfoFromStorage = localStorage.getItem('userInformation') ? 
     JSON.parse(localStorage.getItem('userInformation')) : null;
 
+const deliveryAddressFromStorage = localStorage.getItem('deliveryAddress') ? 
+    JSON.parse(localStorage.getItem('deliveryAddress')) : {};
+
 export const initialState = {
-  cart: { cartItems: cartItemsStorage},
-  userLogin: {userInformation: userInfoFromStorage}
+  cart: { cartItems: cartItemsStorage, deliveryAddress: deliveryAddressFromStorage},
+  userLogin: {userInformation: userInfoFromStorage},
 }
 
 const store = configureStore({

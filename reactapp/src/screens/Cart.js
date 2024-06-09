@@ -32,9 +32,9 @@ function Cart() {
     const removeFromCart = (id) => {
         dispatch(removeArtFromCart(id))
     }
-        const checkout = () => {
-            navigate('/login?redirect=shipping');
-        };
+    const checkout = () => {
+        navigate('/delivery');
+    };
 
   return (
     <Container className='cartItemContainer'>

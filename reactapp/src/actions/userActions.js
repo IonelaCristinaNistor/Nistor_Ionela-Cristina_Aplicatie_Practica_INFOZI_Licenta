@@ -14,6 +14,12 @@ import {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
 
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_DETAILS_RESET,
+    //USER_UPDATE_RESET,
+
  } from '../constants/userConstants';
 
 // ************* USER LOGIN *************
@@ -25,8 +31,8 @@ import {
         })
 
         const config = {
-            Headers: {
-                'Content-type':'applications/json'
+            headers: {
+                'Content-type':'application/json'
             }
         } 
 
@@ -56,6 +62,7 @@ import {
  export const logout = () => (dispatch) => {
     localStorage.removeItem('userInformation')
     dispatch({ type:USER_LOGOUT })
+    dispatch({ type:USER_DETAILS_RESET })
  }
 
 // ************* USER REGISTER *************
@@ -66,8 +73,8 @@ import {
         })
 
         const config = {
-            Headers: {
-                'Content-type':'applications/json'
+            headers: {
+                'Content-type':'application/json'
             }
         } 
 
@@ -100,20 +107,20 @@ import {
 
  // ************* USER DETAILS *************
 
- export const userDetails = (id) => async (dispatch, getState) => {
+ export const getUserDetails = (id) => async (dispatch, getState) => {
     try{
         dispatch ({
             type: USER_DETAILS_REQUEST
         })
 
         const {
-            userLogin: {userInformation},
+            userLogin: { userInformation },
 
-        } = getState
+        } = getState()
 
         const config = {
-            Headers: {
-                'Content-type':'applications/json',           
+            headers: {
+                'Content-type':'application/json',           
                 Authorization: `Bearer ${userInformation.token}`,
             }
         } 
@@ -131,6 +138,54 @@ import {
     }catch (error){
     dispatch({
         type: USER_DETAILS_FAIL,
+        payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message, //default message
+        });
+    }
+ }
+
+ // ************* UPDATE USER DETAILS *************
+
+ export const updateUser = (user) => async (dispatch, getState) => {
+    try{
+        dispatch ({
+            type: USER_UPDATE_REQUEST
+        })
+
+        const {
+            userLogin: { userInformation },
+
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',           
+                Authorization: `Bearer ${userInformation.token}`,
+            }
+        } 
+
+        const { data } = await axios.put(
+            `/api/users/profile/update/`,
+            user,
+            config
+        )
+
+        dispatch ({
+            type: USER_UPDATE_SUCCESS,
+            payload: data
+        })
+
+        dispatch ({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        })
+
+        localStorage.setItem('userInformation', JSON.stringify(data))
+
+    }catch (error){
+    dispatch({
+        type: USER_UPDATE_FAIL,
         payload: error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message, //default message

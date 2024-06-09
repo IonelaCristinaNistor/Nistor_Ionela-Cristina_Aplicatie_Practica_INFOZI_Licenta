@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
-import FormComponent from '../components/FormComponent';
+//import FormComponent from '../components/FormComponent';
 
-import { userDetails } from '../actions/userActions';
+import { getUserDetails, updateUser } from '../actions/userActions';
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 
 function Profile() {
     const [name, setName] = useState('')
@@ -15,38 +16,54 @@ function Profile() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState('')
+    const [confMessage, setConfMessage] = useState('')
 
     const navigate = useNavigate()
-    const location = useLocation()
     const dispatch = useDispatch()
-
-
 
     const userDetails = useSelector((state) => state.userDetails)
     const { error, loading, user } = userDetails
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInformation } = userLogin
+
+    const userUpdate = useSelector((state) => state.userUpdate)
+    const { success } = userUpdate
+
+    useEffect (() => {
+        const messageTimer = setTimeout(() => {setConfMessage('')}, 3000)
+        return () => clearTimeout(messageTimer)
+    })
     
     useEffect(() => {
         if (!userInformation) {
             navigate('/login')
         } else {
-            if(!user || user.name){
-                dispatch.userDetails('profile')
+            if(!user || !user.name || success){
+                dispatch({type: USER_UPDATE_RESET})
+                dispatch(getUserDetails('profile'))
+                    if(success) {
+                        setConfMessage('Your profile details have been updated successfully!');
+                    }
             } else {
                 setName(user.name)
                 setEmail(user.email)
             }
         }
-    }, [dispatch, navigate, userInformation, user])
+    }, [dispatch, navigate, userInformation, user, success])
 
     const submitHandler = (e) => {
         e.preventDefault()
         if(password !== confirmPassword) {
             setMessage('Passwords do not coincide.')
         } else {
-            console.log('Updating...')
+            dispatch(updateUser({
+                'id': user._id,
+                'name': name,
+                'email': email,
+                'password': password,
+            }))
+            setMessage('')
         }
     }
 
@@ -56,9 +73,10 @@ function Profile() {
             <h2>User Profile</h2>
             {error && <Message variant='danger'>{error}</Message>}
             {message && <Message variant='danger'>{message}</Message>}
+            {confMessage && <Message variant='success'>{confMessage}</Message>}
             {loading && <SpinnerComponent />}
+            
             <Form onSubmit={submitHandler}>
-
             <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
@@ -94,7 +112,6 @@ function Profile() {
                     <Form.Label>Confirm Pssword</Form.Label>
                     <Form.Control
                         type='password'
-                        required
                         placeholder='Confirm Password'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
