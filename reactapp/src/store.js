@@ -3,13 +3,15 @@ import { thunk } from 'redux-thunk';
 
 import { artworkListReducer, artworkDetailsReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
-import { userLoginReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer, userDetailsReducer } from './reducers/userReducers'
 
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
   artworkDetails: artworkDetailsReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
 });
 
 const cartItemsStorage = localStorage.getItem('cartItems') ? 
