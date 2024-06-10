@@ -33,20 +33,20 @@ class ArtworkReactions(models.Model):
 # Order model
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    tax_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    shipping_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    taxPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    deliveryPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    totalPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     isPaid = models.BooleanField(default=False)
     paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     isDelivered = models.BooleanField(default=False)
-    order_date = models.DateTimeField(auto_now_add=True)
+    orderDate = models.DateTimeField(auto_now_add=True)
     delivered = models.DateTimeField(auto_now_add=False, null=True, blank=True)
-    payment_method = models.CharField(max_length=200, null=True, blank=True)
+    paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     status = models.BooleanField(default=False)
     order_id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return str(self.order_date)
+        return str(self.orderDate)
 
 # OrderItem model
 class OrderItem(models.Model):
@@ -61,11 +61,11 @@ class OrderItem(models.Model):
     def __str__(self):
         return str(self.title)
 
-class ShippingAddress(models.Model):
+class DeliveryAddress(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
-    shipping_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    deliveryPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

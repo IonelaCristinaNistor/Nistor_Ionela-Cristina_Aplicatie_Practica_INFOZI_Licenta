@@ -13,7 +13,7 @@ function Payment() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal')
+    const [paymentMethod, setpaymentMethod] = useState(cart.paymentMethod || 'PayPal')
 
     if(!deliveryAddress.address) {
         navigate('/delivery')
@@ -35,9 +35,24 @@ function Payment() {
                     Select method
                 </FormLabel>
                 <Col>
-                    <FormCheck type='radio' label='Paypal or Credit Card' id='paypal' name='paymentMethod' checked 
-                    onChange={(e) => (setPaymentMethod(e.target.value))}>
+                    <FormCheck type='radio' 
+                    label='Paypal or Credit Card' 
+                    id='paypal' 
+                    name='paymentMethod' 
+                    value='PayPal' 
+                    checked={paymentMethod === 'PayPal'}
+                    onChange={(e) => (setpaymentMethod(e.target.value))}
+                    >
+                    </FormCheck>
 
+                    <FormCheck type='radio' 
+                    label='Cash on Delivery' 
+                    id='cash' 
+                    name='paymentMethod' 
+                    value='Cash on Delivery' 
+                    checked={paymentMethod === 'Cash on Delivery'}
+                    onChange={(e) => (setpaymentMethod(e.target.value))}
+                    >
                     </FormCheck>
                 </Col>
             </FormGroup>
