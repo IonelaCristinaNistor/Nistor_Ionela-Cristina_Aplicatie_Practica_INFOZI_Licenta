@@ -9,7 +9,6 @@ import Profile from './screens/Profile'
 import Delivery from './screens/Delivery'
 import Payment from './screens/Payment'
 import PlaceOrder from './screens/PlaceOrder'
-
 import Header from './components/Header'
 import Footer from './components/Footer';
 

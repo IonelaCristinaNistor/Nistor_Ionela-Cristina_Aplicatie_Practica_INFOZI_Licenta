@@ -51,7 +51,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
-    orders = serializers.SerializerMethodField(read_only=True)
+    orderItems = serializers.SerializerMethodField(read_only=True)
     deliveryAddress = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
 
@@ -59,19 +59,19 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
     
-    def get_orders(self, obj):
-        items = obj.orderItem_set.all
+    def get_orderItems(self, obj):
+        items = obj.orderitem_set.all()
         serializer  = OrderItemSerializer(items, many=True)
         return serializer.data
 
     def get_deliveryAddress(self, obj):
         try:
-            address = obj.DeliveryAddressSerializer(obj.deliveryAddress, many=False)
-        except:
-            address = False
-        return address
+            address = DeliveryAddressSerializer(obj.deliveryaddress, many=False)
+            return address.data
+        except DeliveryAddress.DoesNotExist:
+            return None
     
     def get_user(self, obj):
-        user = obj.orderitem_set.user
+        user = obj.user
         serializer  = UserSerializer(user, many=False)
         return serializer.data
