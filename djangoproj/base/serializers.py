@@ -79,4 +79,4 @@ class OrderSerializer(serializers.ModelSerializer):
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
-        fiels = '__al__'
+        fields = '__all__'

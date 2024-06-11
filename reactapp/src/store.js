@@ -27,9 +27,14 @@ const userInfoFromStorage = localStorage.getItem('userInformation') ?
 const deliveryAddressFromStorage = localStorage.getItem('deliveryAddress') ? 
     JSON.parse(localStorage.getItem('deliveryAddress')) : {};
 
+const favoriteItemsFromStorage = localStorage.getItem('favoriteItems')
+    ? JSON.parse(localStorage.getItem('favoriteItems'))
+    : [];
+
 export const initialState = {
   cart: { cartItems: cartItemsStorage, deliveryAddress: deliveryAddressFromStorage},
   userLogin: {userInformation: userInfoFromStorage},
+  favorite: { artwork: favoriteItemsFromStorage },
 }
 
 const store = configureStore({

@@ -31,6 +31,7 @@ function ArtworkScreen() {
 
     const handleFavorite = () => {
         if (isFavorite) {
+            console.log('add in favorite')
             dispatch(favoriteRemove(id));
         } else {
             dispatch(favoriteListItem(id));

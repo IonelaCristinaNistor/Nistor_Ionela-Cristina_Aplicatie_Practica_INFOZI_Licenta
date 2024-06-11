@@ -20,7 +20,7 @@ import {
             case FAVORITE_REMOVE_ITEM:
                 return { 
                     ...state,
-                    favorites: state.favorites.filter((item) => item._id !== action.payload),
+                    favorites: state.favorites.filter(m => m.artwork !== action.payload),
                 };
             default:
                 return state;

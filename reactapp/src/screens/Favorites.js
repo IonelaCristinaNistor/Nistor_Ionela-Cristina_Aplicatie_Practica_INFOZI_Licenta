@@ -1,52 +1,65 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap'
-import Message from '../components/Message'
-import SpinnerComponent from '../components/SpinnerComponent'
-import { favoriteListItem, favoriteRemove } from '../actions/favoriteActions'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap';
+import SpinnerComponent from '../components/SpinnerComponent';
+import { listFavoriteItems, favoriteRemove } from '../actions/favoriteActions';
 
 const FavoritesScreen = () => {
-    const dispatch = useDispatch()
-    const favorite = useSelector(state => state.favorite);
-    const { favorites } = favorite;
+  const dispatch = useDispatch();
+  const favorite = useSelector((state) => state.favorite);
+  const { loading, error, artwork } = favorite;
 
-    useEffect(() => {
-        dispatch(favoriteListItem());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(listFavoriteItems());
+  }, [dispatch]);
 
-    const removeFromFavoritesHandler = (id) => {
-        dispatch(favoriteRemove(id));
-    };
+  const removeFromFavoritesHandler = (id) => {
+    dispatch(favoriteRemove(id));
+  };
 
-    return (
-        <div>
-            <h1>My Favorites</h1>
-                <ListGroup variant='flush'>
-                    {favorites.map((favorites) => (
-                        <ListGroup.Item key={favorites._id}>
-                            <Row>
-                                <Col md={2}>
-                                    <Image src={favorites.image} alt={favorites.title} fluid rounded />
-                                </Col>
-                                <Col md={3}>
-                                    <Link to={`/favorites/${favorites._id}`}>{favorites.title}</Link>
-                                </Col>
-                                <Col md={2}>
-                                    <Button
-                                        type='button'
-                                        variant='light'
-                                        onClick={() => removeFromFavoritesHandler(favorites._id)}
-                                    >
-                                        <i className='fas fa-trash'></i>
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-        </div>
-    );
+  useEffect(() => {
+    console.log(artwork); // Check the structure of artwork data
+  }, [artwork]);
+
+  return (
+    <div>
+      <h1>My Favorites</h1>
+      {loading ? (
+        <SpinnerComponent />
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <ListGroup variant='flush'>
+          {artwork && artwork.length ? (
+            artwork.map((favorite) => (
+              <ListGroup.Item key={favorite.id}>
+                <Row>
+                  <Col md={2}>
+                    <Image src={favorite.image} alt={favorite.title} fluid rounded />
+                  </Col>
+                  <Col md={3}>
+                    <Link to={`/artwork/${favorite.artwork}`}>{favorite.title}</Link>
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      type='button'
+                      variant='light'
+                      onClick={() => removeFromFavoritesHandler(favorite.id)}
+                    >
+                      <i className='fas fa-trash'></i>
+                    </Button>
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+            ))
+          ) : (
+            <p>No favorites found</p>
+          )}
+        </ListGroup>
+      )}
+    </div>
+  );
 };
 
 export default FavoritesScreen;
