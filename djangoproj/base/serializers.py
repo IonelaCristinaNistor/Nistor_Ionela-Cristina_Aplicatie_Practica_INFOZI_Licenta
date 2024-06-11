@@ -77,6 +77,8 @@ class OrderSerializer(serializers.ModelSerializer):
         return serializer.data
 
 class FavoriteSerializer(serializers.ModelSerializer):
+    artwork = ArtworkSerializer(read_only=True)
+    
     class Meta:
         model = Favorite
-        fields = '__all__'
+        fields = ['id', 'user', 'artwork']

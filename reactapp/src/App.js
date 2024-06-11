@@ -10,7 +10,6 @@ import Delivery from './screens/Delivery'
 import Payment from './screens/Payment'
 import PlaceOrder from './screens/PlaceOrder'
 import Favorites from './screens/Favorites'
-
 import Header from './components/Header'
 import Footer from './components/Footer';
 

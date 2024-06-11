@@ -3,7 +3,8 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
-import { favoriteListItem, favoriteRemove } from '../actions/favoriteActions';
+import { addFavorite, removeFavorite } from '../actions/favoriteActions';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import Reactions from '../components/Reactions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
@@ -14,9 +15,12 @@ function ArtworkScreen() {
     const artworkDetails = useSelector((state) => state.artworkDetails);
     const { error, loading, artwork } = artworkDetails;
 
-    const favoriteList = useSelector((state) => state.favoriteList || { favorites: [] });
-    const { favorites } = favoriteList;
-    const isFavorite = favorites.find((fav) => fav._id === id);
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInformation } = userLogin;
+
+    const favorite = useSelector((state) => state.favorite);
+    const { favorites } = favorite || { favorites: [] };
+    const isFavorite = favorites.find(fav => fav.artwork_id === parseInt(id));
 
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
@@ -30,11 +34,18 @@ function ArtworkScreen() {
     };
 
     const handleFavorite = () => {
+        if (!userInformation) {
+            alert('Please log in to add favorites');
+            navigate('/login');
+            return;
+        }
+
+        const artwork_id = parseInt(id); // Make sure the id is an integer
+
         if (isFavorite) {
-            console.log('add in favorite')
-            dispatch(favoriteRemove(id));
+            dispatch(removeFavorite(artwork_id));
         } else {
-            dispatch(favoriteListItem(id));
+            dispatch(addFavorite(artwork_id));
         }
     };
 
@@ -98,7 +109,8 @@ function ArtworkScreen() {
 
                             <ListGroup.Item>
                                 <Button onClick={handleFavorite} className='btn btn-block' type='button'>
-                                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                                    {isFavorite ? <AiFillStar color="gold" /> : <AiOutlineStar color="gold" />}
+                                    {isFavorite ? ' Remove from Favorites' : ' Add to Favorites'}
                                 </Button>
                             </ListGroup.Item>
 

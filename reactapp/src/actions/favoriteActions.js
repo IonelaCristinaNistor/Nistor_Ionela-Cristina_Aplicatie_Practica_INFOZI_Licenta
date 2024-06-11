@@ -1,96 +1,119 @@
 import axios from 'axios';
-import { 
-    FAVORITES_LIST_REQUEST, 
-    FAVORITES_LIST_SUCCESS, 
-    FAVORITES_LIST_FAIL, 
-    FAVORITE_ADD_ITEM, 
-    FAVORITE_REMOVE_ITEM 
+import {
+    FAVORITE_ADD_ITEM,
+    FAVORITE_REMOVE_ITEM,
+    FAVORITES_LOAD,
+    FAVORITES_REQUEST,
+    FAVORITES_FAIL,
 } from '../constants/favConstants';
 
-export const listFavoriteItems = () => async (dispatch, getState) => {
+export const loadFavorites = () => async (dispatch, getState) => {
+    const {
+        userLogin: { userInformation },
+    } = getState();
+
+    if (!userInformation) {
+        throw new Error('User is not authenticated');
+    }
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInformation.token}`,
+        },
+    };
+
+    dispatch({ type: FAVORITES_REQUEST });
+
     try {
-        dispatch({ type: FAVORITES_LIST_REQUEST });
-
-        const {
-            userLogin: { userInformation },
-        } = getState()
-
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`
-            }
-        }
-
-        const { data } = await axios.get('/api/favorites', config);
-
-        dispatch({ type: FAVORITES_LIST_SUCCESS, payload: data });
-        localStorage.setItem('favoriteItems', JSON.stringify(data));
+        const { data } = await axios.get('/api/favorites/', config);
+        dispatch({
+            type: FAVORITES_LOAD,
+            payload: data,
+        });
     } catch (error) {
         dispatch({
-            type: FAVORITES_LIST_FAIL,
+            type: FAVORITES_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        })
+        });
     }
 };
 
-export const favoriteListItem = (id) => async (dispatch, getState) => {
+export const addFavorite = (artwork_id) => async (dispatch, getState) => {
+    const {
+        userLogin: { userInformation },
+    } = getState();
+
+    if (!userInformation) {
+        throw new Error('User is not authenticated');
+    }
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInformation.token}`,
+        },
+    };
+
     try {
-        const {
-            userLogin: { userInformation },
-        } = getState()
+        const { data } = await axios.post('/api/favorites/add/', { artwork_id }, config);
 
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`
-            }
-        }
+        dispatch({
+            type: FAVORITE_ADD_ITEM,
+            payload: data,
+        });
 
-        console.log('Sending data:', { id });
-
-        const { data } = await axios.post(`/api/favorites/add/`, { id }, config);
-
-        console.log('Received data:', data);
-
-        dispatch({ type: FAVORITE_ADD_ITEM, payload: data });
-        const { favorite: { artwork } } = getState();
-        localStorage.setItem('favoriteItems', JSON.stringify(artwork));
+        dispatch(loadFavorites());
     } catch (error) {
         dispatch({
-            type: FAVORITES_LIST_FAIL,
+            type: FAVORITES_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        })
+        });
     }
 };
 
-export const favoriteRemove = (id) => async (dispatch, getState) => {
+export const removeFavorite = (favorite_id) => async (dispatch, getState) => {
+    const {
+        userLogin: { userInformation },
+    } = getState();
+
+    if (!userInformation) {
+        throw new Error('User is not authenticated');
+    }
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInformation.token}`,
+        },
+    };
+
+    console.log(`Attempting to delete favorite with id: ${favorite_id}`);
+
     try {
-        const {
-            userLogin: { userInformation },
-        } = getState()
+        const response = await axios.delete(`/api/favorites/remove/${favorite_id}/`, config);
+        console.log('Delete response:', response);
 
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`
-            }
-        }
-        await axios.delete(`/api/favorites/${id}`, config);
-
-        dispatch({ type: FAVORITE_REMOVE_ITEM, payload: id });
-        const { favorite: { artwork } } = getState();
-        localStorage.setItem('favoriteItems', JSON.stringify(artwork));
-    } catch (error) {
         dispatch({
-            type: FAVORITES_LIST_FAIL,
+            type: FAVORITE_REMOVE_ITEM,
+            payload: favorite_id,
+        });
+
+        dispatch(loadFavorites());
+    } catch (error) {
+        console.error('Error removing favorite:', error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message);
+
+        dispatch({
+            type: FAVORITES_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        })
+        });
     }
 };
