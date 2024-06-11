@@ -9,6 +9,8 @@ import Profile from './screens/Profile'
 import Delivery from './screens/Delivery'
 import Payment from './screens/Payment'
 import PlaceOrder from './screens/PlaceOrder'
+import Favorites from './screens/Favorites'
+
 import Header from './components/Header'
 import Footer from './components/Footer';
 
@@ -29,6 +31,7 @@ function App() {
           <Route path='/cart/:id?' element={<Cart />} />
           <Route path='/login' element={<LoginScreen />} />
           <Route path='/register' element={<Registration />} />
+          <Route path='/favorites' element={<Favorites />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/delivery' element={<Delivery />} />
           <Route path='/payment' element={<Payment />} />

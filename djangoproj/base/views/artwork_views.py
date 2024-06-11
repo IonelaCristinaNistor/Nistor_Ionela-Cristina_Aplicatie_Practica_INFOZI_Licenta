@@ -21,5 +21,4 @@ def getArtworks(request):
 def getArtwork(request, pk):
     artwork = Artwork.objects.get(artwork_id=pk)
     serializers = ArtworkSerializer(artwork, many=False)
-        
     return Response(serializers.data)

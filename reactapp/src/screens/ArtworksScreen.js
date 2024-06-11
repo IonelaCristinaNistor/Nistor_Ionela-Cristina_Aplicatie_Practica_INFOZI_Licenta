@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
+import { favoriteListItem, favoriteRemove } from '../actions/favoriteActions';
 import Reactions from '../components/Reactions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
@@ -13,14 +14,27 @@ function ArtworkScreen() {
     const artworkDetails = useSelector((state) => state.artworkDetails);
     const { error, loading, artwork } = artworkDetails;
 
+    const favoriteList = useSelector((state) => state.favoriteList || { favorites: [] });
+    const { favorites } = favoriteList;
+    const isFavorite = favorites.find((fav) => fav._id === id);
+
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
     }, [dispatch, id]);
 
-    const [artworkQuantity, setArtQuantity] =  useState(1)
-    const navigate = useNavigate()
+    const [artworkQuantity, setArtQuantity] = useState(1);
+    const navigate = useNavigate();
+
     const addItemInCart = () => {
         navigate(`/cart/${id}?artworkQuantity=${artworkQuantity}`);
+    };
+
+    const handleFavorite = () => {
+        if (isFavorite) {
+            dispatch(favoriteRemove(id));
+        } else {
+            dispatch(favoriteListItem(id));
+        }
     };
 
     return (
@@ -80,6 +94,13 @@ function ArtworkScreen() {
                                     Add to cart
                                 </Button>
                             </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                <Button onClick={handleFavorite} className='btn btn-block' type='button'>
+                                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                                </Button>
+                            </ListGroup.Item>
+
                             <ListGroup.Item>
                                 <Reactions artworkId={artwork.artwork_id} />
                             </ListGroup.Item>

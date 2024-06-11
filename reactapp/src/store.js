@@ -4,6 +4,7 @@ import { artworkListReducer, artworkDetailsReducer } from './reducers/artworkRed
 import { cartReducer } from './reducers/cartReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer } from './reducers/userReducers'
 import { orderCreateReducer } from './reducers/orderReducers'
+import { favoriteReducer } from './reducers/favoriteReducers'
 
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
   createOrder: orderCreateReducer,
+  favorite: favoriteReducer,
 });
 
 const cartItemsStorage = localStorage.getItem('cartItems') ? 

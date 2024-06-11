@@ -47,6 +47,11 @@ function NavScrollExample() {
               <LinkContainer to='/cart'>
                 <Nav.Link><i className="fa-solid fa-shopping-cart"></i> Cart</Nav.Link>
               </LinkContainer>
+
+              <LinkContainer to='/favorites'>
+                <Nav.Link><i className="fa-solid fa-star"></i></Nav.Link>
+              </LinkContainer>
+
               {userInformation ? (
                 <NavDropdown title={userInformation.name} id='username'>
                   <LinkContainer to='/profile'>

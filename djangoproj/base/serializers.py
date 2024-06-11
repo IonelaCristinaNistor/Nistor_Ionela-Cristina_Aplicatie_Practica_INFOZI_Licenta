@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Artwork, OrderItem, Order, DeliveryAddress
+from .models import Artwork, OrderItem, Order, DeliveryAddress, Favorite
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
@@ -75,3 +75,8 @@ class OrderSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer  = UserSerializer(user, many=False)
         return serializer.data
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favorite
+        fiels = '__al__'
