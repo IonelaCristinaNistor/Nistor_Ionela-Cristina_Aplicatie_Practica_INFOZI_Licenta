@@ -81,4 +81,5 @@ class FavoriteSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Favorite
-        fields = ['id', 'user', 'artwork']
+        artwork = Artwork
+        fields = '__all__'

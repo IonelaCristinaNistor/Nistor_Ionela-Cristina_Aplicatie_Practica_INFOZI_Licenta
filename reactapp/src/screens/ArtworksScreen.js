@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import Reactions from '../components/Reactions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
@@ -20,11 +19,14 @@ function ArtworkScreen() {
 
     const favorite = useSelector((state) => state.favorite);
     const { favorites } = favorite || { favorites: [] };
-    const isFavorite = favorites.find(fav => fav.artwork_id === parseInt(id));
+    const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork.artwork_id === parseInt(id));
+
+    const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
 
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
-    }, [dispatch, id]);
+        setIsFavorite(isFavoriteInitial);
+    }, [dispatch, id, isFavoriteInitial]);
 
     const [artworkQuantity, setArtQuantity] = useState(1);
     const navigate = useNavigate();
@@ -40,14 +42,20 @@ function ArtworkScreen() {
             return;
         }
 
-        const artwork_id = parseInt(id); // Make sure the id is an integer
+        const artwork_id = parseInt(id);
 
         if (isFavorite) {
             dispatch(removeFavorite(artwork_id));
         } else {
             dispatch(addFavorite(artwork_id));
         }
+        
+        setIsFavorite(!isFavorite);
     };
+
+    useEffect(() => {
+        setIsFavorite(isFavoriteInitial);
+    }, [favorites, isFavoriteInitial]);
 
     return (
         <div>
@@ -112,10 +120,6 @@ function ArtworkScreen() {
                                     {isFavorite ? <AiFillStar color="gold" /> : <AiOutlineStar color="gold" />}
                                     {isFavorite ? ' Remove from Favorites' : ' Add to Favorites'}
                                 </Button>
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                <Reactions artworkId={artwork.artwork_id} />
                             </ListGroup.Item>
                         </ListGroup>
                     </Col>

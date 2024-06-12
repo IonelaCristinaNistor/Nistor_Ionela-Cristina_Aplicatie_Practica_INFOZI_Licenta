@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import '../index.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Row, Col, ListGroup, Button, Image, Spinner } from 'react-bootstrap';
-import { removeFavorite, loadFavorites } from '../actions/favoriteActions';
+import { Row, Col, ListGroup, Image, Spinner} from 'react-bootstrap';
+import { loadFavorites } from '../actions/favoriteActions';
 import Message from '../components/Message';
-import TrashIconToogle from '../components/TrashIconToogle'
+
 
 const Favorites = () => {
     const dispatch = useDispatch();
@@ -21,10 +21,6 @@ const Favorites = () => {
 
     const favorite = useSelector(state => state.favorite);
     const { favorites, loading, error } = favorite || { favorites: [] };
-
-    const removeFromFavoritesHandler = (favorite_id) => {
-        dispatch(removeFavorite(favorite_id));
-    };
 
     return (
         <div>
@@ -53,16 +49,6 @@ const Favorites = () => {
                                     {favorite.artwork && (
                                         <Link to={`/artwork/${favorite.artwork.artwork_id}`}>{favorite.artwork.title}</Link>
                                     )}
-                                </Col>
-                                <Col md={1}>
-                                    <Button
-                                        type='button'
-                                        variant=''
-                                        onClick={() => removeFromFavoritesHandler(favorite.id)}
-                                        disabled={!favorite.artwork}
-                                    >
-                                        <TrashIconToogle />
-                                    </Button>
                                 </Col>
                             </Row>
                         </ListGroup.Item>

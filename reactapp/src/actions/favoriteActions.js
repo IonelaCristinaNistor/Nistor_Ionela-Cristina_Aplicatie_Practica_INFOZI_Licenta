@@ -7,6 +7,10 @@ import {
     FAVORITES_FAIL,
 } from '../constants/favConstants';
 
+const saveFavoritesToLocalStorage = (favorites) => {
+    localStorage.setItem('favoriteItems', JSON.stringify(favorites));
+};
+
 export const loadFavorites = () => async (dispatch, getState) => {
     const {
         userLogin: { userInformation },
@@ -31,6 +35,8 @@ export const loadFavorites = () => async (dispatch, getState) => {
             type: FAVORITES_LOAD,
             payload: data,
         });
+
+        saveFavoritesToLocalStorage(data);
     } catch (error) {
         dispatch({
             type: FAVORITES_FAIL,
@@ -76,7 +82,7 @@ export const addFavorite = (artwork_id) => async (dispatch, getState) => {
     }
 };
 
-export const removeFavorite = (favorite_id) => async (dispatch, getState) => {
+export const removeFavorite = (artwork_id) => async (dispatch, getState) => {
     const {
         userLogin: { userInformation },
     } = getState();
@@ -92,28 +98,20 @@ export const removeFavorite = (favorite_id) => async (dispatch, getState) => {
         },
     };
 
-    console.log(`Attempting to delete favorite with id: ${favorite_id}`);
-
     try {
-        const response = await axios.delete(`/api/favorites/remove/${favorite_id}/`, config);
-        console.log('Delete response:', response);
+        await axios.delete(`/api/favorites/remove/${artwork_id}/`, config);
 
         dispatch({
             type: FAVORITE_REMOVE_ITEM,
-            payload: favorite_id,
+            payload: artwork_id,
         });
 
         dispatch(loadFavorites());
-    } catch (error) {
-        console.error('Error removing favorite:', error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message);
-
+    } catch (error){
         dispatch({
             type: FAVORITES_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
         });
-    }
-};
+}}

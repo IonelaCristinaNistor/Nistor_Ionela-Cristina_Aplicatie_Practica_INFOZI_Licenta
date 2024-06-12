@@ -7,7 +7,7 @@ import {
 } from '../constants/favConstants';
 
 const initialState = {
-    favorites: [],
+    favorites: JSON.parse(localStorage.getItem('favoriteItems')) || [],
     loading: false,
     error: null,
 };
@@ -21,12 +21,13 @@ export const favoriteReducer = (state = initialState, action) => {
         case FAVORITES_FAIL:
             return { ...state, loading: false, error: action.payload };
         case FAVORITE_ADD_ITEM:
-            return { ...state, favorites: [...state.favorites, action.payload] };
+            const newFavoritesAdd = [...state.favorites, action.payload];
+            localStorage.setItem('favoriteItems', JSON.stringify(newFavoritesAdd));
+            return { ...state, favorites: newFavoritesAdd };
         case FAVORITE_REMOVE_ITEM:
-            return {
-                ...state,
-                favorites: state.favorites.filter(item => item.artwork.artwork_id !== action.payload),
-            };
+            const newFavoritesRemove = state.favorites.filter(item => item.artwork.artwork_id !== action.payload);
+            localStorage.setItem('favoriteItems', JSON.stringify(newFavoritesRemove));
+            return { ...state, favorites: newFavoritesRemove };
         default:
             return state;
     }
