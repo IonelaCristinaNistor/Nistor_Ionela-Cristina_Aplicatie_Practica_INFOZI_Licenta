@@ -6,6 +6,7 @@ import { addItemsInOrder } from '../actions/orderActions';
 import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 import Message from '../components/Message';
 import OrderProgress from '../components/OrderProgress';
+import { selectCartItems, selectDeliveryAddress, selectPaymentMethod } from '../selectors/cartSelectors';
 
 function PlaceOrder() {
     const orderCreate = useSelector(state => state.orderCreate || {});
@@ -13,32 +14,37 @@ function PlaceOrder() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const cart = useSelector(state => state.cart);
+    const cartItems = useSelector(selectCartItems);
+    const deliveryAddress = useSelector(selectDeliveryAddress);
+    const paymentMethod = useSelector(selectPaymentMethod);
+
     const decimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
-    const itemsPrice = decimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0));
+    const itemsPrice = decimals(cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0));
     const deliveryPrice = decimals(itemsPrice > 1000 ? 0 : 30);
     const taxPrice = decimals(Number((0.015) * itemsPrice));
     const totalPrice = decimals(Number(itemsPrice) + Number(deliveryPrice) + Number(taxPrice));
 
-    if (!cart.paymentMethod) {
-        navigate('/payment');
-    }
+    useEffect(() => {
+        if (!paymentMethod) {
+            navigate('/payment');
+        }
+    }, [paymentMethod, navigate]);
 
-    const placeOrder = () => {
+    const placeOrder = async () => {
         console.log("Placing order with data:", {
-            orderItems: cart.cartItems,
-            deliveryAddress: cart.deliveryAddress,
-            paymentMethod: cart.paymentMethod,
+            orderItems: cartItems,
+            deliveryAddress,
+            paymentMethod,
             itemsPrice,
             deliveryPrice,
             taxPrice,
             totalPrice,
         });
 
-        dispatch(addItemsInOrder({
-            orderItems: cart.cartItems,
-            deliveryAddress: cart.deliveryAddress,
-            paymentMethod: cart.paymentMethod,
+        await dispatch(addItemsInOrder({
+            orderItems: cartItems,
+            deliveryAddress,
+            paymentMethod,
             itemsPrice,
             deliveryPrice,
             taxPrice,
@@ -48,9 +54,8 @@ function PlaceOrder() {
 
     useEffect(() => {
         if (success && order && order._id) {
-            console.log("Order created, navigating to order page with _id:", order._id);
-            navigate(`/order/${order._id}`);
-            dispatch({ type: ORDER_CREATE_RESET });
+                navigate(`/order/${order._id}`);
+                dispatch({ type: ORDER_CREATE_RESET });
         }
     }, [success, order, navigate, dispatch]);
 
@@ -64,8 +69,8 @@ function PlaceOrder() {
                             <h2>Shipping</h2>
                             <p>
                                 <strong>Shipping: </strong>
-                                {cart.deliveryAddress.address},
-                                {cart.deliveryAddress.city}
+                                {deliveryAddress.address},
+                                {deliveryAddress.city}
                             </p>
                         </ListGroupItem>
 
@@ -73,15 +78,15 @@ function PlaceOrder() {
                             <h2>Payment Method</h2>
                             <p>
                                 <strong>Method: </strong>
-                                {cart.paymentMethod}
+                                {paymentMethod}
                             </p>
                         </ListGroupItem>
 
                         <ListGroupItem>
                             <h2>Order Items</h2>
-                            {cart.cartItems.length === 0 ? <Message variant='info'>Your cart is empty</Message> : (
+                            {cartItems.length === 0 ? <Message variant='info'>Your cart is empty</Message> : (
                                 <ListGroup variant='flush'>
-                                    {cart.cartItems.map((item, index) => (
+                                    {cartItems.map((item, index) => (
                                         <ListGroupItem key={index}>
                                             <Row>
                                                 <Col md={1}>
@@ -146,7 +151,7 @@ function PlaceOrder() {
 
                             <ListGroupItem>
                                 <Button type='button' className='btn btn-block'
-                                        disabled={cart.cartItems.length === 0}
+                                        disabled={cartItems.length === 0}
                                         onClick={placeOrder}>
                                     Place Order
                                 </Button>

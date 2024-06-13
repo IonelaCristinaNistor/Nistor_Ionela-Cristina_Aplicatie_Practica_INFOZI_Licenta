@@ -1,19 +1,18 @@
-// selectors/cartSelectors.js
 import { createSelector } from 'reselect';
 
-const selectCart = (state) => state.cart;
+const selectCart = state => state.cart;
 
 export const selectCartItems = createSelector(
   [selectCart],
-  (cart) => cart.cartItems
+  cart => cart.cartItems
 );
 
 export const selectDeliveryAddress = createSelector(
   [selectCart],
-  (cart) => cart.deliveryAddress
+  cart => cart.deliveryAddress
 );
 
 export const selectPaymentMethod = createSelector(
   [selectCart],
-  (cart) => cart.paymentMethod
+  cart => cart.paymentMethod
 );

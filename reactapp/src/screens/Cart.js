@@ -17,7 +17,6 @@ function Cart() {
 
     console.log('cartItems: ', cartItems);
 
-    // extragerea cantitatii din URL
     const searchParams = new URLSearchParams(location.search);
     const quantity = searchParams.get('artworkQuantity') ? Number(searchParams.get('artworkQuantity')) : 1;
 

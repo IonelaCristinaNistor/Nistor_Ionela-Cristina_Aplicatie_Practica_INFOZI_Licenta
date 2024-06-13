@@ -3,6 +3,8 @@ from base.views import order_views as views
 
 urlpatterns = [
     path('add/', views.addItemsInOrder, name='orders-add'),
+    path('myorders/', views.getMyOrders, name='my-orders'),
+    
     path('<str:pk>/', views.getOrderById, name='order'),
-
+    path('<str:pk>/pay/', views.updateOrderToPaid, name='order-pay'),
 ]

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Col, Row } from 'react-bootstrap';
+import { Form, Button, Col, Row, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 
 import SpinnerComponent from '../components/SpinnerComponent';
@@ -9,6 +10,8 @@ import Message from '../components/Message';
 
 import { getUserDetails, updateUser } from '../actions/userActions';
 import { USER_UPDATE_RESET } from '../constants/userConstants'
+import { listOrders } from '../actions/orderActions'
+
 
 function Profile() {
     const [name, setName] = useState('')
@@ -30,11 +33,22 @@ function Profile() {
     const userUpdate = useSelector((state) => state.userUpdate)
     const { success } = userUpdate
 
+    const orderListMy = useSelector((state) => state.orderListMy)
+    const { loading: loadingMyOrders, error: errorMyOrders, orders } = orderListMy
+
     useEffect (() => {
         const messageTimer = setTimeout(() => {setConfMessage('')}, 3000)
         return () => clearTimeout(messageTimer)
     })
     
+    const formattedDate = (date) => {
+        return new Date(date).toLocaleDateString('ro-RO', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+      };
+
     useEffect(() => {
         if (!userInformation) {
             navigate('/login')
@@ -42,6 +56,7 @@ function Profile() {
             if(!user || !user.name || success){
                 dispatch({type: USER_UPDATE_RESET})
                 dispatch(getUserDetails('profile'))
+                dispatch(listOrders())
                     if(success) {
                         setConfMessage('Your profile details have been updated successfully!');
                     }
@@ -123,6 +138,41 @@ function Profile() {
         </Col>
         <Col md = {9}>
             <h2>My Orders</h2>
+            {loadingMyOrders ? (
+                <SpinnerComponent /> 
+            ) : errorMyOrders ? (
+                <Message variant='danger'>{errorMyOrders}</Message>
+            ) : (
+                <Table striped responsive className='table-sm'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Delivered</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {orders.map(order => (
+                        <tr key={order._id}>
+                            <td>{order._id}</td>
+                            <td>{formattedDate(order.orderDate)}</td>
+                            <td>{order.totalPrice}</td>
+                            <td>{order.isPaid ? formattedDate(order.paidAt) : (
+                                <i className='fas fa-times' style={{color: 'purple'}}></i>
+                            )}</td>
+                            <td>
+                                <LinkContainer to = {`/order/${order._id}`}>
+                                <Button className='btn btn-sm'>See details</Button>
+                                </LinkContainer>
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </Col>
     </Row>
   )

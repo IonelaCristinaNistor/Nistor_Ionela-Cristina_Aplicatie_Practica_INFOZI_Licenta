@@ -8,6 +8,14 @@ import {
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
 
+    ORDER_PAY_REQUEST,
+    ORDER_PAY_SUCCESS,
+    ORDER_PAY_FAIL,
+
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_FAIL,
+
 } from '../constants/orderConstants';
 
 import {
@@ -17,7 +25,7 @@ import {
 export const addItemsInOrder = (order) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: ORDER_CREATE_REQUEST,
+            type: ORDER_CREATE_REQUEST
         });
 
         const {
@@ -26,24 +34,23 @@ export const addItemsInOrder = (order) => async (dispatch, getState) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`,
-            },
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`
+            }
         };
 
-        const { data } = await axios.post('/api/orders/add/', order, config);
+        const { data } = await axios.post(`/api/orders/add/`, order, config);
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,
-            payload: data,
+            payload: data
         });
 
         dispatch({
             type: CART_CLEAR_ITEMS,
-            payload: data,
+            payload: data
         });
 
-        localStorage.removeItem('cartItems');
     } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL,
@@ -54,7 +61,7 @@ export const addItemsInOrder = (order) => async (dispatch, getState) => {
     }
 };
 
-export const getOrderDetails = (_id) => async (dispatch, getState) => {
+export const getOrderDetails = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: ORDER_DETAILS_REQUEST,
@@ -71,7 +78,7 @@ export const getOrderDetails = (_id) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.get(`/api/orders/${_id}/`, config);
+        const { data } = await axios.get(`/api/orders/${id}/`, config);
 
         dispatch({
             type: ORDER_DETAILS_SUCCESS,
@@ -81,6 +88,74 @@ export const getOrderDetails = (_id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ORDER_DETAILS_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_PAY_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.put(`/api/orders/${id}/pay/`,paymentResult, config);
+
+        dispatch({
+            type: ORDER_PAY_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_PAY_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+  export const listOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_LIST_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.get(`/api/orders/myorders/`, config);
+
+        dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

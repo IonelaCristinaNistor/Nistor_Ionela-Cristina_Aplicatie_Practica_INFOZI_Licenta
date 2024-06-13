@@ -22,7 +22,7 @@ function ArtworkScreen() {
     const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork.artwork_id === parseInt(id));
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
-    const [showModal, setShowModal] = useState(false); // State for modal visibility
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
@@ -38,7 +38,7 @@ function ArtworkScreen() {
 
     const handleFavorite = () => {
         if (!userInformation) {
-            setShowModal(true); // Show modal if not authenticated
+            setShowModal(true);
             return;
         }
 
@@ -112,7 +112,7 @@ function ArtworkScreen() {
                             )}
 
                             <ListGroup.Item>
-                                <Button onClick={addItemInCart} className='btn btn-block' type='button' disabled = {artwork.availability === 0}>
+                                <Button onClick={addItemInCart} className='btn btn-block' type='button' disabled = {artwork.availability <= 0}>
                                     Add to cart
                                 </Button>
                             </ListGroup.Item>
