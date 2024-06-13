@@ -3,7 +3,7 @@ import { thunk } from 'redux-thunk';
 import { artworkListReducer, artworkDetailsReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer } from './reducers/userReducers'
-import { orderCreateReducer } from './reducers/orderReducers'
+import { orderCreateReducer, orderDetailsReducer } from './reducers/orderReducers'
 import { favoriteReducer } from './reducers/favoriteReducers'
 
 const rootReducer = combineReducers({
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
   createOrder: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
   favorite: favoriteReducer,
 });
 

@@ -54,6 +54,7 @@ class OrderSerializer(serializers.ModelSerializer):
     orderItems = serializers.SerializerMethodField(read_only=True)
     deliveryAddress = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
+    _id = serializers.ReadOnlyField()
 
     class Meta:
         model = Order
@@ -61,20 +62,21 @@ class OrderSerializer(serializers.ModelSerializer):
     
     def get_orderItems(self, obj):
         items = obj.orderitem_set.all()
-        serializer  = OrderItemSerializer(items, many=True)
+        serializer = OrderItemSerializer(items, many=True)
         return serializer.data
 
     def get_deliveryAddress(self, obj):
         try:
-            address = DeliveryAddressSerializer(obj.deliveryaddress, many=False)
-            return address.data
+            address = DeliveryAddressSerializer(obj.deliveryaddress, many=False).data
+            return address
         except DeliveryAddress.DoesNotExist:
             return None
     
     def get_user(self, obj):
         user = obj.user
-        serializer  = UserSerializer(user, many=False)
+        serializer = UserSerializer(user, many=False)
         return serializer.data
+
 
 class FavoriteSerializer(serializers.ModelSerializer):
     artwork = ArtworkSerializer(read_only=True)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
@@ -22,6 +22,7 @@ function ArtworkScreen() {
     const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork.artwork_id === parseInt(id));
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
+    const [showModal, setShowModal] = useState(false); // State for modal visibility
 
     useEffect(() => {
         if (id) dispatch(listArtworkDetails(id));
@@ -37,8 +38,7 @@ function ArtworkScreen() {
 
     const handleFavorite = () => {
         if (!userInformation) {
-            alert('Please log in to add favorites');
-            navigate('/login');
+            setShowModal(true); // Show modal if not authenticated
             return;
         }
 
@@ -49,13 +49,15 @@ function ArtworkScreen() {
         } else {
             dispatch(addFavorite(artwork_id));
         }
-        
+
         setIsFavorite(!isFavorite);
     };
 
-    useEffect(() => {
-        setIsFavorite(isFavoriteInitial);
-    }, [favorites, isFavoriteInitial]);
+    const handleModalClose = () => setShowModal(false);
+    const handleLogin = () => {
+        setShowModal(false);
+        navigate('/login');
+    };
 
     return (
         <div>
@@ -125,6 +127,21 @@ function ArtworkScreen() {
                     </Col>
                 </Row>
             )}
+
+            <Modal show={showModal} onHide={handleModalClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Not Authenticated</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Please log in to add favorites</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleModalClose}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={handleLogin}>
+                        Log In
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }

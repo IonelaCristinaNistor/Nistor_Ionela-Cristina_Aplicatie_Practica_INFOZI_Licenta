@@ -35,7 +35,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     taxPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     deliveryPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    totalPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    totalPrice = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     isPaid = models.BooleanField(default=False)
     paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     isDelivered = models.BooleanField(default=False)
@@ -43,10 +43,9 @@ class Order(models.Model):
     delivered = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     status = models.BooleanField(default=False)
-    order_id = models.AutoField(primary_key=True, editable=False)
-
+    _id = models.AutoField(primary_key=True, editable=False)
     def __str__(self):
-        return str(self.orderDate)
+        return str(self._id)
 
 # OrderItem model
 class OrderItem(models.Model):

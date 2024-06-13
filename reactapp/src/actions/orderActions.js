@@ -1,50 +1,89 @@
-import axios from 'axios'
-
-import { 
+import axios from 'axios';
+import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
-    ORDER_CREATE_FAIL
-} from '../constants/orderConstants'
+    ORDER_CREATE_FAIL,
 
-// ************* CREATE ORDER *************
+    ORDER_DETAILS_REQUEST,
+    ORDER_DETAILS_SUCCESS,
+    ORDER_DETAILS_FAIL,
 
-export const createOrder = (order) => async (dispatch, getState) => {
+} from '../constants/orderConstants';
+
+import {
+    CART_CLEAR_ITEMS,
+} from '../constants/CartConstants';
+
+export const addItemsInOrder = (order) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: ORDER_CREATE_REQUEST
-        })
+            type: ORDER_CREATE_REQUEST,
+        });
 
         const {
             userLogin: { userInformation },
-        } = getState()
+        } = getState();
 
         const config = {
             headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`
-            }
-        }
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
 
-        const { data } = await axios.post(
-            `/api/orders/add/`,
-            order,
-            config
-        )
+        const { data } = await axios.post('/api/orders/add/', order, config);
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,
-            payload: data
-        })
+            payload: data,
+        });
 
-        localStorage.removeItem('cartItems')
+        dispatch({
+            type: CART_CLEAR_ITEMS,
+            payload: data,
+        });
 
-
+        localStorage.removeItem('cartItems');
     } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        })
+        });
     }
-}
+};
+
+export const getOrderDetails = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_DETAILS_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.get(`/api/orders/${_id}/`, config);
+
+        dispatch({
+            type: ORDER_DETAILS_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_DETAILS_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
