@@ -54,10 +54,11 @@ function Profile() {
         if (!userInformation) {
             navigate('/login')
         } else {
-            if(!user || !user.name || success){
+            if(!user || !user.name || success || userInformation.id !== user.id){
                 dispatch({type: USER_UPDATE_RESET})
                 dispatch(getUserDetails('profile'))
                 dispatch(listOrders())
+
                     if(success) {
                         setConfMessage('Your profile details have been updated successfully!');
                     }

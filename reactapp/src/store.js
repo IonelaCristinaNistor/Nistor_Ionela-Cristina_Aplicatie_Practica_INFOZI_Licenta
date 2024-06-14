@@ -2,24 +2,29 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
 import { artworkListReducer, artworkDetailsReducer, artworkLikeReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userUpdateDataReducer } from './reducers/userReducers'
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListReducer } from './reducers/orderReducers'
 import { favoriteReducer } from './reducers/favoriteReducers'
 
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
   artworkDetails: artworkDetailsReducer,
-  cart: cartReducer,
+  favorite: favoriteReducer,
+  artworkLike: artworkLikeReducer,
+
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userDataUpdate: userUpdateDataReducer,
+  
+  cart: cartReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderListMy: orderListReducer,
-  favorite: favoriteReducer,
-  artworkLike: artworkLikeReducer,
 });
 
 const cartItemsStorage = localStorage.getItem('cartItems') ? 

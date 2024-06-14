@@ -70,3 +70,32 @@ def getUsers(request):
     users = User.objects.all()
     serializers = UserSerializer(users, many=True)
     return Response(serializers.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getUsersById(request,pk):
+    user = User.objects.get(id=pk)
+    serializers = UserSerializer(user, many=False)
+    return Response(serializers.data)
+
+#update user by the Admin
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateUser(request, pk):
+    user = User.objects.get(id=pk)
+    data = request.data
+    user.first_name = data['name']
+    user.username = data['email']
+    user.email = data['email']
+    user.is_staff = data['isAdmin'] 
+    #is_staff in django, isAdmin in React
+    user.save()
+    serializers = UserSerializer(user, many=False)
+    return Response(serializers.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteUser(request, pk):
+    userForDeletion = User.objects.get(id=pk)
+    userForDeletion.delete()
+    return Response('DELETED')

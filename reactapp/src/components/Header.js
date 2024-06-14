@@ -61,6 +61,22 @@ function NavScrollExample() {
                   <Nav.Link><i className="fa-solid fa-right-to-bracket"></i> Login</Nav.Link>
                 </LinkContainer>
               )}
+              {userInformation && userInformation.isAdmin &&  (
+                <NavDropdown title='Admin Panel' id='adminmenu'>
+
+                  <LinkContainer to='/admin/artworklist'>
+                    <NavDropdown.Item>Artworks List</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to='/admin/userList'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
