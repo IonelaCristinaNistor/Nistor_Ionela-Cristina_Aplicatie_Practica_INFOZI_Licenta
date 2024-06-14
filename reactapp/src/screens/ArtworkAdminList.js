@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { listArtworks, deleteArtwork } from '../actions/artworkActions'
-
+import { listArtworks, deleteArtwork, createArtwork } from '../actions/artworkActions'
+import { ARTWORK_CREATE_RESET } from '../constants/artworkConstants'
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
@@ -18,17 +18,25 @@ function ArtworkAdminList() {
     const artworkDelete = useSelector(state => state.artworkDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = artworkDelete
 
+    const artworkCreate = useSelector(state => state.artworkCreate)
+    const { loading: loadingCreate, error: errorCreate, success: successCreate, artwork: createdArtwork } = artworkCreate
+
     const userLogin = useSelector(state => state.userLogin)
     const { userInformation } = userLogin
 
     useEffect (() => {
-        if(userInformation || !userInformation.isAdmin) {
-            dispatch(listArtworks())   
-        }else {
+        dispatch({type: ARTWORK_CREATE_RESET})
+        if(!userInformation.isAdmin) {
             navigate('/login')
         }
+
+        if(successCreate) {
+            navigate(`/admin/artwork/${createdArtwork.artwork_id}/edit`)
+        } else {
+            dispatch(listArtworks())
+        }
         
-    }, [dispatch, navigate, userInformation, successDelete])
+    }, [dispatch, navigate, userInformation, successDelete, successCreate, createdArtwork])
     
     const deleteActionHandler = (artwork_id) => {
         if(window.confirm('You sure?')) {
@@ -36,8 +44,8 @@ function ArtworkAdminList() {
         }
     }
 
-    const createHandler = (artwork) => {
-        //create artwork
+    const createHandler = () => {
+        dispatch(createArtwork())
     }
 
   return (
@@ -55,7 +63,10 @@ function ArtworkAdminList() {
         </Row>
 
         {loadingDelete && <SpinnerComponent />}
-        {errorDelete && <Message variant='danger'>{error}</Message>}
+        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+        {loadingCreate && <SpinnerComponent />}
+        {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
       {loading 
         ? (<SpinnerComponent />) 

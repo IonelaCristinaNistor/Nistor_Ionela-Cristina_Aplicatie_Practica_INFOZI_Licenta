@@ -31,10 +31,10 @@ def createArtwork(request):
         user = user,
         title ='Sample title',
         artist_name = 'Artist name',
-        description = '',
+        description = 'description',
         price = 0,
         category = 'Sample Category',
-        availability = 0, 
+        availability = 0,
     )
     serializer = ArtworkSerializer(artwork, many=False)
     return Response(serializer.data)

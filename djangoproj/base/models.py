@@ -10,7 +10,6 @@ class Artwork(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
     availability = models.IntegerField(null=True, blank=True)
     artwork_id = models.AutoField(primary_key=True, editable=False)
     likes_count = models.IntegerField(null=True, blank=True)

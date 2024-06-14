@@ -17,6 +17,14 @@ import {
     ARTWORK_DELETE_SUCCESS,
     ARTWORK_DELETE_FAIL,
 
+    ARTWORK_CREATE_REQUEST,
+    ARTWORK_CREATE_SUCCESS,
+    ARTWORK_CREATE_FAIL,
+
+    ARTWORK_UPDATE_REQUEST,
+    ARTWORK_UPDATE_SUCCESS,
+    ARTWORK_UPDATE_FAIL,
+
    } from '../constants/artworkConstants'
 
 export const listArtworks = () => async(dispatch) => {
@@ -117,6 +125,79 @@ export const likeArtwork = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ARTWORK_DELETE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const createArtwork = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ARTWORK_CREATE_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.post(`/api/artworks/create/`, {}, config);
+
+        dispatch({
+            type: ARTWORK_CREATE_SUCCESS,
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ARTWORK_CREATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const updateArtwork = (artwork) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ARTWORK_UPDATE_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.put(`/api/artworks/update/${artwork.id}/`, artwork, config);
+
+        dispatch({
+            type: ARTWORK_UPDATE_SUCCESS,
+            payload: data,
+        });
+
+        dispatch ({
+            type: ARTWORK_DETAILS_SUCCESS,
+            payload: data,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ARTWORK_UPDATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

@@ -4,6 +4,7 @@ import HomeScreen from './screens/HomeScreen';
 import ArtworksScreen from './screens/ArtworksScreen'
 import ArtworkListScreen from './screens/ArtworkListScreen'
 import ArtworkAdminList from './screens/ArtworkAdminList'
+import ArtworkEdit from './screens/ArtworkEdit'
 import Cart from "./screens/Cart";
 import LoginScreen from "./screens/LoginScreen";
 import Registration from './screens/Registration'
@@ -42,6 +43,7 @@ function App() {
           <Route path='/admin/userlist' element={<UsersListScreen />} />
           <Route path='/admin/user/:id/edit' element={<UserEdit />} />
           <Route path='/admin/artworklist' element={<ArtworkAdminList />} />
+          <Route path='/admin/artwork/:id/edit' element={<ArtworkEdit />} />
 
           <Route path='/cart/:id?' element={<Cart />} />
           <Route path='/delivery' element={<Delivery />} />
