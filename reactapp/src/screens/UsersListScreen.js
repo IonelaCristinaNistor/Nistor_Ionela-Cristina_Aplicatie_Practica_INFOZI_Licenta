@@ -15,15 +15,19 @@ function UsersListScreen() {
     const userList = useSelector(state => state.userList)
     const { loading, error, users } = userList
 
-    //const userLogin = useSelector(state => state.userLogin)
-    //const { userInformation } = userLogin
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInformation } = userLogin
 
     const userDelete = useSelector(state => state.userDelete)
     const { success: successDelete } = userDelete
 
     useEffect (() => {
-        dispatch(listUsers())
-    }, [dispatch, navigate,successDelete])
+        if (userInformation || !userInformation.isAdmin){
+         dispatch(listUsers())           
+        }else {
+            navigate('/login')
+        }
+    }, [dispatch, navigate, successDelete, userInformation])
 
     const deleteActionHandler = (id) => {
         if(window.confirm('Are you sure you want to permanently delete this user?')) {
@@ -70,7 +74,7 @@ function UsersListScreen() {
                                         </Button>
                                     </LinkContainer>
 
-                                    <Button variant='danger' className='btn-sm' onClick = {() => deleteActionHandler(user.id)}>
+                                    <Button variant='primary' className='btn-sm' onClick = {() => deleteActionHandler(user.id)}>
                                         <i className='fas fa-trash'></i>
                                     </Button>
                                 </td>

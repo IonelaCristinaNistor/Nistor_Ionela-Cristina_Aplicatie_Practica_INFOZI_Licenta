@@ -32,7 +32,7 @@ function UserEdit() {
             navigate('/admin/userlist')
             dispatch({type: USER_UPDATE_DATA_RESET})
         } else {
-        if (!user.name || user.id !== Number(userId.id)) {
+        if (user.id !== Number(userId.id)) {
             dispatch(getUserDetails(userId.id))
         } else {
             setName(user.name)

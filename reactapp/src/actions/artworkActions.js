@@ -12,6 +12,11 @@ import {
     ARTWORK_LIKE_REQUEST,
     ARTWORK_LIKE_SUCCESS,
     ARTWORK_LIKE_FAIL,
+
+    ARTWORK_DELETE_REQUEST,
+    ARTWORK_DELETE_SUCCESS,
+    ARTWORK_DELETE_FAIL,
+
    } from '../constants/artworkConstants'
 
 export const listArtworks = () => async(dispatch) => {
@@ -55,6 +60,7 @@ export const listArtworkDetails = (id) => async (dispatch) => {
     }
 };
 
+//nu mere
 export const likeArtwork = (id) => async (dispatch, getState) => {
     try {
       dispatch({ type: ARTWORK_LIKE_REQUEST });
@@ -84,3 +90,36 @@ export const likeArtwork = (id) => async (dispatch, getState) => {
       });
     }
   };
+
+  export const deleteArtwork = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ARTWORK_DELETE_REQUEST,
+        });
+
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.delete(`/api/artworks/delete/${id}/`, config);
+
+        dispatch({
+            type: ARTWORK_DELETE_SUCCESS,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ARTWORK_DELETE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};

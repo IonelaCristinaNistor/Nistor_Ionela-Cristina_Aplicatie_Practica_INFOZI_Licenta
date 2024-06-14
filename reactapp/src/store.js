@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
-import { artworkListReducer, artworkDetailsReducer, artworkLikeReducer } from './reducers/artworkReducers';
+import { artworkListReducer, artworkDetailsReducer, artworkLikeReducer, artworkDeleteReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer, userDeleteReducer, userUpdateDataReducer } from './reducers/userReducers'
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListReducer } from './reducers/orderReducers'
@@ -9,9 +9,10 @@ import { favoriteReducer } from './reducers/favoriteReducers'
 const rootReducer = combineReducers({
   artworkList: artworkListReducer,
   artworkDetails: artworkDetailsReducer,
-  favorite: favoriteReducer,
   artworkLike: artworkLikeReducer,
-
+  artworkDelete: artworkDeleteReducer,
+  favorite: favoriteReducer,
+  
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
