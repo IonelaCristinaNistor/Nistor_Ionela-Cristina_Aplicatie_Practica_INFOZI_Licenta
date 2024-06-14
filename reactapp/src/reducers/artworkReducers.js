@@ -5,6 +5,9 @@ import {
   ARTWORK_DETAILS_REQUEST,
   ARTWORK_DETAILS_SUCCESS,
   ARTWORK_DETAILS_FAIL,
+  ARTWORK_LIKE_REQUEST,
+  ARTWORK_LIKE_SUCCESS,
+  ARTWORK_LIKE_FAIL,
 } from '../constants/artworkConstants'; 
 
 export const artworkListReducer = (state = { artworks: [] }, action) => {
@@ -32,3 +35,16 @@ export const artworkDetailsReducer = (state = { artwork: { likes_count: [] } }, 
           return state;
   }
 };
+
+export const artworkLikeReducer = (state = {}, action) => {
+    switch (action.type) {
+      case ARTWORK_LIKE_REQUEST:
+        return { loading: true };
+      case ARTWORK_LIKE_SUCCESS:
+        return { loading: false, success: true };
+      case ARTWORK_LIKE_FAIL:
+        return { loading: false, error: action.payload };
+      default:
+        return state;
+    }
+  };

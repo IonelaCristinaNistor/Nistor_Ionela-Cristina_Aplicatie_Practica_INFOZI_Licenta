@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { thunk } from 'redux-thunk';
-import { artworkListReducer, artworkDetailsReducer } from './reducers/artworkReducers';
+import { artworkListReducer, artworkDetailsReducer, artworkLikeReducer } from './reducers/artworkReducers';
 import { cartReducer } from './reducers/cartReducers'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer, userListReducer } from './reducers/userReducers'
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateReducer } from './reducers/userReducers'
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderListReducer } from './reducers/orderReducers'
 import { favoriteReducer } from './reducers/favoriteReducers'
 
@@ -19,9 +19,7 @@ const rootReducer = combineReducers({
   orderPay: orderPayReducer,
   orderListMy: orderListReducer,
   favorite: favoriteReducer,
-
-  //admin
-  usersList: userListReducer,
+  artworkLike: artworkLikeReducer,
 });
 
 const cartItemsStorage = localStorage.getItem('cartItems') ? 

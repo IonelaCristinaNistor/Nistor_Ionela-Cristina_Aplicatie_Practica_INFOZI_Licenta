@@ -15,12 +15,8 @@ function Cart() {
     const cart = useSelector(state => state.cart);
     const { cartItems } = cart;
 
-    console.log('cartItems: ', cartItems);
-
     const searchParams = new URLSearchParams(location.search);
     const quantity = searchParams.get('artworkQuantity') ? Number(searchParams.get('artworkQuantity')) : 1;
-
-    console.log('quantity: ', quantity);
 
     useEffect(() => {
         if (id) {
@@ -61,7 +57,7 @@ function Cart() {
                                             ${item.price}
                                         </Col>
 
-                                        <Col md={3} style={{ width: '100px' }}>
+                                        <Col md={3} style={{ width: '100px'}}>
                                             <Form.Select as="select" value={item.quantity} onChange={(m) =>
                                                 dispatch(addItemInCart(item.artwork, Number(m.target.value)))}>
                                                 {
@@ -96,7 +92,7 @@ function Cart() {
                             </ListGroup.Item>
                         </ListGroup>
                         <ListGroup.Item>
-                            <Button type='btn' className='btn btn-block' disabled={cartItems.length === 0} onClick={checkout}>
+                            <Button type='btn' className='btn btn-block rounded' disabled={cartItems.length === 0} onClick={checkout}>
                                 Proceed to checkout
                             </Button>
                         </ListGroup.Item>

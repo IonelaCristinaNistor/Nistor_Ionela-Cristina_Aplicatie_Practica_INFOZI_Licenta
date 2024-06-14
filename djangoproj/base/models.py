@@ -14,6 +14,7 @@ class Artwork(models.Model):
     availability = models.IntegerField(null=True, blank=True)
     artwork_id = models.AutoField(primary_key=True, editable=False)
     likes_count = models.IntegerField(null=True, blank=True)
+    artwork_id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return self.title

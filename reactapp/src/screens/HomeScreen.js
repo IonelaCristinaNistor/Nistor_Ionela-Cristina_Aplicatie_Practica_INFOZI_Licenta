@@ -2,7 +2,6 @@ import React,{ useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import { listArtworks } from '../actions/artworkActions'
-
 import SpinnerComponent from '../components/SpinnerComponent'
 import Message from '../components/Message'
 
@@ -19,7 +18,7 @@ function HomeScreen() {
 
   return (
     <div>
-      <h1 className='d-flex justify-content-center'>Latest Products</h1>
+      <h1 className='d-flex justify-content-center my-3' style={{color: 'black'}}>Latest Products</h1>
 
       {loading ? <SpinnerComponent />
             :error ? <Message variant='danger'>{ error }</Message>

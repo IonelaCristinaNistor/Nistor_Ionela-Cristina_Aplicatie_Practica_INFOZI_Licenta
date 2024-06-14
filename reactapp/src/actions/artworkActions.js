@@ -8,6 +8,10 @@ import {
     ARTWORK_DETAILS_REQUEST,
     ARTWORK_DETAILS_SUCCESS,
     ARTWORK_DETAILS_FAIL,
+
+    ARTWORK_LIKE_REQUEST,
+    ARTWORK_LIKE_SUCCESS,
+    ARTWORK_LIKE_FAIL,
    } from '../constants/artworkConstants'
 
 export const listArtworks = () => async(dispatch) => {
@@ -50,3 +54,33 @@ export const listArtworkDetails = (id) => async (dispatch) => {
         });
     }
 };
+
+export const likeArtwork = (id) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ARTWORK_LIKE_REQUEST });
+  
+      const { userLogin: { userInfo } } = getState();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      };
+  
+      const { data } = await axios.post(`/api/artworks/${id}/like`, {}, config);
+  
+      dispatch({
+        type: ARTWORK_LIKE_SUCCESS,
+        payload: data,
+      });
+  
+      // Optional: Refresh artwork details after liking
+      dispatch(listArtworkDetails(id));
+    } catch (error) {
+      dispatch({
+        type: ARTWORK_LIKE_FAIL,
+        payload: error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+      });
+    }
+  };

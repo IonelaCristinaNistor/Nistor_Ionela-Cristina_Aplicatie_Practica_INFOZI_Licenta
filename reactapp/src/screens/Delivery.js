@@ -24,7 +24,7 @@ function Delivery() {
   return (
     <FormComponent>
       <OrderProgress step1 step2/>
-      <h1>Deivery</h1>
+      <h1>Delivery</h1>
       <Form onSubmit={submitHandler}>
 
         <Form.Group controlId='address'>

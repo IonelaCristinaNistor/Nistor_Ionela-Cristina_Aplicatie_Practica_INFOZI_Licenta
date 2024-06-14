@@ -35,17 +35,14 @@ function NavScrollExample() {
               <LinkContainer to='/'>
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-              <LinkContainer to='/'>
-                <Nav.Link>About Us</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to='/'>
+              <LinkContainer to='/artworklistscreen'>
                 <Nav.Link>Artworks</Nav.Link>
               </LinkContainer>
             </Nav>
 
-            <Nav className='me-3'>
+            <Nav className='me-4'>
               <LinkContainer to='/cart'>
-                <Nav.Link><i className="fa-solid fa-shopping-cart"></i> Cart</Nav.Link>
+                <Nav.Link><i className="fa-solid fa-shopping-cart"></i></Nav.Link>
               </LinkContainer>
 
               <LinkContainer to='/favorites'>
@@ -53,7 +50,7 @@ function NavScrollExample() {
               </LinkContainer>
 
               {userInformation ? (
-                <NavDropdown title={userInformation.name} id='username'>
+                <NavDropdown title={userInformation.name}>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>

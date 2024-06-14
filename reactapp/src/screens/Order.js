@@ -55,6 +55,15 @@ function Order() {
     dispatch(payOrder(orderId, paymentResult)); 
     };
 
+    const formattedDate = (date) => {
+      return new Date(date).toLocaleDateString('ro-RO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    };
+
+
   return loading ? (
     <SpinnerComponent />
   ) : error ? (
@@ -74,7 +83,7 @@ function Order() {
                 {order.deliveryAddress.address}, {order.deliveryAddress.city}
               </p>
               {order.isDelivered ? (
-                <Message variant="success">Delivered: {order.delivered}</Message>
+                <Message variant="success">Delivered: {formattedDate(order.delivered)}</Message>
               ) : (
                 <Message variant="warning">Not delivered yet</Message>
               )}
@@ -86,7 +95,7 @@ function Order() {
                 <strong>Method: </strong>{order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid {order.paidAt}</Message>
+                <Message variant="success">Paid at: {formattedDate(order.paidAt)}</Message>
               ) : (
                 <Message variant="warning">Not paid yet</Message>
               )}

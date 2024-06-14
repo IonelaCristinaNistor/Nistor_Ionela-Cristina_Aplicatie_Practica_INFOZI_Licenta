@@ -31,17 +31,7 @@ function PlaceOrder() {
     }, [paymentMethod, navigate]);
 
     const placeOrder = async () => {
-        console.log("Placing order with data:", {
-            orderItems: cartItems,
-            deliveryAddress,
-            paymentMethod,
-            itemsPrice,
-            deliveryPrice,
-            taxPrice,
-            totalPrice,
-        });
-
-        await dispatch(addItemsInOrder({
+        dispatch(addItemsInOrder({
             orderItems: cartItems,
             deliveryAddress,
             paymentMethod,

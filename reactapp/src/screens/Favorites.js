@@ -32,15 +32,15 @@ const Favorites = () => {
 
     return (
         <div>
-            <h1>My Favorites</h1>
+            <h1 className='text-center my-4'>My Favorites</h1>
             {!userInformation ? (
-                <Message variant='info'>Please <Link to='/login'>log in</Link> to see your favorites</Message>
+                <Message variant='warning'>Please <Link to='/login'>log in</Link> to see your favorites...</Message>
             ) : loading ? (
                 <SpinnerComponent />
             ) : error ? (
                 <Message variant='success'>Deleted</Message>
             ) : favorites.length === 0 ? (
-                <p>No favorites found</p>
+                <Message variant='info'>No favorites found</Message>
             ) : (
                 <ListGroup variant='flush' className='divFav'>
                     {favorites.map((favorite) => (

@@ -1,3 +1,4 @@
+import '../index.css'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Col, Row, Table } from 'react-bootstrap';
@@ -84,8 +85,8 @@ function Profile() {
 
   return (
     <Row>
-        <Col md = {3}>
-            <h2>User Profile</h2>
+        <Col md = {4}>
+            <h2 style={{ color: 'black', paddingTop:'10px' }}>User Profile</h2>
             {error && <Message variant='danger'>{error}</Message>}
             {message && <Message variant='danger'>{message}</Message>}
             {confMessage && <Message variant='success'>{confMessage}</Message>}
@@ -94,7 +95,7 @@ function Profile() {
             <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control
+                    <Form.Control className='rounded'
                         type='name'
                         required
                         placeholder='Enter Name'
@@ -105,7 +106,7 @@ function Profile() {
 
                 <Form.Group controlId='email'>
                     <Form.Label>Email Address</Form.Label>
-                    <Form.Control
+                    <Form.Control className='rounded'
                         type='email'
                         placeholder='Enter Email'
                         value={email}
@@ -115,7 +116,7 @@ function Profile() {
 
                 <Form.Group controlId='password'>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control
+                    <Form.Control className='rounded'
                         type='password'
                         placeholder='Enter Password'
                         value={password}
@@ -125,7 +126,7 @@ function Profile() {
 
                 <Form.Group controlId='confirmPassword'>
                     <Form.Label>Confirm Pssword</Form.Label>
-                    <Form.Control
+                    <Form.Control className='rounded'
                         type='password'
                         placeholder='Confirm Password'
                         value={confirmPassword}
@@ -133,17 +134,17 @@ function Profile() {
                     ></Form.Control>
                 </Form.Group>
 
-                <Button type='submit' variant='primary' className='mt-3'>Update your information</Button>
+                <Button type='submit' variant='primary' className='mt-3 rounded'>Update your information</Button>
             </Form>
         </Col>
-        <Col md = {9}>
-            <h2>My Orders</h2>
+        <Col md = {8}>
+            <h2 style={{ color: 'black', paddingTop:'10px'}}>My Orders</h2>
             {loadingMyOrders ? (
                 <SpinnerComponent /> 
             ) : errorMyOrders ? (
                 <Message variant='danger'>{errorMyOrders}</Message>
             ) : (
-                <Table striped responsive className='table-sm'>
+                <Table striped responsive className='table-sm table-custom mt-4'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -165,7 +166,7 @@ function Profile() {
                             )}</td>
                             <td>
                                 <LinkContainer to = {`/order/${order._id}`}>
-                                <Button className='btn btn-sm'>See details</Button>
+                                <Button className='btn btn-sm rounded'>See details</Button>
                                 </LinkContainer>
                             </td>
                         </tr>

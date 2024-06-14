@@ -71,5 +71,5 @@ artworks = [
       'availability': '1',
       'image': '/images/the_night_watch.jpg',
       'likes_count': '12'
-    }
+    },
   ];

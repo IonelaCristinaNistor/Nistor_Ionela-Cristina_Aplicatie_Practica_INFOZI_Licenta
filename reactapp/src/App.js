@@ -2,6 +2,7 @@ import "./index.css"
 
 import HomeScreen from './screens/HomeScreen';
 import ArtworksScreen from './screens/ArtworksScreen'
+import ArtworkListScreen from './screens/ArtworkListScreen'
 import Cart from "./screens/Cart";
 import LoginScreen from "./screens/LoginScreen";
 import Registration from './screens/Registration'
@@ -13,7 +14,6 @@ import Favorites from './screens/Favorites'
 import Header from './components/Header'
 import Footer from './components/Footer';
 import Order from './screens/Order'
-import UsersList from './screens/UsersList'
 
 import { Container } from 'react-bootstrap'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -29,6 +29,7 @@ function App() {
             {" "}
           <Route path='/' element={<HomeScreen />} />
           <Route path='/artwork/:id' element={<ArtworksScreen />} />
+          <Route path='/artworklistscreen' element={<ArtworkListScreen />} />
           <Route path='/cart/:id?' element={<Cart />} />
           <Route path='/login' element={<LoginScreen />} />
           <Route path='/register' element={<Registration />} />
@@ -38,8 +39,6 @@ function App() {
           <Route path='/payment' element={<Payment />} />
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/order/:id' element={<Order />} />
-
-          <Route path='/admin/userslist' element={<UsersList />} />
           </Routes>
         </Container>
       </main>

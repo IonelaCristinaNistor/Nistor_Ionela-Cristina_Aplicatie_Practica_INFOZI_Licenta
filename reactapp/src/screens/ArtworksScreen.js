@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form, Modal } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Button, Form, Modal, ListGroupItem } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import Reactions from '../components/Reactions'
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
@@ -33,6 +34,10 @@ function ArtworkScreen() {
     const navigate = useNavigate();
 
     const addItemInCart = () => {
+        if (!userInformation) {
+            setShowModal(true);
+            return;
+        }
         navigate(`/cart/${id}?artworkQuantity=${artworkQuantity}`);
     };
 
@@ -84,6 +89,14 @@ function ArtworkScreen() {
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Category: </Col>
+                                    <Col>
+                                        <strong>{artwork.category}</strong>
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
                             <ListGroup.Item>Description: {artwork.description}</ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
@@ -93,10 +106,10 @@ function ArtworkScreen() {
                             </ListGroup.Item>
 
                             {artwork.availability > 0 && (
-                                <ListGroup.Item>
+                                <ListGroup.Item className='d-flex justify-content-between'>
                                     <Row>
                                         <Col>Quantity</Col>
-                                        <Col xs='auto' className='my-2'>
+                                        <Col xs='auto' className=''>
                                             <Form.Select as="select" value={artworkQuantity} onChange={(m) => setArtQuantity(m.target.value)}>
                                                 {
                                                     [...Array(artwork.availability).keys()].map((cnt) =>(
@@ -111,18 +124,19 @@ function ArtworkScreen() {
                                 </ListGroup.Item>
                             )}
 
-                            <ListGroup.Item>
-                                <Button onClick={addItemInCart} className='btn btn-block' type='button' disabled = {artwork.availability <= 0}>
+                            <ListGroup.Item className='d-flex justify-content-between'>
+                                <Button onClick={addItemInCart} className='btn btn-block rounded' type='button' disabled = {artwork.availability <= 0}>
                                     Add to cart
                                 </Button>
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                <Button onClick={handleFavorite} className='btn btn-block' type='button'>
+    
+                                <Button onClick={handleFavorite} className='btn btn-block rounded' type='button'>
                                     {isFavorite ? <AiFillStar color="gold" /> : <AiOutlineStar color="gold" />}
                                     {isFavorite ? ' Remove from Favorites' : ' Add to Favorites'}
                                 </Button>
                             </ListGroup.Item>
+                            <ListGroupItem>
+                                <Reactions artworkId = {artwork.artwork_id}/>
+                            </ListGroupItem>
                         </ListGroup>
                     </Col>
                 </Row>
@@ -132,7 +146,7 @@ function ArtworkScreen() {
                 <Modal.Header closeButton>
                     <Modal.Title>Not Authenticated</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Please log in to add favorites</Modal.Body>
+                <Modal.Body>Please log in to add this item</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleModalClose}>
                         Cancel

@@ -3,7 +3,7 @@ main {
     margin-top: 80px;
     background-image: url("../public/background.jpg");
     font-family: "Merriweather", serif;
-    font-style: normal
+    font-size: medium;
 }
 
  /* footer */

@@ -25,13 +25,13 @@ export const addItemInCart =(id, quantity) => async(dispatch, getState) => {
 }
 
 export const removeArtFromCart = (id) => (dispatch, getState) => {
-    dispatch ({
+    dispatch({
         type: CART_REMOVE_ARTWORK,
-        payload: id,
-    })
-    
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
-}
+        payload: id
+    });
+
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};
 
 export const saveDeliveryAddress = (data) => (dispatch) => {
     dispatch ({
