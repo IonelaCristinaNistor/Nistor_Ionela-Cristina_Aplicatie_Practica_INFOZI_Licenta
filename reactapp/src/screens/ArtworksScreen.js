@@ -20,7 +20,7 @@ function ArtworkScreen() {
 
     const favorite = useSelector((state) => state.favorite);
     const { favorites } = favorite || { favorites: [] };
-    const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork.artwork_id === parseInt(id));
+    const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork._id === parseInt(id));
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
     const [showModal, setShowModal] = useState(false);
@@ -47,12 +47,12 @@ function ArtworkScreen() {
             return;
         }
 
-        const artwork_id = parseInt(id);
+        const _id = parseInt(id);
 
         if (isFavorite) {
-            dispatch(removeFavorite(artwork_id));
+            dispatch(removeFavorite(_id));
         } else {
-            dispatch(addFavorite(artwork_id));
+            dispatch(addFavorite(_id));
         }
 
         setIsFavorite(!isFavorite);
@@ -85,7 +85,7 @@ function ArtworkScreen() {
                                 <Row>
                                     <Col>Price:</Col>
                                     <Col>
-                                        <strong>${artwork.price}</strong>
+                                        <strong>{artwork.price}LEI</strong>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
@@ -135,7 +135,7 @@ function ArtworkScreen() {
                                 </Button>
                             </ListGroup.Item>
                             <ListGroupItem>
-                                <Reactions artworkId = {artwork.artwork_id}/>
+                                <Reactions artworkId = {artwork._id}/>
                             </ListGroupItem>
                         </ListGroup>
                     </Col>

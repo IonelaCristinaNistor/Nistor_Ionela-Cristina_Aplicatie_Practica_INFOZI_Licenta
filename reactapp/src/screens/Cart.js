@@ -54,7 +54,7 @@ function Cart() {
                                         </Col>
 
                                         <Col md={2}>
-                                            ${item.price}
+                                            {item.price}LEI
                                         </Col>
 
                                         <Col md={3} style={{ width: '100px'}}>
@@ -88,7 +88,7 @@ function Cart() {
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
                                 <h2>Total ({cartItems.reduce((x, item) => x + item.quantity, 0)}) items</h2>
-                                {cartItems.reduce((x, item) => x + item.quantity * item.price, 0)} $
+                                {cartItems.reduce((x, item) => x + item.quantity * item.price, 0)}LEI
                             </ListGroup.Item>
                         </ListGroup>
                         <ListGroup.Item>

@@ -41,7 +41,7 @@ const ArtworkListScreen = () => {
         :
         <Row>
           {filteredArtworks.map(artwork => (
-            <Col className='d-flex justify-content-center' key={artwork.artwork_id} sm={12} md={6} lg={4} xl={3}>
+            <Col className='d-flex justify-content-center' key={artwork._id} sm={12} md={6} lg={4} xl={3}>
               <Artwork artwork={artwork}></Artwork>
             </Col>
           ))}

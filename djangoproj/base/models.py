@@ -11,9 +11,8 @@ class Artwork(models.Model):
     price = models.IntegerField(null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     availability = models.IntegerField(null=True, blank=True)
-    artwork_id = models.AutoField(primary_key=True, editable=False)
     likes_count = models.IntegerField(null=True, blank=True)
-    artwork_id = models.AutoField(primary_key=True, editable=False)
+    _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return self.title
@@ -40,7 +39,7 @@ class Order(models.Model):
     paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     isDelivered = models.BooleanField(default=False)
     orderDate = models.DateTimeField(auto_now_add=True)
-    delivered = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    delivered = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     status = models.BooleanField(default=False)
     _id = models.AutoField(primary_key=True, editable=False)

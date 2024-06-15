@@ -12,7 +12,7 @@ export const addItemInCart =(id, quantity) => async(dispatch, getState) => {
     dispatch ({
         type: CART_ADD_ARTWORK,
         payload: {
-            artwork: data.artwork_id,
+            artwork: data._id,
             title: data.title,
             image: data.image,
             price: data.price,
@@ -20,17 +20,13 @@ export const addItemInCart =(id, quantity) => async(dispatch, getState) => {
             quantity
         }
     })
-
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
 export const removeArtFromCart = (id) => (dispatch, getState) => {
     dispatch({
         type: CART_REMOVE_ARTWORK,
         payload: id
-    });
-
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+    })
 };
 
 export const saveDeliveryAddress = (data) => (dispatch) => {

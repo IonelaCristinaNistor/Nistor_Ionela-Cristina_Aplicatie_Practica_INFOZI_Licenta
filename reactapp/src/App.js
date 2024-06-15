@@ -17,6 +17,7 @@ import Header from './components/Header'
 import Footer from './components/Footer';
 import Order from './screens/Order'
 import UsersListScreen from './screens/UsersListScreen'
+import OrderList from './screens/OrderList'
 import UserEdit from './screens/UserEdit'
 
 import { Container } from 'react-bootstrap'
@@ -44,6 +45,7 @@ function App() {
           <Route path='/admin/user/:id/edit' element={<UserEdit />} />
           <Route path='/admin/artworklist' element={<ArtworkAdminList />} />
           <Route path='/admin/artwork/:id/edit' element={<ArtworkEdit />} />
+          <Route path='/admin/orderlist/' element={<OrderList />} />
 
           <Route path='/cart/:id?' element={<Cart />} />
           <Route path='/delivery' element={<Delivery />} />

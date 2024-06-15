@@ -46,7 +46,10 @@ function Profile() {
         return new Date(date).toLocaleDateString('ro-RO', {
           day: '2-digit',
           month: '2-digit',
-          year: 'numeric'
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
         });
       };
 
@@ -161,7 +164,7 @@ function Profile() {
                         <tr key={order._id}>
                             <td>{order._id}</td>
                             <td>{formattedDate(order.orderDate)}</td>
-                            <td>{order.totalPrice}</td>
+                            <td>{order.totalPrice}LEI</td>
                             <td>{order.isPaid ? formattedDate(order.paidAt) : (
                                 <i className='fas fa-times' style={{color: 'purple'}}></i>
                             )}</td>

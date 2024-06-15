@@ -183,7 +183,7 @@ export const updateArtwork = (artwork) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.put(`/api/artworks/update/${artwork.id}/`, artwork, config);
+        const { data } = await axios.put(`/api/artworks/update/${artwork._id}/`, artwork, config);
 
         dispatch({
             type: ARTWORK_UPDATE_SUCCESS,

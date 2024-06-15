@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('category', models.CharField(blank=True, max_length=200, null=True)),
                 ('availability', models.IntegerField(blank=True, null=True)),
                 ('likes_count', models.IntegerField(blank=True, null=True)),
-                ('artwork_id', models.AutoField(editable=False, primary_key=True, serialize=False)),
+                ('_id', models.AutoField(editable=False, primary_key=True, serialize=False)),
                 ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -17,7 +17,7 @@ class Reactions extends Component {
       const Liked = prevState.likedArtworks[id] || false;
       return {
         artworks: prevState.artworks.map((artwork) =>
-          artwork.artwork_id === id
+          artwork._id === id
             ? { ...artwork, likes_count: Liked ? artwork.likes_count - 1 : artwork.likes_count + 1 }
             : artwork
         ),
@@ -31,7 +31,7 @@ class Reactions extends Component {
 
   render() {
     const { artworkId } = this.props;
-    const artwork = this.state.artworks.find((artwork) => artwork.artwork_id === artworkId);
+    const artwork = this.state.artworks.find((artwork) => artwork._id === artworkId);
 
     if (!artwork) {
       return <div>Artwork not found</div>;
@@ -46,7 +46,7 @@ class Reactions extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <Button className='rounded-pill'
                 variant={isLiked ? "danger" : "outline-danger"} 
-                onClick={() => this.handleLike(artwork.artwork_id)}
+                onClick={() => this.handleLike(artwork._id)}
               >
                 <FaHeart /> {isLiked ? "Unlike" : "Like"}
               </Button>

@@ -44,19 +44,19 @@ function UsersListScreen() {
             ? (<Message variant='danger'>{error}</Message>) 
             : (
                 <Table striped hover bordered responsive className='table-sm mt-4'>
-                    <thead>
+                    <thead className='thead-dark'>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Admin</th>
-                            <th style={{'color': 'purple'}}>Edit</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {users.map(user => (
-                            <tr key={user.id}>
+                            <tr className='table-dark' key={user.id}>
                                 <td>{user.id}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
@@ -69,13 +69,13 @@ function UsersListScreen() {
                                 
                                 <td>
                                     <LinkContainer to = {`/admin/user/${user.id}/edit`}>
-                                        <Button variant='' className='btn-sm'>
-                                            <i className='fas fa-pen' style={{color: 'purple'}}></i>
+                                        <Button variant='' className='btn-md'>
+                                            <i className='fas fa-pen' style={{color: 'white'}}></i>
                                         </Button>
                                     </LinkContainer>
 
-                                    <Button variant='primary' className='btn-sm' onClick = {() => deleteActionHandler(user.id)}>
-                                        <i className='fas fa-trash'></i>
+                                    <Button variant='' className='btn-md' onClick = {() => deleteActionHandler(user.id)}>
+                                        <i className='fas fa-trash' style={{color: 'white'}}></i>
                                     </Button>
                                 </td>
                             </tr>

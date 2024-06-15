@@ -31,16 +31,16 @@ function ArtworkAdminList() {
         }
 
         if(successCreate) {
-            navigate(`/admin/artwork/${createdArtwork.artwork_id}/edit`)
+            navigate(`/admin/artwork/${createdArtwork._id}/edit`)
         } else {
             dispatch(listArtworks())
         }
         
     }, [dispatch, navigate, userInformation, successDelete, successCreate, createdArtwork])
     
-    const deleteActionHandler = (artwork_id) => {
+    const deleteActionHandler = (_id) => {
         if(window.confirm('You sure?')) {
-           dispatch(deleteArtwork(artwork_id))
+           dispatch(deleteArtwork(_id))
         }
     }
 
@@ -73,8 +73,8 @@ function ArtworkAdminList() {
         : error 
             ? (<Message variant='danger'>{error}</Message>) 
             : (
-                <Table striped hover bordered responsive className='table-sm mt-4'>
-                    <thead>
+                <Table striped hover responsive className='table-sm mt-4'>
+                    <thead className='thead-dark'>
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
@@ -87,21 +87,21 @@ function ArtworkAdminList() {
 
                     <tbody>
                         {artworks.map(artwork => (
-                            <tr key={artwork.artwork_id}>
-                                <td>{artwork.artwork_id}</td>
+                            <tr className='table-dark' key={artwork._id}>
+                                <td>{artwork._id}</td>
                                 <td>{artwork.title}</td>
                                 <td>{artwork.artist_name}</td>
-                                <td>{artwork.price}</td>
+                                <td>{artwork.price}LEI</td>
                                 <td>{artwork.category}</td>
                                 
                                 <td>
-                                    <LinkContainer to = {`/admin/artwork/${artwork.artwork_id}/edit`}>
-                                        <Button variant='' className='btn-sm'>
-                                            <i className='fas fa-pen' style={{color: 'purple'}}></i>
+                                    <LinkContainer to = {`/admin/artwork/${artwork._id}/edit`}>
+                                        <Button variant='' className='btn-md'>
+                                            <i className='fas fa-pen' style={{color: 'white'}}></i>
                                         </Button>
                                     </LinkContainer>
 
-                                    <Button variant='primary' className='btn-sm' onClick = {() => deleteActionHandler(artwork.artwork_id)}>
+                                    <Button variant='' className='btn-md' style={{color: 'white'}} onClick = {() => deleteActionHandler(artwork._id)}>
                                         <i className='fas fa-trash'></i>
                                     </Button>
                                 </td>

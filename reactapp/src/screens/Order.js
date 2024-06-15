@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Card, ListGroupItem } from 'react-bootstrap';
+import { Row, Col, ListGroup, Card, ListGroupItem, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
+import { getOrderDetails, payOrder, deliveryOrder } from '../actions/orderActions';
+import { ORDER_PAY_RESET, ORDER_DELIVERY_RESET } from '../constants/orderConstants';
 import { PayPalButton } from 'react-paypal-button-v2';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
@@ -14,11 +15,17 @@ function Order() {
 
   const [sdkReady, setSdkReady] = useState(false);
 
-  const orderDetails = useSelector(state => state.orderDetails || {});
+  const orderDetails = useSelector((state) => state.orderDetails || {});
   const { error, loading, order } = orderDetails;
 
-  const orderPay = useSelector(state => state.orderPay || {});
-  const { loading: loadingPay, success: successPay } = orderPay;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInformation } = userLogin;
+
+  const orderPay = useSelector((state) => state.orderPay || {});
+  const { success: successPay } = orderPay;
+
+  const orderDelivery = useSelector((state) => state.orderDelivery || {});
+  const { success: successDelivery } = orderDelivery;
 
   const itemsPrice = useMemo(() => {
     if (order && order.orderItems) {
@@ -28,19 +35,21 @@ function Order() {
     return 0;
   }, [order]);
 
-  useEffect(() => {
-    const addPayPalScript = () => {
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://www.paypal.com/sdk/js?client-id=AVKAlCVgBqieKabnyZdDTbav2B68aG3XSbWGppb6TnNSjPFLQkrISjKkmFlt7pSFi_XQotXllrorKVuQ';
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
+  const addPayPalScript = () => {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://www.paypal.com/sdk/js?client-id=AVKAlCVgBqieKabnyZdDTbav2B68aG3XSbWGppb6TnNSjPFLQkrISjKkmFlt7pSFi_XQotXllrorKVuQ';
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true);
     };
+    document.body.appendChild(script);
+  };
 
-    if (!order || successPay || order._id !== Number(orderId)) {
+  useEffect(() => {
+    if (!order || successPay || order._id !== Number(orderId) || successDelivery) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVERY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -49,20 +58,26 @@ function Order() {
         setSdkReady(true);
       }
     }
-  }, [order, orderId, dispatch, successPay]);
+  }, [dispatch, order, orderId, successPay, successDelivery]);
 
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(orderId, paymentResult)); 
-    };
+  const successPaymentHandler = (paymentResults) => {
+    dispatch(payOrder(orderId, paymentResults));
+  };
 
-    const formattedDate = (date) => {
-      return new Date(date).toLocaleDateString('ro-RO', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    };
+  const successDeliveryHandler = () => {
+    dispatch(deliveryOrder(order));
+  };
 
+  const formattedDate = (date) => {
+    return new Date(date).toLocaleDateString('ro-RO', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
 
   return loading ? (
     <SpinnerComponent />
@@ -76,8 +91,14 @@ function Order() {
           <ListGroup variant="flush">
             <ListGroupItem>
               <h2>Shipping</h2>
-              <p><strong>Name: </strong>{order.user.name}</p>
-              <p><strong>Email: </strong>{order.user.email}</p>
+              <p>
+                <strong>Name: </strong>
+                {order.user.name}
+              </p>
+              <p>
+                <strong>Email: </strong>
+                {order.user.email}
+              </p>
               <p>
                 <strong>Shipping: </strong>
                 {order.deliveryAddress.address}, {order.deliveryAddress.city}
@@ -92,7 +113,8 @@ function Order() {
             <ListGroupItem>
               <h2>Payment Method</h2>
               <p>
-                <strong>Method: </strong>{order.paymentMethod}
+                <strong>Method: </strong>
+                {order.paymentMethod}
               </p>
               {order.isPaid ? (
                 <Message variant="success">Paid at: {formattedDate(order.paidAt)}</Message>
@@ -116,7 +138,7 @@ function Order() {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.quantity} x ${item.price} = {(item.quantity * item.price).toFixed(2)}
+                          {item.quantity} x {item.price} LEI = {(item.quantity * item.price).toFixed(2)} LEI
                         </Col>
                       </Row>
                     </ListGroupItem>
@@ -137,34 +159,33 @@ function Order() {
               <ListGroupItem>
                 <Row>
                   <Col>Items:</Col>
-                  <Col>${itemsPrice}</Col>
+                  <Col>{itemsPrice} LEI</Col>
                 </Row>
               </ListGroupItem>
 
               <ListGroupItem>
                 <Row>
                   <Col>Delivery:</Col>
-                  <Col>${order.deliveryPrice}</Col>
+                  <Col>{order.deliveryPrice} LEI</Col>
                 </Row>
               </ListGroupItem>
 
               <ListGroupItem>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>${order.taxPrice}</Col>
+                  <Col>{order.taxPrice} LEI</Col>
                 </Row>
               </ListGroupItem>
 
               <ListGroupItem>
                 <Row>
                   <Col>Total:</Col>
-                  <Col>${order.totalPrice}</Col>
+                  <Col>{order.totalPrice} LEI</Col>
                 </Row>
               </ListGroupItem>
 
               {!order.isPaid && (
                 <ListGroupItem>
-                  {loadingPay && <SpinnerComponent />}
                   {!sdkReady ? (
                     <SpinnerComponent />
                   ) : (
@@ -173,6 +194,13 @@ function Order() {
                 </ListGroupItem>
               )}
             </ListGroup>
+            {userInformation && userInformation.isAdmin && order.isPaid && !order.isDelivered && (
+              <ListGroupItem>
+                <Button type="button" className="btn btn-block" onClick={successDeliveryHandler}>
+                  Select as delivered
+                </Button>
+              </ListGroupItem>
+            )}
           </Card>
         </Col>
       </Row>

@@ -47,7 +47,7 @@ export const loadFavorites = () => async (dispatch, getState) => {
     }
 };
 
-export const addFavorite = (artwork_id) => async (dispatch, getState) => {
+export const addFavorite = (_id) => async (dispatch, getState) => {
     const {
         userLogin: { userInformation },
     } = getState();
@@ -64,7 +64,7 @@ export const addFavorite = (artwork_id) => async (dispatch, getState) => {
     };
 
     try {
-        const { data } = await axios.post('/api/favorites/add/', { artwork_id }, config);
+        const { data } = await axios.post('/api/favorites/add/', { _id }, config);
 
         dispatch({
             type: FAVORITE_ADD_ITEM,
@@ -82,7 +82,7 @@ export const addFavorite = (artwork_id) => async (dispatch, getState) => {
     }
 };
 
-export const removeFavorite = (artwork_id) => async (dispatch, getState) => {
+export const removeFavorite = (_id) => async (dispatch, getState) => {
     const {
         userLogin: { userInformation },
     } = getState();
@@ -99,11 +99,11 @@ export const removeFavorite = (artwork_id) => async (dispatch, getState) => {
     };
 
     try {
-        await axios.delete(`/api/favorites/remove/${artwork_id}/`, config);
+        await axios.delete(`/api/favorites/remove/${_id}/`, config);
 
         dispatch({
             type: FAVORITE_REMOVE_ITEM,
-            payload: artwork_id,
+            payload: _id,
         });
 
         dispatch(loadFavorites());

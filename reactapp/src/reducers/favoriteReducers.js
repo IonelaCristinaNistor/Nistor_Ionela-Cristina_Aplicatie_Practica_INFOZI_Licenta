@@ -25,7 +25,7 @@ export const favoriteReducer = (state = initialState, action) => {
             localStorage.setItem('favoriteItems', JSON.stringify(newFavoritesAdd));
             return { ...state, favorites: newFavoritesAdd };
         case FAVORITE_REMOVE_ITEM:
-            const newFavoritesRemove = state.favorites.filter(item => item.artwork.artwork_id !== action.payload);
+            const newFavoritesRemove = state.favorites.filter(item => item.artwork._id !== action.payload);
             localStorage.setItem('favoriteItems', JSON.stringify(newFavoritesRemove));
             return { ...state, favorites: newFavoritesRemove };
         default:

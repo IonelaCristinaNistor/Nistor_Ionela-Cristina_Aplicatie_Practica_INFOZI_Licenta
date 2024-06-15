@@ -19,13 +19,13 @@ def addFavorite(request):
     user = request.user
     data = request.data
 
-    artwork_id = data.get('artwork_id')
+    _id = data.get('_id')
 
-    if not artwork_id:
+    if not _id:
         return Response({'detail': 'Artwork ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        artwork = Artwork.objects.get(artwork_id=artwork_id)
+        artwork = Artwork.objects.get(_id=_id)
         favorite, created = Favorite.objects.get_or_create(user=user, artwork=artwork)
         if created:
             return Response({'message': 'Favorite added'}, status=status.HTTP_201_CREATED)
@@ -37,10 +37,10 @@ def addFavorite(request):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def removeFavorite(request, artwork_id):
+def removeFavorite(request, _id):
     user = request.user
     try:
-        favorite = Favorite.objects.get(user=user, artwork__artwork_id=artwork_id)
+        favorite = Favorite.objects.get(user=user, artwork___id=_id)
         favorite.delete()
         return Response({'message': 'Favorite removed'}, status=status.HTTP_204_NO_CONTENT)
     except Favorite.DoesNotExist:

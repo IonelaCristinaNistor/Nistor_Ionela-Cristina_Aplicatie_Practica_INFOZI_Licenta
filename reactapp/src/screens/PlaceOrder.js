@@ -89,7 +89,7 @@ function PlaceOrder() {
                                                     </Link>
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.quantity} x ${item.price} = ${(item.quantity * item.price).toFixed(2)}
+                                                    {item.quantity} x {item.price}LEI = {(item.quantity * item.price).toFixed(2)}LEI
                                                 </Col>
                                             </Row>
                                         </ListGroupItem>
@@ -110,28 +110,28 @@ function PlaceOrder() {
                             <ListGroupItem>
                                 <Row>
                                     <Col>Items:</Col>
-                                    <Col>${itemsPrice}</Col>
+                                    <Col>{itemsPrice}LEI</Col>
                                 </Row>
                             </ListGroupItem>
 
                             <ListGroupItem>
                                 <Row>
                                     <Col>Delivery:</Col>
-                                    <Col>${deliveryPrice}</Col>
+                                    <Col>{deliveryPrice} LEI</Col>
                                 </Row>
                             </ListGroupItem>
 
                             <ListGroupItem>
                                 <Row>
                                     <Col>Tax:</Col>
-                                    <Col>${taxPrice}</Col>
+                                    <Col>{taxPrice} LEI</Col>
                                 </Row>
                             </ListGroupItem>
 
                             <ListGroupItem>
                                 <Row>
                                     <Col>Total:</Col>
-                                    <Col>${totalPrice}</Col>
+                                    <Col>{totalPrice} LEI</Col>
                                 </Row>
                             </ListGroupItem>
 

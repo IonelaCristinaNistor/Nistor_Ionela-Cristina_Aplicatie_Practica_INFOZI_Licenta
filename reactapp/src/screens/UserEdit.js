@@ -77,6 +77,7 @@ function UserEdit() {
                         <Form.Label>Email Address</Form.Label>
                         <Form.Control style={{borderRadius: '10px' , marginTop: '10px'}}
                             type='email'
+                            required
                             placeholder='Enter Email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -87,6 +88,7 @@ function UserEdit() {
                         <Form.Check style={{borderRadius: '10px', marginTop: '10px'}}
                             type='checkbox'
                             label='Admin'
+                            required
                             checked={isAdmin}
                             onChange={(e) => setAdmin(e.target.checked)}
                         ></Form.Check>
