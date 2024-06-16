@@ -84,7 +84,7 @@ function Cart() {
                 </Col>
 
                 <Col md={4}>
-                    <Card className='cardCart'>
+                    <Card className='cardCart' style={{marginTop: '94px'}}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
                                 <h2>Total ({cartItems.reduce((x, item) => x + item.quantity, 0)}) items</h2>

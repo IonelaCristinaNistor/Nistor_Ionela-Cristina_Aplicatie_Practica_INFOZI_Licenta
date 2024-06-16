@@ -1,7 +1,7 @@
 import '../index.css'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Col, Row, Table } from 'react-bootstrap';
+import { Form, Button, Col, Row, Table, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -89,6 +89,44 @@ function Profile() {
 
   return (
     <Row>
+        <Col md = {8}>
+            <h2 style={{ color: 'black', paddingTop:'10px'}}>My Orders</h2>
+            {loadingMyOrders ? (
+                <SpinnerComponent /> 
+            ) : errorMyOrders ? (
+                <Message variant='danger'>{errorMyOrders}</Message>
+            ) : (
+                <Table striped responsive className='table-sm table-custom mt-4'>
+                    <thead className='thead-dark'>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Delivered</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {orders.map(order => (
+                        <tr className='table-dark' key={order._id}>
+                            <td>{order._id}</td>
+                            <td>{formattedDate(order.orderDate)}</td>
+                            <td>{order.totalPrice}LEI</td>
+                            <td>{order.isPaid ? formattedDate(order.paidAt) : (
+                                <i className='fas fa-times' style={{color: 'white'}}></i>
+                            )}</td>
+                            <td>
+                                <LinkContainer to = {`/order/${order._id}`}>
+                                <Button className='btn btn-sm rounded'>See details</Button>
+                                </LinkContainer>
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
+        </Col>
         <Col md = {4}>
             <h2 style={{ color: 'black', paddingTop:'10px' }}>User Profile</h2>
             {error && <Message variant='danger'>{error}</Message>}
@@ -137,47 +175,10 @@ function Profile() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
-
-                <Button type='submit' variant='primary' className='mt-3 rounded'>Update your information</Button>
+                <Container className='d-flex flex-column justify-content-center align-items-center'>
+                <Button type='submit' variant='primary' className='mt-3 rounded'>Update your informations</Button>
+                </Container>
             </Form>
-        </Col>
-        <Col md = {8}>
-            <h2 style={{ color: 'black', paddingTop:'10px'}}>My Orders</h2>
-            {loadingMyOrders ? (
-                <SpinnerComponent /> 
-            ) : errorMyOrders ? (
-                <Message variant='danger'>{errorMyOrders}</Message>
-            ) : (
-                <Table striped responsive className='table-sm table-custom mt-4'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                            <th>Paid</th>
-                            <th>Delivered</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {orders.map(order => (
-                        <tr key={order._id}>
-                            <td>{order._id}</td>
-                            <td>{formattedDate(order.orderDate)}</td>
-                            <td>{order.totalPrice}LEI</td>
-                            <td>{order.isPaid ? formattedDate(order.paidAt) : (
-                                <i className='fas fa-times' style={{color: 'purple'}}></i>
-                            )}</td>
-                            <td>
-                                <LinkContainer to = {`/order/${order._id}`}>
-                                <Button className='btn btn-sm rounded'>See details</Button>
-                                </LinkContainer>
-                            </td>
-                        </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            )}
         </Col>
     </Row>
   )

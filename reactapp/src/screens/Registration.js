@@ -85,7 +85,7 @@ function RegistrationScreen() {
                 </Form.Group>
 
                 <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Pssword</Form.Label>
+                    <Form.Label>Confirm Password</Form.Label>
                     <Form.Control style={{borderRadius: '10px'}}
                         type='password'
                         required

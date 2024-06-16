@@ -2,7 +2,7 @@ import React from 'react';
 
 import "../index.css"
 
-import Reactions from './Reactions';
+import Reactions from '../components/Reactions';
 
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
@@ -22,12 +22,12 @@ function Artwork({ artwork }) {
           </Link>
 
           <Card.Text as="h3">
-            {artwork.price}LEI
+            {artwork.price} LEI
           </Card.Text>
 
           <Card.Text as="div">
             <div className='my-1'>
-              <Reactions artworkId={artwork._id} />
+              <Reactions />
             </div>
           </Card.Text>
         </Card.Body>

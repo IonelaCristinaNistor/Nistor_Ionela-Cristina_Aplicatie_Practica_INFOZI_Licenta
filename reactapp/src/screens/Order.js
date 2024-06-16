@@ -4,9 +4,9 @@ import { Row, Col, ListGroup, Card, ListGroupItem, Button } from 'react-bootstra
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails, payOrder, deliveryOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET, ORDER_DELIVERY_RESET } from '../constants/orderConstants';
-import { PayPalButton } from 'react-paypal-button-v2';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
+import CustomPayPalButton from '../components/CustomPayPalButton'; // Import custom PayPal button component
 
 function Order() {
   const { id } = useParams();
@@ -36,14 +36,20 @@ function Order() {
   }, [order]);
 
   const addPayPalScript = () => {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://www.paypal.com/sdk/js?client-id=AVKAlCVgBqieKabnyZdDTbav2B68aG3XSbWGppb6TnNSjPFLQkrISjKkmFlt7pSFi_XQotXllrorKVuQ';
-    script.async = true;
-    script.onload = () => {
+    if (!window.paypalScriptAdded) {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://www.paypal.com/sdk/js?client-id=AVKAlCVgBqieKabnyZdDTbav2B68aG3XSbWGppb6TnNSjPFLQkrISjKkmFlt7pSFi_XQotXllrorKVuQ';
+
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+      window.paypalScriptAdded = true; // Mark script as added
+    } else {
       setSdkReady(true);
-    };
-    document.body.appendChild(script);
+    }
   };
 
   useEffect(() => {
@@ -62,6 +68,8 @@ function Order() {
 
   const successPaymentHandler = (paymentResults) => {
     dispatch(payOrder(orderId, paymentResults));
+    // Reîncărcarea paginii după plata de succes
+    window.location.reload();
   };
 
   const successDeliveryHandler = () => {
@@ -189,7 +197,7 @@ function Order() {
                   {!sdkReady ? (
                     <SpinnerComponent />
                   ) : (
-                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
+                    <CustomPayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
                   )}
                 </ListGroupItem>
               )}

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listArtworkDetails } from '../actions/artworkActions';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import Reactions from '../components/Reactions'
+import Reactions from '../components/Reactions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
@@ -135,7 +135,7 @@ function ArtworkScreen() {
                                 </Button>
                             </ListGroup.Item>
                             <ListGroupItem>
-                                <Reactions artworkId = {artwork._id}/>
+                                <Reactions />
                             </ListGroupItem>
                         </ListGroup>
                     </Col>

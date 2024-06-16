@@ -45,6 +45,18 @@ function Payment() {
                     >
                     </FormCheck>
                 </Col>
+
+                <Col>
+                    <FormCheck type='radio' 
+                    label='Cash on Delivery' 
+                    id='cash' 
+                    name='paymentMethod' 
+                    value='Cash on Delivery' 
+                    checked={paymentMethod === 'Cash on delivery'}
+                    onChange={(e) => (setpaymentMethod(e.target.value))}
+                    >
+                    </FormCheck>
+                </Col>
             </FormGroup>
 
             <Button type='submit' variant='primary'>Continue</Button>
