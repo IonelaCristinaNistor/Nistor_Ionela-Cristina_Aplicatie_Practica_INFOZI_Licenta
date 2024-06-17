@@ -11,7 +11,8 @@ class Artwork(models.Model):
     price = models.IntegerField(null=True, blank=True)
     category = models.CharField(max_length=200, null=True, blank=True)
     availability = models.IntegerField(null=True, blank=True)
-    likes_count = models.IntegerField(null=True, blank=True)
+    likes_counter = models.IntegerField(null=True, blank=True, default=0)
+    liked_by = models.ManyToManyField(User, related_name='liked_artworks', blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
@@ -76,3 +77,15 @@ class Favorite(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.artwork.title}"
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    artwork = models.ForeignKey(Artwork, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    likes_counter = models.IntegerField(default=0, null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
+    liked_by = models.ManyToManyField(User, related_name='liked_reviews', blank=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name

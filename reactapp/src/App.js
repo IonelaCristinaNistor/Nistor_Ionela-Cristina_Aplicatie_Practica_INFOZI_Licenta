@@ -52,6 +52,7 @@ function App() {
           <Route path='/payment' element={<Payment />} />
           <Route path='/placeorder' element={<PlaceOrder />} />
           <Route path='/order/:id' element={<Order />} />
+          
           </Routes>
         </Container>
       </main>

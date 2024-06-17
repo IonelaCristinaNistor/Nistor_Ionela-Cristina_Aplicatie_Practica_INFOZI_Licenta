@@ -24,6 +24,12 @@ import {
   ARTWORK_UPDATE_FAIL,
   ARTWORK_UPDATE_RESET,
 
+  FETCH_REVIEWS_REQUEST,
+  FETCH_REVIEWS_SUCCESS,
+  FETCH_REVIEWS_FAIL,
+  ADD_COMMENT,
+  ADD_LIKE,
+
 } from '../constants/artworkConstants'; 
 
 export const artworkListReducer = (state = { artworks: [] }, action) => {
@@ -39,17 +45,22 @@ export const artworkListReducer = (state = { artworks: [] }, action) => {
   }
 };
 
-export const artworkDetailsReducer = (state = { artwork: { likes_count: [] } }, action) => {
-  switch (action.type) {
-      case ARTWORK_DETAILS_REQUEST:
-          return { ...state, loading: true };
-      case ARTWORK_DETAILS_SUCCESS:
-          return { loading: false, artwork: action.payload };
-      case ARTWORK_DETAILS_FAIL:
-          return { loading: false, error: action.payload };
-      default:
-          return state;
-  }
+export const artworkDetailsReducer = (state = { artwork: { reviews: [] } }, action) => {
+    switch (action.type) {
+        case ARTWORK_DETAILS_REQUEST:
+            return { loading: true, ...state };
+        case ARTWORK_DETAILS_SUCCESS:
+            return { loading: false, artwork: action.payload };
+        case ARTWORK_DETAILS_FAIL:
+            return { loading: false, error: action.payload };
+        case ARTWORK_LIKE_SUCCESS:
+            return {
+                ...state,
+                artwork: action.payload,
+            };
+        default:
+            return state;
+    }
 };
 
 export const artworkLikeReducer = (state = {}, action) => {
@@ -109,3 +120,34 @@ export const artworkLikeReducer = (state = {}, action) => {
             return state;
     }
   };
+
+  const initialState = {
+    reviews: [],
+    loading: false,
+    error: null,
+};
+
+export const reviewReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case FETCH_REVIEWS_REQUEST:
+            return { ...state, loading: true };
+        case FETCH_REVIEWS_SUCCESS:
+            return { ...state, loading: false, reviews: action.payload };
+        case FETCH_REVIEWS_FAIL:
+            return { ...state, loading: false, error: action.payload };
+        case ADD_LIKE:
+            return {
+                ...state,
+                reviews: state.reviews.map(review =>
+                    review._id === action.payload._id ? action.payload : review
+                ),
+            };
+        case ADD_COMMENT:
+            return {
+                ...state,
+                reviews: [...state.reviews, action.payload],
+            };
+        default:
+            return state;
+    }
+};

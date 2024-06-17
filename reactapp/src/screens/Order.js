@@ -6,7 +6,7 @@ import { getOrderDetails, payOrder, deliveryOrder } from '../actions/orderAction
 import { ORDER_PAY_RESET, ORDER_DELIVERY_RESET } from '../constants/orderConstants';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
-import CustomPayPalButton from '../components/CustomPayPalButton'; // Import custom PayPal button component
+import CustomPayPalButton from '../components/CustomPayPalButton';
 
 function Order() {
   const { id } = useParams();
@@ -46,7 +46,7 @@ function Order() {
         setSdkReady(true);
       };
       document.body.appendChild(script);
-      window.paypalScriptAdded = true; // Mark script as added
+      window.paypalScriptAdded = true;
     } else {
       setSdkReady(true);
     }
@@ -68,7 +68,6 @@ function Order() {
 
   const successPaymentHandler = (paymentResults) => {
     dispatch(payOrder(orderId, paymentResults));
-    // Reîncărcarea paginii după plata de succes
     window.location.reload();
   };
 

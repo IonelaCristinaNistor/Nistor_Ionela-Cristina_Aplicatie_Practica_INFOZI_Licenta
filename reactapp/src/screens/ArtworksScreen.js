@@ -1,37 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form, Modal, ListGroupItem } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { listArtworkDetails } from '../actions/artworkActions';
-import { addFavorite, removeFavorite } from '../actions/favoriteActions';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import Reactions from '../components/Reactions';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Row, Col, Image, ListGroup, Button, Form, Modal } from 'react-bootstrap';
+import { listArtworkDetails, fetchReviews, addArtworkLike, addComment } from '../actions/artworkActions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
+import Reactions from '../components/Reactions';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 
 function ArtworkScreen() {
-    const dispatch = useDispatch();
     const { id } = useParams();
-    const artworkDetails = useSelector((state) => state.artworkDetails);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const artworkDetails = useSelector(state => state.artworkDetails);
     const { error, loading, artwork } = artworkDetails;
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInformation } = userLogin;
 
-    const favorite = useSelector((state) => state.favorite);
+    const favorite = useSelector(state => state.favorite);
     const { favorites } = favorite || { favorites: [] };
     const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork._id === parseInt(id));
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
     const [showModal, setShowModal] = useState(false);
+    const [comment, setComment] = useState('');
+    const [artworkQuantity, setArtQuantity] = useState(1);
 
     useEffect(() => {
-        if (id) dispatch(listArtworkDetails(id));
+        if (id) {
+            dispatch(listArtworkDetails(id));
+            dispatch(fetchReviews(id));  // Fetch reviews for the artwork
+        }
         setIsFavorite(isFavoriteInitial);
     }, [dispatch, id, isFavoriteInitial]);
-
-    const [artworkQuantity, setArtQuantity] = useState(1);
-    const navigate = useNavigate();
 
     const addItemInCart = () => {
         if (!userInformation) {
@@ -64,6 +68,27 @@ function ArtworkScreen() {
         navigate('/login');
     };
 
+    const reviewList = useSelector(state => state.reviewList);
+    const { loading: loadingReview, error: errorReview, reviews } = reviewList;
+
+    const submitCommentHandler = (e) => {
+        e.preventDefault();
+        if (userInformation) {
+            dispatch(addComment(id, comment));
+            setComment('');
+        } else {
+            alert('Please log in to add a comment.');
+        }
+    };
+
+    const handleArtworkLike = () => {
+        if (userInformation) {
+            dispatch(addArtworkLike(id));
+        } else {
+            alert('Please log in to like the artwork.');
+        }
+    };
+
     return (
         <div>
             <Link to='/' className='btn btn-primary rounded my-2'>Go Back</Link>
@@ -85,13 +110,13 @@ function ArtworkScreen() {
                                 <Row>
                                     <Col>Price:</Col>
                                     <Col>
-                                        <strong>{artwork.price}LEI</strong>
+                                        <strong>{artwork.price} LEI</strong>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Category: </Col>
+                                    <Col>Category:</Col>
                                     <Col>
                                         <strong>{artwork.category}</strong>
                                     </Col>
@@ -111,13 +136,11 @@ function ArtworkScreen() {
                                         <Col>Quantity</Col>
                                         <Col xs='auto' className=''>
                                             <Form.Select as="select" value={artworkQuantity} onChange={(m) => setArtQuantity(m.target.value)}>
-                                                {
-                                                    [...Array(artwork.availability).keys()].map((cnt) =>(
-                                                        <option key={ cnt + 1 } value={ cnt + 1 }>
-                                                            { cnt + 1 }
-                                                        </option>
-                                                    ))
-                                                }
+                                                {[...Array(artwork.availability).keys()].map((cnt) => (
+                                                    <option key={cnt + 1} value={cnt + 1}>
+                                                        {cnt + 1}
+                                                    </option>
+                                                ))}
                                             </Form.Select>
                                         </Col>
                                     </Row>
@@ -125,18 +148,56 @@ function ArtworkScreen() {
                             )}
 
                             <ListGroup.Item className='d-flex justify-content-between'>
-                                <Button onClick={addItemInCart} className='btn btn-block rounded' type='button' disabled = {artwork.availability <= 0}>
+                                <Button onClick={addItemInCart} className='btn btn-block rounded' type='button' disabled={artwork.availability <= 0}>
                                     Add to cart
                                 </Button>
-    
+
                                 <Button onClick={handleFavorite} className='btn btn-block rounded' type='button'>
                                     {isFavorite ? <AiFillStar color="gold" /> : <AiOutlineStar color="gold" />}
                                     {isFavorite ? ' Remove from Favorites' : ' Add to Favorites'}
                                 </Button>
                             </ListGroup.Item>
-                            <ListGroupItem>
-                                <Reactions />
-                            </ListGroupItem>
+
+                            <ListGroup.Item className='d-flex justify-content-between'>
+                                <Button onClick={handleArtworkLike} className='btn btn-block rounded' type='button'>
+                                    Like
+                                </Button>
+                                <span>{artwork.likes_counter} {artwork.likes_counter === 1 ? 'Like' : 'Likes'}</span>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                <h4>Reviews</h4>
+                                {loadingReview ? (
+                                    <SpinnerComponent />
+                                ) : errorReview ? (
+                                    <Message variant='danger'>{errorReview}</Message>
+                                ) : (
+                                    <>
+                                        {reviews && reviews.length > 0 ? (
+                                            reviews.map((review) => (
+                                                <Reactions key={review._id} review={review} />
+                                            ))
+                                        ) : (
+                                            <div>No reviews found</div>
+                                        )}
+                                        <Form onSubmit={submitCommentHandler}>
+                                            <Form.Group controlId='comment'>
+                                                <Form.Label>Add a Comment</Form.Label>
+                                                <Form.Control
+                                                    as='textarea'
+                                                    row='3'
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                    required
+                                                ></Form.Control>
+                                            </Form.Group>
+                                            <Button type='submit' variant='primary' className='mt-2'>
+                                                Submit
+                                            </Button>
+                                        </Form>
+                                    </>
+                                )}
+                            </ListGroup.Item>
                         </ListGroup>
                     </Col>
                 </Row>

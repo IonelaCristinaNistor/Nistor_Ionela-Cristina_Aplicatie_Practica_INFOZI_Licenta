@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 
-from base.models import Artwork
+from base.models import Artwork, Review
 from base.artworks import artworks
-from base.serializers import ArtworkSerializer
+from base.serializers import ArtworkSerializer, ReviewSerializer
 
 @api_view(['GET'])
 def getArtworks(request):
@@ -72,3 +72,80 @@ def uploadImage(request):
     artwork.image = request.FILES.get('image')
     artwork.save()
     return Response('Image was uploaded with success')
+
+@api_view(['GET'])
+def getReviews(request, pk):
+    try:
+        artwork = Artwork.objects.get(_id=pk)
+        reviews = Review.objects.filter(artwork=artwork)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+    except Artwork.DoesNotExist:
+        return Response({'status': 'artwork not found'}, status=404)
+    except Exception as e:
+        return Response({'status': 'error', 'message': str(e)}, status=500)
+    
+@api_view(['POST'])
+def addArtworkLike(request, pk):
+    try:
+        artwork = Artwork.objects.get(pk=pk)
+        user = request.user
+
+        if user in artwork.liked_by.all():
+            artwork.liked_by.remove(user)
+            artwork.likes_counter -= 1
+        else:
+            artwork.liked_by.add(user)
+            artwork.likes_counter += 1
+
+        artwork.save()
+        serializer = ArtworkSerializer(artwork)
+        return Response({'status': 'like toggled', 'artwork': serializer.data})
+    except Artwork.DoesNotExist:
+        return Response({'status': 'artwork not found'}, status=404)
+    except Exception as e:
+        return Response({'status': 'error', 'message': str(e)}, status=500)
+
+
+@api_view(['POST'])
+def addLike(request, pk):
+    try:
+        review = Review.objects.get(_id=pk)
+        user = request.user
+
+        if user in review.liked_by.all():
+            review.liked_by.remove(user)
+            review.likes_counter -= 1
+        else:
+            review.liked_by.add(user)
+            review.likes_counter += 1
+
+        review.save()
+        serializer = ReviewSerializer(review)
+        return Response({'status': 'like toggled', 'review': serializer.data})
+    except Review.DoesNotExist:
+        return Response({'status': 'review not found'}, status=404)
+    except Exception as e:
+        return Response({'status': 'error', 'message': str(e)}, status=500)
+
+
+@api_view(['POST'])
+def addComment(request, pk):
+    try:
+        user = request.user
+        artwork = Artwork.objects.get(_id=pk)
+        data = request.data
+
+        review = Review.objects.create(
+            user=user,
+            artwork=artwork,
+            name=user.username,
+            likes_counter=0,
+            comment=data['comment']
+        )
+        serializer = ReviewSerializer(review)
+        return Response({'status': 'comment added', 'review': serializer.data})
+    except Artwork.DoesNotExist:
+        return Response({'status': 'artwork not found'}, status=404)
+    except Exception as e:
+        return Response({'status': 'error', 'message': str(e)}, status=500)

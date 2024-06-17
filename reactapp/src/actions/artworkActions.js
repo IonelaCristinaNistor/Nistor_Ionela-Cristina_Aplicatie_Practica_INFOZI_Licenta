@@ -25,6 +25,13 @@ import {
     ARTWORK_UPDATE_SUCCESS,
     ARTWORK_UPDATE_FAIL,
 
+    FETCH_REVIEWS_REQUEST,
+    FETCH_REVIEWS_SUCCESS,
+    FETCH_REVIEWS_FAIL,
+    ADD_LIKE,
+    ADD_COMMENT,
+    ADD_ARTWORK_LIKE,
+
    } from '../constants/artworkConstants'
 
 export const listArtworks = () => async(dispatch) => {
@@ -198,6 +205,105 @@ export const updateArtwork = (artwork) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ARTWORK_UPDATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const fetchReviews = (artworkId) => async (dispatch) => {
+    try {
+        dispatch({ type: FETCH_REVIEWS_REQUEST });
+
+        const { data } = await axios.get(`/api/artworks/reviews/${artworkId}/`);
+
+        dispatch({
+            type: FETCH_REVIEWS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: FETCH_REVIEWS_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const addLike = (reviewId) => async (dispatch, getState) => {
+    try {
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        await axios.post(`/api/artworks/reviews/${reviewId}/add_like/`, {}, config);
+
+        dispatch({
+            type: ADD_LIKE,
+            payload: reviewId,
+        });
+    } catch (error) {
+        console.error("Error adding like:", error);
+    }
+};
+
+export const addComment = (artworkId, comment) => async (dispatch, getState) => {
+    try {
+        const {
+            userLogin: { userInformation },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.post(`/api/artworks/reviews/${artworkId}/add_comment/`, { comment }, config);
+
+        dispatch({
+            type: ADD_COMMENT,
+            payload: data.review,
+        });
+    } catch (error) {
+        console.error("Error adding comment:", error);
+    }
+};
+
+export const addArtworkLike = (artworkId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: ARTWORK_LIKE_REQUEST });
+
+        const { userLogin: { userInformation } } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInformation.token}`,
+            },
+        };
+
+        const { data } = await axios.post(`/api/artworks/${artworkId}/add_like/`, {}, config);
+
+        dispatch({
+            type: ARTWORK_LIKE_SUCCESS,
+            payload: data.artwork,
+        });
+
+        dispatch(listArtworkDetails(artworkId));
+    } catch (error) {
+        dispatch({
+            type: ARTWORK_LIKE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

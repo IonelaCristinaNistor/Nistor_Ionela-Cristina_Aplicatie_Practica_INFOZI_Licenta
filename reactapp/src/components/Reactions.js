@@ -1,23 +1,32 @@
-import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { FaHeart } from 'react-icons/fa';
-import artworksData from '../artworks';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLike } from '../actions/artworkActions';
 
-function Reactions() {
-  return (
-      <div className="d-flex justify-content-center">
-        <Card style={{ width: '18rem', border: '0' }}>
-          <Card.Body>
-            <div className="d-flex justify-content-between align-items-center">
-              <Button className='rounded-pill' variant="outline-danger">
-                <FaHeart /> Like
-              </Button>
-              <span>0 Likes</span>
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
-  )
-}
+const Reactions = ({ review }) => {
+    const dispatch = useDispatch();
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInformation } = userLogin;
 
-export default Reactions
+    if (!review) {
+        return null; // or a loading state
+    }
+
+    const handleLike = () => {
+        if (userInformation) {
+            dispatch(addLike(review._id));
+        } else {
+            alert('Please log in to like the review.');
+        }
+    };
+
+    return (
+        <div>
+            <h4>{review.name || 'Anonymous'}</h4>
+            <p>{review.comment || 'No comment'}</p>
+            <p>Likes: {review.likes_counter || 0}</p>
+            <button onClick={handleLike}>Like</button>
+        </div>
+    );
+};
+
+export default Reactions;

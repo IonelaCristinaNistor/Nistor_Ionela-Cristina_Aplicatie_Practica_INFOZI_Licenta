@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 const CustomPayPalButton = ({ amount, onSuccess }) => {
   useEffect(() => {
     if (window.paypal && !window.paypalButtonsRendered) {
-      console.log("Initializing PayPal Buttons");
       window.paypal.Buttons({
         createOrder: (data, actions) => {
           return actions.order.create({
@@ -16,14 +15,13 @@ const CustomPayPalButton = ({ amount, onSuccess }) => {
         },
         onApprove: (data, actions) => {
           return actions.order.capture().then(details => {
-            console.log("Payment approved:", details);
-            onSuccess(details);
+            onSuccess(details)
           });
         }
-      }).render('#paypal-button-container');
-      window.paypalButtonsRendered = true; // Mark buttons as rendered
+      }).render('#paypal-button-container')
+      window.paypalButtonsRendered = true
     } else {
-      console.log("PayPal SDK not found or buttons already rendered");
+      console.log('')
     }
   }, [amount, onSuccess]);
 
