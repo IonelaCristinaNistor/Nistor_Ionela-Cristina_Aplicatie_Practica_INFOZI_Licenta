@@ -28,9 +28,7 @@ import {
     FETCH_REVIEWS_REQUEST,
     FETCH_REVIEWS_SUCCESS,
     FETCH_REVIEWS_FAIL,
-    ADD_LIKE,
     ADD_COMMENT,
-    ADD_ARTWORK_LIKE,
 
    } from '../constants/artworkConstants'
 
@@ -229,30 +227,6 @@ export const fetchReviews = (artworkId) => async (dispatch) => {
                 ? error.response.data.detail
                 : error.message,
         });
-    }
-};
-
-export const addLike = (reviewId) => async (dispatch, getState) => {
-    try {
-        const {
-            userLogin: { userInformation },
-        } = getState();
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInformation.token}`,
-            },
-        };
-
-        await axios.post(`/api/artworks/reviews/${reviewId}/add_like/`, {}, config);
-
-        dispatch({
-            type: ADD_LIKE,
-            payload: reviewId,
-        });
-    } catch (error) {
-        console.error("Error adding like:", error);
     }
 };
 

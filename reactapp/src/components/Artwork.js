@@ -2,8 +2,6 @@ import React from 'react';
 
 import "../index.css"
 
-import Reactions from '../components/Reactions';
-
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
@@ -27,7 +25,6 @@ function Artwork({ artwork }) {
 
           <Card.Text as="div">
             <div className='my-1'>
-              <Reactions />
             </div>
           </Card.Text>
         </Card.Body>

@@ -10,7 +10,6 @@ urlpatterns = [
     path('delete/<str:pk>/', views.deleteArtwork, name="delete-artwork"),
 
     path('<int:pk>/add_like/', views.addArtworkLike, name='add-artwork-like'),
-    path('reviews/<int:pk>/add_like/', views.addLike, name='add-like'),
     path('reviews/<int:pk>/', views.getReviews, name='get-reviews'),
     path('reviews/<int:pk>/add_comment/', views.addComment, name='add-comment'),
 ]

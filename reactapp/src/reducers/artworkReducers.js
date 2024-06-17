@@ -29,6 +29,7 @@ import {
   FETCH_REVIEWS_FAIL,
   ADD_COMMENT,
   ADD_LIKE,
+  LIKE_ERROR,
 
 } from '../constants/artworkConstants'; 
 
@@ -135,14 +136,7 @@ export const reviewReducer = (state = initialState, action) => {
             return { ...state, loading: false, reviews: action.payload };
         case FETCH_REVIEWS_FAIL:
             return { ...state, loading: false, error: action.payload };
-        case ADD_LIKE:
-            return {
-                ...state,
-                reviews: state.reviews.map(review =>
-                    review._id === action.payload._id ? action.payload : review
-                ),
-            };
-        case ADD_COMMENT:
+       case ADD_COMMENT:
             return {
                 ...state,
                 reviews: [...state.reviews, action.payload],

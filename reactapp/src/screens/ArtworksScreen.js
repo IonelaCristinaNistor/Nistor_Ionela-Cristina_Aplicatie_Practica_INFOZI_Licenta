@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form, Modal } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Button, Form, Modal, Card } from 'react-bootstrap';
 import { listArtworkDetails, fetchReviews, addArtworkLike, addComment } from '../actions/artworkActions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
-import Reactions from '../components/Reactions';
+import Comments from '../components/Comments';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 
@@ -173,13 +173,6 @@ function ArtworkScreen() {
                                     <Message variant='danger'>{errorReview}</Message>
                                 ) : (
                                     <>
-                                        {reviews && reviews.length > 0 ? (
-                                            reviews.map((review) => (
-                                                <Reactions key={review._id} review={review} />
-                                            ))
-                                        ) : (
-                                            <div>No reviews found</div>
-                                        )}
                                         <Form onSubmit={submitCommentHandler}>
                                             <Form.Group controlId='comment'>
                                                 <Form.Label>Add a Comment</Form.Label>
@@ -202,6 +195,16 @@ function ArtworkScreen() {
                     </Col>
                 </Row>
             )}
+
+            <Card className='d-flex justify-content-center my-3 p-3' style={{'width' : '400px'}}>
+            {reviews && reviews.length > 0 ? (
+            reviews.map((review) => (
+           <Comments key={review._id} review={review} />
+             ))
+            ) : (
+                <div>No reviews found</div>
+            )}
+            </Card>
 
             <Modal show={showModal} onHide={handleModalClose}>
                 <Modal.Header closeButton>

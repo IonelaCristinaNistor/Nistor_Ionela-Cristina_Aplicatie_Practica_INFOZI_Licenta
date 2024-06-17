@@ -106,29 +106,6 @@ def addArtworkLike(request, pk):
     except Exception as e:
         return Response({'status': 'error', 'message': str(e)}, status=500)
 
-
-@api_view(['POST'])
-def addLike(request, pk):
-    try:
-        review = Review.objects.get(_id=pk)
-        user = request.user
-
-        if user in review.liked_by.all():
-            review.liked_by.remove(user)
-            review.likes_counter -= 1
-        else:
-            review.liked_by.add(user)
-            review.likes_counter += 1
-
-        review.save()
-        serializer = ReviewSerializer(review)
-        return Response({'status': 'like toggled', 'review': serializer.data})
-    except Review.DoesNotExist:
-        return Response({'status': 'review not found'}, status=404)
-    except Exception as e:
-        return Response({'status': 'error', 'message': str(e)}, status=500)
-
-
 @api_view(['POST'])
 def addComment(request, pk):
     try:
