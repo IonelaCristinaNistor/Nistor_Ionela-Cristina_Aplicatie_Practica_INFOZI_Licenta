@@ -18,7 +18,6 @@ def addItemsInOrder(request):
     if orderItems and len(orderItems) == 0:
         return Response({'detail': 'Empty Order'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        # Create Order
         order = Order.objects.create(
             user = user,
             paymentMethod = data['paymentMethod'],
@@ -27,14 +26,11 @@ def addItemsInOrder(request):
             totalPrice = data['totalPrice']
         )
 
-        # Create delivery address
-
         delivery = DeliveryAddress.objects.create (
             order = order, 
             address = data['deliveryAddress']['address'],
             city = data['deliveryAddress']['city'],
         )
-        # Create order items combination
 
         for i in orderItems:
             artwork = Artwork.objects.get(_id=i['artwork'])

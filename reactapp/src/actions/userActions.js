@@ -85,6 +85,7 @@ import {
 }
 
 // ************* USER REGISTER *************
+
  export const register = (name, email, password) => async (dispatch) => {
     try{
         dispatch ({

@@ -57,7 +57,7 @@ function ArtworkAdminList() {
             </Col>
 
             <Col className='text-right'>
-                <Button className='my-3' onClick={createHandler}><i className='fas fa-plus'></i> Create Product</Button>
+                <Button className='my-3 rounded' onClick={createHandler}><i className='fas fa-circle-plus'></i> Create Product</Button>
             </Col>
 
         </Row>
@@ -102,7 +102,7 @@ function ArtworkAdminList() {
                                     </LinkContainer>
 
                                     <Button variant='' className='btn-md' style={{color: 'white'}} onClick = {() => deleteActionHandler(artwork._id)}>
-                                        <i className='fas fa-trash'></i>
+                                        <i className='fas fa-trash-can'></i>
                                     </Button>
                                 </td>
                             </tr>

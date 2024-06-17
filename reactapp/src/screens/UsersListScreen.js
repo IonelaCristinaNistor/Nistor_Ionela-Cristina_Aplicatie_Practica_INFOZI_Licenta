@@ -75,7 +75,7 @@ function UsersListScreen() {
                                     </LinkContainer>
 
                                     <Button variant='' className='btn-md' onClick = {() => deleteActionHandler(user.id)}>
-                                        <i className='fas fa-trash' style={{color: 'white'}}></i>
+                                        <i className='fas fa-trash-can' style={{color: 'white'}}></i>
                                     </Button>
                                 </td>
                             </tr>

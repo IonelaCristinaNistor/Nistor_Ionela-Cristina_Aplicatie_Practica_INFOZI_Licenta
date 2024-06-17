@@ -35,6 +35,7 @@ function Delivery() {
                 placeholder='Enter Address'
                 value={address ? address : ''}
                 onChange={(e) => setAddress(e.target.value)}
+                className='rounded'
             ></Form.Control>
         </Form.Group>
 
@@ -46,10 +47,11 @@ function Delivery() {
                 placeholder='Enter City'
                 value={city ? city : ''}
                 onChange={(e) => setCity(e.target.value)}
+                className='rounded'
             ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary' className='my-3'>Continue</Button>
+        <Button type='submit' variant='primary' className='my-3 rounded'>Continue</Button>
       </Form>
     </FormComponent>
   )

@@ -3,7 +3,7 @@ import React from 'react';
 const Comments = ({ review }) => {
 
     if (!review) {
-        return null; // or a loading state
+        return null; 
     }
 
     return (

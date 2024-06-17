@@ -73,37 +73,6 @@ export const listArtworkDetails = (id) => async (dispatch) => {
     }
 };
 
-//nu mere
-export const likeArtwork = (id) => async (dispatch, getState) => {
-    try {
-      dispatch({ type: ARTWORK_LIKE_REQUEST });
-  
-      const { userLogin: { userInfo } } = getState();
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`
-        }
-      };
-  
-      const { data } = await axios.post(`/api/artworks/${id}/like`, {}, config);
-  
-      dispatch({
-        type: ARTWORK_LIKE_SUCCESS,
-        payload: data,
-      });
-  
-      // Optional: Refresh artwork details after liking
-      dispatch(listArtworkDetails(id));
-    } catch (error) {
-      dispatch({
-        type: ARTWORK_LIKE_FAIL,
-        payload: error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-      });
-    }
-  };
-
   export const deleteArtwork = (id) => async (dispatch, getState) => {
     try {
         dispatch({

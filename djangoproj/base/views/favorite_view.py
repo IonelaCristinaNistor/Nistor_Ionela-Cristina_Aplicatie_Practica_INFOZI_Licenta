@@ -21,29 +21,15 @@ def addFavorite(request):
 
     _id = data.get('_id')
 
-    if not _id:
-        return Response({'detail': 'Artwork ID is required'}, status=status.HTTP_400_BAD_REQUEST)
-
-    try:
-        artwork = Artwork.objects.get(_id=_id)
-        favorite, created = Favorite.objects.get_or_create(user=user, artwork=artwork)
-        if created:
-            return Response({'message': 'Favorite added'}, status=status.HTTP_201_CREATED)
-        return Response({'message': 'Favorite already exists'}, status=status.HTTP_400_BAD_REQUEST)
-    except Artwork.DoesNotExist:
-        return Response({'detail': 'Artwork not found'}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    artwork = Artwork.objects.get(_id=_id)
+    favorite, created = Favorite.objects.get_or_create(user=user, artwork=artwork)
+    if created:
+        return Response({'message': 'Favorite added'})
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def removeFavorite(request, _id):
     user = request.user
-    try:
-        favorite = Favorite.objects.get(user=user, artwork___id=_id)
-        favorite.delete()
-        return Response({'message': 'Favorite removed'}, status=status.HTTP_204_NO_CONTENT)
-    except Favorite.DoesNotExist:
-        return Response({'detail': 'Favorite not found'}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    favorite = Favorite.objects.get(user=user, artwork___id=_id)
+    favorite.delete()
+    return Response({'message': 'Favorite removed'})

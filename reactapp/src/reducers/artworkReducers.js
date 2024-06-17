@@ -28,8 +28,6 @@ import {
   FETCH_REVIEWS_SUCCESS,
   FETCH_REVIEWS_FAIL,
   ADD_COMMENT,
-  ADD_LIKE,
-  LIKE_ERROR,
 
 } from '../constants/artworkConstants'; 
 

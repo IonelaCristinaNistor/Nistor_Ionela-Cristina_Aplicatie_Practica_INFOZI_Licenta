@@ -7,25 +7,20 @@ import { Link } from 'react-router-dom'
 
 function Artwork({ artwork }) {
   return (
-    <Card className="card my-2 mt-3 p-3 border-secondary d-flex flex-column">
+    <Card className="d-flex flex-column card mt-3 p-3 border-secondary" style={{color: 'black'}}>
         <Link to={`/artwork/${artwork._id}`}>
             <Card.Img src={artwork.image} className='artwork-image'/>
         </Link>
 
         <Card.Body className='d-flex flex-column flex-grow-1'>
-          <Link to={`/artwork/${artwork._id}`}>
-            <Card.Title as="div">
-              <strong>{artwork.Title}</strong>
+          <Link to={`/artwork/${artwork._id}`} className="text-decoration-none" style={{color: 'black'}}>
+            <Card.Title as="h5">
+              <strong>{artwork.title}</strong>
             </Card.Title>
           </Link>
 
-          <Card.Text as="h3">
+          <Card.Text as="h3" className='d-flex justify-content-center my-2'>
             {artwork.price} LEI
-          </Card.Text>
-
-          <Card.Text as="div">
-            <div className='my-1'>
-            </div>
           </Card.Text>
         </Card.Body>
     </Card>

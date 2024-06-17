@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Button, Form, Modal, Card } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
 import { listArtworkDetails, fetchReviews, addArtworkLike, addComment } from '../actions/artworkActions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 import Comments from '../components/Comments';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
+import ModalCustom from '../components/ModalCustom';
 
 function ArtworkScreen() {
     const { id } = useParams();
@@ -28,11 +29,12 @@ function ArtworkScreen() {
     const [showModal, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
     const [artworkQuantity, setArtQuantity] = useState(1);
+    const [isLiked, setIsLiked] = useState('');
 
     useEffect(() => {
         if (id) {
             dispatch(listArtworkDetails(id));
-            dispatch(fetchReviews(id));  // Fetch reviews for the artwork
+            dispatch(fetchReviews(id));
         }
         setIsFavorite(isFavoriteInitial);
     }, [dispatch, id, isFavoriteInitial]);
@@ -63,10 +65,6 @@ function ArtworkScreen() {
     };
 
     const handleModalClose = () => setShowModal(false);
-    const handleLogin = () => {
-        setShowModal(false);
-        navigate('/login');
-    };
 
     const reviewList = useSelector(state => state.reviewList);
     const { loading: loadingReview, error: errorReview, reviews } = reviewList;
@@ -77,15 +75,16 @@ function ArtworkScreen() {
             dispatch(addComment(id, comment));
             setComment('');
         } else {
-            alert('Please log in to add a comment.');
+            setShowModal(true);
         }
     };
 
     const handleArtworkLike = () => {
         if (userInformation) {
             dispatch(addArtworkLike(id));
+            setIsLiked(!isLiked);
         } else {
-            alert('Please log in to like the artwork.');
+            setShowModal(true);
         }
     };
 
@@ -104,11 +103,11 @@ function ArtworkScreen() {
                     <Col md={6}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h3>{artwork.title}</h3>
+                                <h2>{artwork.title}</h2>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Price:</Col>
+                                    <Col><strong>Price:</strong></Col>
                                     <Col>
                                         <strong>{artwork.price} LEI</strong>
                                     </Col>
@@ -116,16 +115,16 @@ function ArtworkScreen() {
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Category:</Col>
+                                    <Col><strong>Category:</strong></Col>
                                     <Col>
                                         <strong>{artwork.category}</strong>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
-                            <ListGroup.Item>Description: {artwork.description}</ListGroup.Item>
+                            <ListGroup.Item><strong className='me-3'>Description:</strong> {artwork.description}</ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Status:</Col>
+                                    <Col><strong>Status:</strong></Col>
                                     <Col>{artwork.availability > 0 ? 'In Stock' : 'Out of Stock'}</Col>
                                 </Row>
                             </ListGroup.Item>
@@ -133,7 +132,7 @@ function ArtworkScreen() {
                             {artwork.availability > 0 && (
                                 <ListGroup.Item className='d-flex justify-content-between'>
                                     <Row>
-                                        <Col>Quantity</Col>
+                                        <Col><strong>Quantity</strong></Col>
                                         <Col xs='auto' className=''>
                                             <Form.Select as="select" value={artworkQuantity} onChange={(m) => setArtQuantity(m.target.value)}>
                                                 {[...Array(artwork.availability).keys()].map((cnt) => (
@@ -148,7 +147,7 @@ function ArtworkScreen() {
                             )}
 
                             <ListGroup.Item className='d-flex justify-content-between'>
-                                <Button onClick={addItemInCart} className='btn btn-block rounded' type='button' disabled={artwork.availability <= 0}>
+                                <Button onClick={addItemInCart} className='btn btn-block rounded' type='button'  disabled={artwork.availability <= 0}>
                                     Add to cart
                                 </Button>
 
@@ -158,15 +157,21 @@ function ArtworkScreen() {
                                 </Button>
                             </ListGroup.Item>
 
-                            <ListGroup.Item className='d-flex justify-content-between'>
-                                <Button onClick={handleArtworkLike} className='btn btn-block rounded' type='button'>
-                                    Like
-                                </Button>
-                                <span>{artwork.likes_counter} {artwork.likes_counter === 1 ? 'Like' : 'Likes'}</span>
+
+                            <ListGroup.Item className='d-flex flex-row justify-content-center'>
+                                <Card className='d-flex flex-row justify-content-between align-items-center py-3 rounded-pill' style={{width: '300px'}}>
+                            <Button
+                                className='rounded-pill mx-3'
+                                variant={isLiked ? "danger" : "outline-danger"}
+                                onClick={handleArtworkLike}
+                            >
+                                <i className='fas fa-heart'></i> {isLiked ? "Like" : "Like"}
+                            </Button>
+                                    <span className='mx-5'>{artwork.likes_counter} {artwork.likes_counter === 1 ? 'Like' : 'Likes'}</span>
+                                </Card>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <h4>Reviews</h4>
                                 {loadingReview ? (
                                     <SpinnerComponent />
                                 ) : errorReview ? (
@@ -184,7 +189,7 @@ function ArtworkScreen() {
                                                     required
                                                 ></Form.Control>
                                             </Form.Group>
-                                            <Button type='submit' variant='primary' className='mt-2'>
+                                            <Button type='submit' variant='primary' className='mt-2 rounded'>
                                                 Submit
                                             </Button>
                                         </Form>
@@ -196,30 +201,17 @@ function ArtworkScreen() {
                 </Row>
             )}
 
-            <Card className='d-flex justify-content-center my-3 p-3' style={{'width' : '400px'}}>
+            <Card className='d-flex flex-column justify-content-center my-3 p-3' style={{'width' : '400px'}}>
             {reviews && reviews.length > 0 ? (
             reviews.map((review) => (
            <Comments key={review._id} review={review} />
              ))
             ) : (
-                <div>No reviews found</div>
+                <div>No reviews</div>
             )}
             </Card>
 
-            <Modal show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Not Authenticated</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Please log in to add this item</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleModalClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={handleLogin}>
-                        Log In
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <ModalCustom show={showModal} handleClose={handleModalClose} />
         </div>
     );
 }
