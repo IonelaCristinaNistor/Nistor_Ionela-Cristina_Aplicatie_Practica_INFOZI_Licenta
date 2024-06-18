@@ -97,7 +97,7 @@ function Profile() {
                 <Message variant='danger'>{errorMyOrders}</Message>
             ) : (
                 <Table striped responsive className='table-sm table-custom mt-4'>
-                    <thead className='thead-dark'>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Date</th>
@@ -136,8 +136,8 @@ function Profile() {
             
             <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control className='rounded'
+                    <Form.Label style={{color: 'black'}}>Name</Form.Label>
+                    <Form.Control className='rounded my-1'
                         type='name'
                         required
                         placeholder='Enter Name'
@@ -147,8 +147,8 @@ function Profile() {
                 </Form.Group>
 
                 <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control className='rounded'
+                    <Form.Label style={{color: 'black'}}>Email Address</Form.Label>
+                    <Form.Control className='rounded my-1'
                         type='email'
                         placeholder='Enter Email'
                         value={email}
@@ -157,8 +157,8 @@ function Profile() {
                 </Form.Group>
 
                 <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control className='rounded'
+                    <Form.Label style={{color: 'black'}}>Password</Form.Label>
+                    <Form.Control className='rounded my-1'
                         type='password'
                         placeholder='Enter Password'
                         value={password}
@@ -167,8 +167,8 @@ function Profile() {
                 </Form.Group>
 
                 <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Pssword</Form.Label>
-                    <Form.Control className='rounded'
+                    <Form.Label style={{color: 'black'}}>Confirm Password</Form.Label>
+                    <Form.Control className='rounded my-1'
                         type='password'
                         placeholder='Confirm Password'
                         value={confirmPassword}

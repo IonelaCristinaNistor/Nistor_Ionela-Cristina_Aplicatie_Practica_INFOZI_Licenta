@@ -39,14 +39,14 @@ function OrderList() {
     
   return (
     <div>
-      <h1>Orders</h1>
+      <h1 style = {{color: 'black', marginTop: '5px'}}>Orders</h1>
       {loading 
         ? (<SpinnerComponent />) 
         : error 
             ? (<Message variant='danger'>{error}</Message>) 
             : (
                 <Table striped hover bordered responsive className='table-sm mt-4'>
-                    <thead className='thead-dark'>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>User</th>

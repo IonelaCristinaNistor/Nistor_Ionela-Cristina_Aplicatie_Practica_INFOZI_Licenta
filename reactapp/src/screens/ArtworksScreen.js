@@ -204,7 +204,7 @@ function ArtworkScreen() {
             <Card className='d-flex flex-column justify-content-center my-3 p-3' style={{'width' : '400px'}}>
             {reviews && reviews.length > 0 ? (
             reviews.map((review) => (
-           <Comments key={review._id} review={review} />
+           <Comments key={review._id} review={review}/>
              ))
             ) : (
                 <div>No reviews</div>

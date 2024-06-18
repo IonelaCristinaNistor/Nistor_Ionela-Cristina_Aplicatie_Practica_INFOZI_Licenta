@@ -44,7 +44,7 @@ function UsersListScreen() {
             ? (<Message variant='danger'>{error}</Message>) 
             : (
                 <Table striped hover bordered responsive className='table-sm mt-4'>
-                    <thead className='thead-dark'>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>

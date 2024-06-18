@@ -24,11 +24,11 @@ function Delivery() {
   return (
     <FormComponent>
       <OrderProgress step1 step2/>
-      <h1>Delivery</h1>
+      <h1  style={{color: 'black'}}>Delivery</h1>
       <Form onSubmit={submitHandler}>
 
         <Form.Group controlId='address'>
-            <Form.Label>Address</Form.Label>
+            <Form.Label  style={{color: 'black', fontSize: 'large'}}>Address</Form.Label>
             <Form.Control
                 type='text'
                 required
@@ -40,7 +40,7 @@ function Delivery() {
         </Form.Group>
 
         <Form.Group controlId='city'>
-            <Form.Label>City</Form.Label>
+            <Form.Label style={{color: 'black', fontSize: 'large'}}>City</Form.Label>
             <Form.Control
                 type='text'
                 required

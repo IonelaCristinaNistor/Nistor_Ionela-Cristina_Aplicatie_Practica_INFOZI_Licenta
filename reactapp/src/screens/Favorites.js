@@ -6,6 +6,8 @@ import { loadFavorites, removeFavorite } from '../actions/favoriteActions';
 import Message from '../components/Message';
 import SpinnerComponent from '../components/SpinnerComponent'
 import TrashIconToogle from '../components/TrashIconToogle'
+import '../index.css'
+
 const Favorites = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ const Favorites = () => {
     };
 
     return (
-        <Container>
+        <Container className='favoriteContainer'>
         <div>
             <h1 className='my-4' style={{color: 'black'}}>My Favorites</h1>
             {!userInformation ? (

@@ -30,6 +30,10 @@ import {
     FETCH_REVIEWS_FAIL,
     ADD_COMMENT,
 
+    ARTWORK_CAROUSEL_REQUEST,
+    ARTWORK_CAROUSEL_SUCCESS,
+    ARTWORK_CAROUSEL_FAIL,
+
    } from '../constants/artworkConstants'
 
 export const listArtworks = () => async(dispatch) => {
@@ -45,6 +49,27 @@ export const listArtworks = () => async(dispatch) => {
     }catch(error) {
         dispatch({
             type: ARTWORK_LIST_FAIL,
+            payload: error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        })
+    }
+
+}
+
+export const carouselListArtworks = () => async(dispatch) => {
+    try{
+        dispatch({type: ARTWORK_CAROUSEL_REQUEST})
+
+        const { data } = await axios.get('/api/artworks/carousel/')
+
+        dispatch({
+            type: ARTWORK_CAROUSEL_SUCCESS,
+            payload: data
+        })
+    }catch(error) {
+        dispatch({
+            type: ARTWORK_CAROUSEL_FAIL,
             payload: error.response && error.response.data.message
                     ? error.response.data.message
                     : error.message,

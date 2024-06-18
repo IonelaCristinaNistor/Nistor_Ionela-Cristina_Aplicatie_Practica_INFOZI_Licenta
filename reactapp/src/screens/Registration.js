@@ -45,14 +45,14 @@ function RegistrationScreen() {
     return (
         <Container sm={2} className='d-flex justify-content-center align-items-center' style={{marginTop: '150px'}}>
         <FormComponent>
-            <h1 className='text-center'>Register</h1>
+            <h1 className='text-center' style={{color: 'black'}}>Register</h1>
             {error && <Message variant='danger'>{error}</Message>}
             {message && <Message variant='danger'>{message}</Message>}
             {loading && <SpinnerComponent />}
             <Form onSubmit={submitHandler}>
 
             <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Name</Form.Label>
                     <Form.Control style={{ borderRadius: '10px'}}
                         type='name'
                         required
@@ -63,7 +63,7 @@ function RegistrationScreen() {
                 </Form.Group>
 
                 <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Email Address</Form.Label>
                     <Form.Control style={{borderRadius: '10px'}}
                         type='email'
                         required
@@ -74,7 +74,7 @@ function RegistrationScreen() {
                 </Form.Group>
 
                 <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Password</Form.Label>
                     <Form.Control style={{borderRadius: '10px'}}
                         type='password'
                         required
@@ -85,7 +85,7 @@ function RegistrationScreen() {
                 </Form.Group>
 
                 <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Confirm Password</Form.Label>
                     <Form.Control style={{borderRadius: '10px'}}
                         type='password'
                         required
@@ -97,9 +97,9 @@ function RegistrationScreen() {
                 <Container className='d-flex flex-column justify-content-center align-items-center'>
                         <Button type='submit' variant='primary' className='mt-3' style={{width: '30%', borderRadius: '10px'}}>Register</Button>
             <Row className='py-2'>
-                <Col>
+                <Col style={{color: 'black'}}>
                     Have an account?{' '}
-                    <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+                    <Link style={{color: 'black'}} to={redirect ? `/login?redirect=${redirect}` : '/login'}>
                         Sign In
                     </Link>
                 </Col>

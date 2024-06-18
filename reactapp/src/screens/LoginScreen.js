@@ -35,12 +35,12 @@ function LoginScreen() {
     return (
         <div style={{marginTop: '150px'}}>
         <FormComponent className='d-flex justify-content-center align-items-center'>
-            <h1 className='text-center my-4'>Sign In</h1>
+            <h1 className='text-center my-4' style = {{color: 'black'}}>Sign In</h1>
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <SpinnerComponent />}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Email Address</Form.Label>
                     <Form.Control style={{ borderRadius: '10px'}}
                         type='email'
                         placeholder='Enter Email'
@@ -50,7 +50,7 @@ function LoginScreen() {
                 </Form.Group>
 
                 <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label style = {{color: 'black', fontSize: 'large'}}>Password</Form.Label>
                     <Form.Control style={{ borderRadius: '10px'}}
                         type='password'
                         placeholder='Enter Password'
@@ -64,9 +64,9 @@ function LoginScreen() {
                 </Button>
    
             <Row className='py-2'>
-                <Col>
+                <Col style={{color: 'black'}}>
                     New Customer?{' '}
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+                    <Link style={{color: 'black'}} to={redirect ? `/register?redirect=${redirect}` : '/register'}>
                         Register
                     </Link>
                 </Col>            

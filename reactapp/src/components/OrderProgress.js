@@ -11,7 +11,7 @@ function OrderProgress({ step1, step2, step3, step4}) {
                     <Button variant='outline-primary' className='rounded-pill mx-3'>Login</Button>
                 </LinkContainer>
             )  : (
-                <Button variant='outline-primary' className='rounded-pill  mx-3' disabled>Login</Button>
+                <Button variant='outline-primary' className='rounded-pill mx-3' disabled>Login</Button>
             )}
         </NavItem>
 
@@ -23,7 +23,7 @@ function OrderProgress({ step1, step2, step3, step4}) {
                     <Button variant='outline-primary' className='rounded-pill mx-3'>Delivery</Button>
                 </LinkContainer>
             )  : (
-                <Button variant='outline-primary' className='rounded-pill  mx-3' disabled>Delivery</Button>
+                <Button variant='outline-primary' className='rounded-pill mx-3' disabled>Delivery</Button>
             )}
         </NavItem>
 
@@ -32,10 +32,10 @@ function OrderProgress({ step1, step2, step3, step4}) {
         <NavItem>
             { step3 ? (
                 <LinkContainer to='/payment' style={{color: 'black'}}>
-                    <Button variant='outline-primary' className='rounded-pill  mx-3'>Payment</Button>
+                    <Button variant='outline-primary' className='rounded-pill mx-3'>Payment</Button>
                 </LinkContainer>
             )  : (
-                <Button variant='outline-primary' className='rounded-pill  mx-3' disabled>Payment</Button>
+                <Button variant='outline-primary' className='rounded-pill mx-3' disabled>Payment</Button>
             )}
         </NavItem>
 
@@ -44,10 +44,10 @@ function OrderProgress({ step1, step2, step3, step4}) {
         <NavItem>
             { step4 ? (
                 <LinkContainer to='/placeorder'  style={{color: 'black'}}>
-                    <Button variant='outline-primary' className='rounded-pill  mx-3'>Place Order</Button>
+                    <Button variant='outline-primary' className='rounded-pill mx-3'>Place Order</Button>
                 </LinkContainer>
             )  : (
-                <Button variant='outline-primary' className='rounded-pill  mx-3' disabled>Place Order</Button>
+                <Button variant='outline-primary' className='rounded-pill mx-3' disabled>Place Order</Button>
             )}
         </NavItem>
     </Nav>

@@ -4,8 +4,9 @@ import { Row, Col } from 'react-bootstrap'
 import { listArtworks } from '../actions/artworkActions'
 import SpinnerComponent from '../components/SpinnerComponent'
 import Message from '../components/Message'
-
+import CarouselTopArtworks from '../components/CarouselTopArtworks'
 import Artwork from '../components/Artwork'
+import '../index.css'
 
 function HomeScreen() {
   const dispatch = useDispatch()
@@ -18,14 +19,14 @@ function HomeScreen() {
 
   return (
     <div>
+      <CarouselTopArtworks />
       <h1 className='d-flex justify-content-center my-3' style={{color: 'black'}}>Latest Products</h1>
-
       {loading ? <SpinnerComponent />
             :error ? <Message variant='danger'>{ error }</Message>
             :
             <Row>
               {artworks.map(artwork => (
-                  <Col className='d-flex justify-content-center' key={artwork._id} sm={12} md={6} lg={4} xl={3}>
+                  <Col className='d-flex justify-content-center' key={artwork._id} sm={12} md={6} lg={6} xl={3}>
                       <Artwork artwork={artwork}></Artwork>
                   </Col>
               ))}

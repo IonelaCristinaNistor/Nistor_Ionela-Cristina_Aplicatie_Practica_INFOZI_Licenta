@@ -29,6 +29,10 @@ import {
   FETCH_REVIEWS_FAIL,
   ADD_COMMENT,
 
+  ARTWORK_CAROUSEL_REQUEST,
+  ARTWORK_CAROUSEL_SUCCESS,
+  ARTWORK_CAROUSEL_FAIL,
+
 } from '../constants/artworkConstants'; 
 
 export const artworkListReducer = (state = { artworks: [] }, action) => {
@@ -139,6 +143,20 @@ export const reviewReducer = (state = initialState, action) => {
                 ...state,
                 reviews: [...state.reviews, action.payload],
             };
+        default:
+            return state;
+    }
+};
+
+
+export const carouselReducer = (state = { artworks: [] }, action) => {
+    switch (action.type) {
+        case ARTWORK_CAROUSEL_REQUEST:
+            return { loading: true, artworks: [] };
+        case ARTWORK_CAROUSEL_SUCCESS:
+            return { loading: false, artworks: action.payload };
+        case ARTWORK_CAROUSEL_FAIL:
+            return { loading: false, error: action.payload };
         default:
             return state;
     }

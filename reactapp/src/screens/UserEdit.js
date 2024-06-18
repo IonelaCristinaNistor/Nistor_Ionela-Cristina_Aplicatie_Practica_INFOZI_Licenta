@@ -55,7 +55,7 @@ function UserEdit() {
 
         <Container sm={2} className='d-flex justify-content-center align-items-center' style={{marginTop: '10px'}}>
             <FormComponent>
-                <h1 className='text-center'>Edit User</h1>
+                <h1 className='text-center' style={{color: 'black'}}>Edit User</h1>
                 {loadingUpdate && <SpinnerComponent /> }
                 {errorUpdate && <Message variant='danger'>{error}</Message>}
                 {successUpdate && <Message variant='success'>YES</Message>}
@@ -64,7 +64,7 @@ function UserEdit() {
                 <Form onSubmit={submitHandler}>
 
                 <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label style={{color: 'black', fontSize: 'large'}}>Name</Form.Label>
                         <Form.Control style={{ borderRadius: '10px' , marginTop: '10px'}}
                             type='name'
                             placeholder='Enter Name'
@@ -74,7 +74,7 @@ function UserEdit() {
                     </Form.Group>
 
                     <Form.Group controlId='email' className='mt-2'>
-                        <Form.Label>Email Address</Form.Label>
+                        <Form.Label style={{color: 'black', fontSize: 'large'}}>Email Address</Form.Label>
                         <Form.Control style={{borderRadius: '10px' , marginTop: '10px'}}
                             type='email'
                             required
@@ -85,7 +85,7 @@ function UserEdit() {
                     </Form.Group>
 
                     <Form.Group controlId='isAdmin'>
-                        <Form.Check style={{borderRadius: '10px', marginTop: '10px'}}
+                        <Form.Check style={{borderRadius: '10px', marginTop: '10px', color: 'black', fontSize: 'large'}}
                             type='checkbox'
                             label='Admin'
                             required

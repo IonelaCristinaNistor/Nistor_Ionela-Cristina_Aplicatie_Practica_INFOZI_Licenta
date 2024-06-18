@@ -53,7 +53,7 @@ function ArtworkAdminList() {
         
         <Row className='align-items-center'>
             <Col>
-                <h1>Artworks</h1>
+                <h1 style={{color: 'black'}}>All Products</h1>
             </Col>
 
             <Col className='text-right'>
@@ -74,7 +74,7 @@ function ArtworkAdminList() {
             ? (<Message variant='danger'>{error}</Message>) 
             : (
                 <Table striped hover responsive className='table-sm mt-4'>
-                    <thead className='thead-dark'>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
@@ -86,7 +86,7 @@ function ArtworkAdminList() {
                     </thead>
 
                     <tbody>
-                        {artworks.map(artwork => (
+                        {artworks.slice().sort((x, y) => x._id - y._id).map(artwork => (
                             <tr className='table-dark' key={artwork._id}>
                                 <td>{artwork._id}</td>
                                 <td>{artwork.title}</td>

@@ -31,16 +31,16 @@ function Payment() {
         <OrderProgress step1 step2 step3/>
         <Form onSubmit={submitHandler}>
             <FormGroup>
-                <FormLabel as='legend'>
+                <FormLabel as='legend' style={{color: 'black'}}>
                     Select method
                 </FormLabel>
                 <Col>
                     <FormCheck type='radio' 
                     label='Paypal or Credit Card' 
                     id='paypal' 
+                    style={{color: 'black', fontSize: 'large', margin: '10px'}}
                     name='paymentMethod' 
                     value='PayPal' 
-                    checked={paymentMethod === 'PayPal'}
                     onChange={(e) => (setpaymentMethod(e.target.value))}
                     >
                     </FormCheck>
@@ -51,15 +51,15 @@ function Payment() {
                     label='Cash on Delivery' 
                     id='cash' 
                     name='paymentMethod' 
+                    style={{color: 'black', fontSize: 'large', margin: '10px'}}
                     value='Cash on Delivery' 
-                    checked={paymentMethod === 'Cash on delivery'}
                     onChange={(e) => (setpaymentMethod(e.target.value))}
                     >
                     </FormCheck>
                 </Col>
             </FormGroup>
 
-            <Button type='submit' variant='primary'>Continue</Button>
+            <Button type='submit' variant='primary' className='my-3'>Continue</Button>
         </Form>
     </FormComponent>
   )

@@ -7,7 +7,7 @@ import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
 const ArtworkListScreen = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectCategory, setSelectCategory] = useState('All');
 
   const dispatch = useDispatch();
   
@@ -18,22 +18,22 @@ const ArtworkListScreen = () => {
     dispatch(listArtworks());
   }, [dispatch]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  const handleCategory = (category) => {
+    setSelectCategory(category);
   };
 
-  const filteredArtworks = selectedCategory === 'All'
+  const filteredArtworks = selectCategory === 'All'
     ? artworks
-    : artworks.filter(artwork => artwork.category === selectedCategory);
+    : artworks.filter(artwork => artwork.category === selectCategory);
 
   return (
     <div>
       <h1 className='d-flex justify-content-center my-3' style={{color: 'black'}}>All Products</h1>
       
-      <DropdownButton id="dropdown-basic-button" title={`Category: ${selectedCategory}`}>
-        <Dropdown.Item onClick={() => handleCategoryChange('All')}>All</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleCategoryChange('Painting')}>Painting</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleCategoryChange('Sculpture')}>Sculpture</Dropdown.Item>
+      <DropdownButton id='dropdown-basic-button' title={`Category: ${selectCategory}`}>
+        <Dropdown.Item onClick={() => handleCategory('All')}>All</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleCategory('Painting')}>Painting</Dropdown.Item>
+        <Dropdown.Item onClick={() => handleCategory('Sculpture')}>Sculpture</Dropdown.Item>
       </DropdownButton>
       
       {loading ? <SpinnerComponent />

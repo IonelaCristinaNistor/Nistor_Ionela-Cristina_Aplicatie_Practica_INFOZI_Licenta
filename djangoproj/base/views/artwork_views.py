@@ -16,6 +16,12 @@ def getArtworks(request):
     return Response(serializers.data)
 
 @api_view(['GET'])
+def carouselArtworks(request):
+    artworks = Artwork.objects.filter(likes_counter__gte=1).order_by('-likes_counter')[0:4]
+    serializers = ArtworkSerializer(artworks,many=True)
+    return Response(serializers.data)
+
+@api_view(['GET'])
 def getArtwork(request, pk): # ONE PRODUCT
     artwork = Artwork.objects.get(_id=pk)
     serializer = ArtworkSerializer(artwork, many=False)
