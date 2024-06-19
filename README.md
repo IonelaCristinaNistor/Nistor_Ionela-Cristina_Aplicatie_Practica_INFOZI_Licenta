@@ -1,38 +1,14 @@
-# Proiect Django și React
-
-Acest proiect combină un backend Django cu un frontend React.
-
 ## Metoda de Instalare
 
 ### Instalare Django
 
-1. **Creează un mediu virtual**
-
-    ```bash
-    python -m venv env
-    ```
-
-2. **Activează mediul virtual**
-
-    - Pe Windows:
-
-        ```bash
-        .\env\Scripts\activate
-        ```
-
-    - Pe macOS și Linux:
-
-        ```bash
-        source env/bin/activate
-        ```
-
-3. **Instalează Django**
+1. **Instalează Django**
 
     ```bash
     pip install django
     ```
 
-4. **Instalează alte pachete necesare**
+2. **Instalează alte pachete necesare**
 
     ```bash
     pip install -r requirements.txt
@@ -95,10 +71,6 @@ Acest proiect combină un backend Django cu un frontend React.
     ```bash
     cd djangoproj/reactapp
     ```
-
-## Autori
-
-- Numele tău
 
 ## Licență
 
