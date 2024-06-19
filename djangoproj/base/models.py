@@ -18,19 +18,6 @@ class Artwork(models.Model):
     def __str__(self):
         return self.title
 
-# ArtworkReactions model
-class ArtworkReactions(models.Model):
-    artwork = models.ForeignKey(Artwork, on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    comment = models.TextField(null=True, blank=True)
-    likes_count = models.IntegerField(null=True, blank=True)
-    username = models.CharField(max_length=200, null=True, blank=True)
-    reaction_id = models.AutoField(primary_key=True, editable=False)
-
-    def __str__(self):
-        return str(self.likes_count)
-
-# Order model
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     taxPrice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
@@ -47,7 +34,6 @@ class Order(models.Model):
     def __str__(self):
         return str(self._id)
 
-# OrderItem model
 class OrderItem(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -78,13 +64,13 @@ class Favorite(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.artwork.title}"
     
-class Review(models.Model):
+class Reactions(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     artwork = models.ForeignKey(Artwork, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     likes_counter = models.IntegerField(default=0, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
-    liked_by = models.ManyToManyField(User, related_name='liked_reviews', blank=True)
+    liked_by = models.ManyToManyField(User, related_name='liked_reactions', blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

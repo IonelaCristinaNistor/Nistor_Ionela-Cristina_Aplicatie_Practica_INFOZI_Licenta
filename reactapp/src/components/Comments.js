@@ -1,15 +1,15 @@
 import React from 'react';
 
-const Comments = ({ review }) => {
+const Comments = ({ reaction }) => {
 
-    if (!review) {
+    if (!reaction) {
         return null; 
     }
 
     return (
         <div>
-            {review.name || 'Anonymous'}
-            <p>{review.comment || 'No comment'}</p>
+            {reaction.name || 'Anonymous'}
+            <p>{reaction.comment || 'No comment'}</p>
         </div>
     );
 };

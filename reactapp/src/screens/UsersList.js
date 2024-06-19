@@ -8,7 +8,7 @@ import { listUsers, deleteUser } from '../actions/userActions'
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
-function UsersListScreen() {
+function UsersList() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -88,4 +88,4 @@ function UsersListScreen() {
   )
 }
 
-export default UsersListScreen
+export default UsersList

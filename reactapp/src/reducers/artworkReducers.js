@@ -24,9 +24,9 @@ import {
   ARTWORK_UPDATE_FAIL,
   ARTWORK_UPDATE_RESET,
 
-  FETCH_REVIEWS_REQUEST,
-  FETCH_REVIEWS_SUCCESS,
-  FETCH_REVIEWS_FAIL,
+  FETCH_REACTIONS_REQUEST,
+  FETCH_REACTIONS_SUCCESS,
+  FETCH_REACTIONS_FAIL,
   ADD_COMMENT,
 
   ARTWORK_CAROUSEL_REQUEST,
@@ -48,7 +48,7 @@ export const artworkListReducer = (state = { artworks: [] }, action) => {
   }
 };
 
-export const artworkDetailsReducer = (state = { artwork: { reviews: [] } }, action) => {
+export const artworkDetailsReducer = (state = { artwork: { reactions: [] } }, action) => {
     switch (action.type) {
         case ARTWORK_DETAILS_REQUEST:
             return { loading: true, ...state };
@@ -125,23 +125,23 @@ export const artworkLikeReducer = (state = {}, action) => {
   };
 
   const initialState = {
-    reviews: [],
+    reactions: [],
     loading: false,
     error: null,
 };
 
-export const reviewReducer = (state = initialState, action) => {
+export const reactionReducer = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_REVIEWS_REQUEST:
+        case FETCH_REACTIONS_REQUEST:
             return { ...state, loading: true };
-        case FETCH_REVIEWS_SUCCESS:
-            return { ...state, loading: false, reviews: action.payload };
-        case FETCH_REVIEWS_FAIL:
+        case FETCH_REACTIONS_SUCCESS:
+            return { ...state, loading: false, reactions: action.payload };
+        case FETCH_REACTIONS_FAIL:
             return { ...state, loading: false, error: action.payload };
        case ADD_COMMENT:
             return {
                 ...state,
-                reviews: [...state.reviews, action.payload],
+                reactions: [...state.reactions, action.payload],
             };
         default:
             return state;

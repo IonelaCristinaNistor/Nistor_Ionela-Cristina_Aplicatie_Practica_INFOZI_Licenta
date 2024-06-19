@@ -6,7 +6,7 @@ import Artwork from '../components/Artwork';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 
-const ArtworkListScreen = () => {
+const ArtworkList = () => {
   const [selectCategory, setSelectCategory] = useState('All');
 
   const dispatch = useDispatch();
@@ -51,4 +51,4 @@ const ArtworkListScreen = () => {
   );
 };
 
-export default ArtworkListScreen;
+export default ArtworkList;

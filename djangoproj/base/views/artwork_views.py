@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 
-from base.models import Artwork, Review
+from base.models import Artwork, Reactions
 from base.artworks import artworks
-from base.serializers import ArtworkSerializer, ReviewSerializer
+from base.serializers import ArtworkSerializer, ReactionsSerializer
 
 @api_view(['GET'])
 def getArtworks(request):
@@ -22,7 +22,7 @@ def carouselArtworks(request):
     return Response(serializers.data)
 
 @api_view(['GET'])
-def getArtwork(request, pk): # ONE PRODUCT
+def getArtwork(request, pk):
     artwork = Artwork.objects.get(_id=pk)
     serializer = ArtworkSerializer(artwork, many=False)
     return Response(serializer.data)
@@ -80,10 +80,10 @@ def uploadImage(request):
     return Response('Image was uploaded with success')
 
 @api_view(['GET'])
-def getReviews(request, pk):
+def getReactions(request, pk):
     artwork = Artwork.objects.get(_id=pk)
-    reviews = Review.objects.filter(artwork=artwork)
-    serializer = ReviewSerializer(reviews, many=True)
+    reactions = Reactions.objects.filter(artwork=artwork)
+    serializer = ReactionsSerializer(reactions, many=True)
     return Response(serializer.data)
 
     
@@ -109,12 +109,12 @@ def addComment(request, pk):
     artwork = Artwork.objects.get(_id=pk)
     data = request.data
 
-    review = Review.objects.create(
+    reaction = Reactions.objects.create(
         user=user,
         artwork=artwork,
         name=user.username,
         likes_counter=0,
         comment=data['comment']
     )
-    serializer = ReviewSerializer(review)
-    return Response({'status': 'comment added', 'review': serializer.data})
+    serializer = ReactionsSerializer(reaction)
+    return Response({'status': 'comment added', 'reaction': serializer.data})

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
-import { listArtworkDetails, fetchReviews, addArtworkLike, addComment } from '../actions/artworkActions';
+import { listArtworkDetails, fetchReactions, addArtworkLike, addComment } from '../actions/artworkActions';
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 import Comments from '../components/Comments';
@@ -10,7 +10,7 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 import ModalCustom from '../components/ModalCustom';
 
-function ArtworkScreen() {
+function Artwork() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ function ArtworkScreen() {
     useEffect(() => {
         if (id) {
             dispatch(listArtworkDetails(id));
-            dispatch(fetchReviews(id));
+            dispatch(fetchReactions(id));
         }
         setIsFavorite(isFavoriteInitial);
     }, [dispatch, id, isFavoriteInitial]);
@@ -66,8 +66,8 @@ function ArtworkScreen() {
 
     const handleModalClose = () => setShowModal(false);
 
-    const reviewList = useSelector(state => state.reviewList);
-    const { loading: loadingReview, error: errorReview, reviews } = reviewList;
+    const reactionList = useSelector(state => state.reactionList);
+    const { loading: loadingReaction, error: errorReaction, reactions } = reactionList;
 
     const submitCommentHandler = (e) => {
         e.preventDefault();
@@ -172,10 +172,10 @@ function ArtworkScreen() {
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                {loadingReview ? (
+                                {loadingReaction ? (
                                     <SpinnerComponent />
-                                ) : errorReview ? (
-                                    <Message variant='danger'>{errorReview}</Message>
+                                ) : errorReaction ? (
+                                    <Message variant='danger'>{errorReaction}</Message>
                                 ) : (
                                     <>
                                         <Form onSubmit={submitCommentHandler}>
@@ -202,12 +202,12 @@ function ArtworkScreen() {
             )}
 
             <Card className='d-flex flex-column justify-content-center my-3 p-3' style={{'width' : '400px'}}>
-            {reviews && reviews.length > 0 ? (
-            reviews.map((review) => (
-           <Comments key={review._id} review={review}/>
+            {reactions && reactions.length > 0 ? (
+            reactions.map((reaction) => (
+           <Comments key={reaction._id} reaction={reaction}/>
              ))
             ) : (
-                <div>No reviews</div>
+                <div>No reactions</div>
             )}
             </Card>
 
@@ -216,4 +216,4 @@ function ArtworkScreen() {
     );
 }
 
-export default ArtworkScreen;
+export default Artwork;

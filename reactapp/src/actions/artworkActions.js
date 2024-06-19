@@ -25,9 +25,9 @@ import {
     ARTWORK_UPDATE_SUCCESS,
     ARTWORK_UPDATE_FAIL,
 
-    FETCH_REVIEWS_REQUEST,
-    FETCH_REVIEWS_SUCCESS,
-    FETCH_REVIEWS_FAIL,
+    FETCH_REACTIONS_REQUEST,
+    FETCH_REACTIONS_SUCCESS,
+    FETCH_REACTIONS_FAIL,
     ADD_COMMENT,
 
     ARTWORK_CAROUSEL_REQUEST,
@@ -204,19 +204,19 @@ export const updateArtwork = (artwork) => async (dispatch, getState) => {
     }
 };
 
-export const fetchReviews = (artworkId) => async (dispatch) => {
+export const fetchReactions = (artworkId) => async (dispatch) => {
     try {
-        dispatch({ type: FETCH_REVIEWS_REQUEST });
+        dispatch({ type: FETCH_REACTIONS_REQUEST });
 
-        const { data } = await axios.get(`/api/artworks/reviews/${artworkId}/`);
+        const { data } = await axios.get(`/api/artworks/reactions/${artworkId}/`);
 
         dispatch({
-            type: FETCH_REVIEWS_SUCCESS,
+            type: FETCH_REACTIONS_SUCCESS,
             payload: data,
         });
     } catch (error) {
         dispatch({
-            type: FETCH_REVIEWS_FAIL,
+            type: FETCH_REACTIONS_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -237,11 +237,11 @@ export const addComment = (artworkId, comment) => async (dispatch, getState) => 
             },
         };
 
-        const { data } = await axios.post(`/api/artworks/reviews/${artworkId}/add_comment/`, { comment }, config);
+        const { data } = await axios.post(`/api/artworks/reactions/${artworkId}/add_comment/`, { comment }, config);
 
         dispatch({
             type: ADD_COMMENT,
-            payload: data.review,
+            payload: data.reaction,
         });
     } catch (error) {
         console.error("Error adding comment:", error);

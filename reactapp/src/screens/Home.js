@@ -8,7 +8,7 @@ import CarouselTopArtworks from '../components/CarouselTopArtworks'
 import Artwork from '../components/Artwork'
 import '../index.css'
 
-function HomeScreen() {
+function Home() {
   const dispatch = useDispatch()
   const artworkList = useSelector(state => state.artworkList)
   const { error, loading, artworks } = artworkList
@@ -36,4 +36,4 @@ function HomeScreen() {
   )
 }
 
-export default HomeScreen
+export default Home
