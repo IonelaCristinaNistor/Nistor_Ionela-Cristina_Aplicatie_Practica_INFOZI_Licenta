@@ -92,12 +92,11 @@ function Order() {
     <Message variant="danger">{error}</Message>
   ) : (
     <div>
-      <h1>Order: {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroupItem>
-              <h2>Shipping</h2>
+            <h1>Order: {order._id}</h1>
               <p>
                 <strong>Name: </strong>
                 {order.user.name}
@@ -107,13 +106,13 @@ function Order() {
                 {order.user.email}
               </p>
               <p>
-                <strong>Shipping: </strong>
+                <strong>Address: </strong>
                 {order.deliveryAddress.address}, {order.deliveryAddress.city}
               </p>
               {order.isDelivered ? (
                 <Message variant="success">Delivered: {formattedDate(order.delivered)}</Message>
               ) : (
-                <Message variant="warning">Not delivered yet</Message>
+                <Message variant="info">Not delivered yet</Message>
               )}
             </ListGroupItem>
 
@@ -131,7 +130,7 @@ function Order() {
             </ListGroupItem>
 
             <ListGroupItem>
-              <h2>Order Items</h2>
+              <h2>Items in Order: </h2>
               {order.orderItems.length === 0 ? (
                 <Message variant="info">Your order is empty</Message>
               ) : (

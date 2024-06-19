@@ -8,7 +8,7 @@ const Comments = ({ reaction }) => {
 
     return (
         <div>
-            {reaction.name || 'Anonymous'}
+            {reaction.name || 'Anonim'}
             <p>{reaction.comment || 'No comment'}</p>
         </div>
     );

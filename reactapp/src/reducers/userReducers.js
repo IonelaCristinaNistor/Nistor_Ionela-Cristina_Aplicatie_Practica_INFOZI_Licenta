@@ -60,7 +60,7 @@ import {
             return { loading: false, userInformation: action.payload };
         case USER_REGISTER_FAIL:
             return { loading: false, error: action.payload };
-        case USER_LOGOUT: //reset our state and clear our user information
+        case USER_LOGOUT:
             return {};
         default:
             return state;

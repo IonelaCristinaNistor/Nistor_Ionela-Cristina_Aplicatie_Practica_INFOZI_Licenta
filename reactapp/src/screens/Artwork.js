@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
 import { listArtworkDetails, fetchReactions, addArtworkLike, addComment } from '../actions/artworkActions';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { addFavorite, removeFavorite } from '../actions/favoriteActions'
 import SpinnerComponent from '../components/SpinnerComponent';
 import Message from '../components/Message';
 import Comments from '../components/Comments';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import { addFavorite, removeFavorite } from '../actions/favoriteActions';
 import ModalCustom from '../components/ModalCustom';
 
 function Artwork() {

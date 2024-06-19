@@ -10,7 +10,7 @@ import { listArtworkDetails, updateArtwork } from '../actions/artworkActions';
 import { ARTWORK_UPDATE_RESET } from '../constants/artworkConstants';
 
 function ArtworkEdit() {
-    const { id: artworkId } = useParams(); // Extracting id from useParams
+    const { id: artworkId } = useParams();
 
     const [title, setTitle] = useState('');
     const [artist_name, setArtist_name] = useState('');
