@@ -71,7 +71,3 @@
     ```bash
     cd djangoproj/reactapp
     ```
-
-## Licență
-
-Acest proiect este licențiat sub Licența MIT - vezi fișierul `LICENSE` pentru detalii.
