@@ -114,5 +114,5 @@ function ArtworkAdminList() {
     </div>
   )
 }
-
+//slice creeaza o cpoie a unui array sau a unei parti din array
 export default ArtworkAdminList

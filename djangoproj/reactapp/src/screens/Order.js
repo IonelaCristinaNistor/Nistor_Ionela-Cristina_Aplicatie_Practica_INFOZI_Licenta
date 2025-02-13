@@ -41,8 +41,8 @@ function Order() {
       script.type = 'text/javascript';
       script.src = 'https://www.paypal.com/sdk/js?client-id=AVKAlCVgBqieKabnyZdDTbav2B68aG3XSbWGppb6TnNSjPFLQkrISjKkmFlt7pSFi_XQotXllrorKVuQ';
 
-      script.async = true;
-      script.onload = () => {
+      script.async = true; //incărca scriptul asincron,pentru a nu bloca incarcarea paginii
+      script.onload = () => { //dupa incarcarea completa a scriptului
         setSdkReady(true);
       };
       document.body.appendChild(script);

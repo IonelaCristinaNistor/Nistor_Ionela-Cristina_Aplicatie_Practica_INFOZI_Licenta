@@ -64,11 +64,11 @@ function ArtworkEdit() {
             availability
         }));
     };
-
+    // astepta rezolvarea unei promisiuni si continua executia dupa rezolvare
     const uploadImage = async (e) => {
-        const file = e.target.files[0]
+        const file = e.target.files[0] //se preia primul fisier selectat
         const formData = new FormData()
-        formData.append('image', file)
+        formData.append('image', file) //adauga un nou element de tip image
         formData.append('artwork_id', artworkId)
         setUpload(true)
         try{
@@ -77,7 +77,8 @@ function ArtworkEdit() {
                     'Content-Type': 'multipart/form-data'
                 }
             }
-            const {data} = await axios.post('/api/artworks/upload/', formData, config)
+            const {data} = await axios.post('/api/artworks/upload/', formData, config) //comunica cu serverul si trimite o cerere
+            
             setImage(data)
             setUpload(false)
         } catch {

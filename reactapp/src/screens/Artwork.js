@@ -11,80 +11,79 @@ import Comments from '../components/Comments';
 import ModalCustom from '../components/ModalCustom';
 
 function Artwork() {
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { id } = useParams()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const artworkDetails = useSelector(state => state.artworkDetails);
-    const { error, loading, artwork } = artworkDetails;
+    const artworkDetails = useSelector(state => state.artworkDetails)
+    const { error, loading, artwork } = artworkDetails
 
-    const userLogin = useSelector(state => state.userLogin);
-    const { userInformation } = userLogin;
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInformation } = userLogin
+    const favorite = useSelector(state => state.favorite)
+    const { favorites } = favorite || { favorites: [] }
+    const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork._id === parseInt(id))
 
-    const favorite = useSelector(state => state.favorite);
-    const { favorites } = favorite || { favorites: [] };
-    const isFavoriteInitial = favorites.find(fav => fav.artwork && fav.artwork._id === parseInt(id));
-
-    const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
-    const [showModal, setShowModal] = useState(false);
-    const [comment, setComment] = useState('');
-    const [artworkQuantity, setArtQuantity] = useState(1);
-    const [isLiked, setIsLiked] = useState('');
+    const [isFavorite, setIsFavorite] = useState(isFavoriteInitial)
+    const [showModal, setShowModal] = useState(false)
+    const [comment, setComment] = useState('')
+    const [artworkQuantity, setArtQuantity] = useState(1)
+    const [isLiked, setIsLiked] = useState('')
 
     useEffect(() => {
         if (id) {
-            dispatch(listArtworkDetails(id));
-            dispatch(fetchReactions(id));
+            dispatch(listArtworkDetails(id))
+            dispatch(fetchReactions(id))
         }
-        setIsFavorite(isFavoriteInitial);
-    }, [dispatch, id, isFavoriteInitial]);
+        setIsFavorite(isFavoriteInitial)
+    }, [dispatch, id, isFavoriteInitial])
 
     const addItemInCart = () => {
         if (!userInformation) {
-            setShowModal(true);
+            setShowModal(true)
             return;
         }
-        navigate(`/cart/${id}?artworkQuantity=${artworkQuantity}`);
+        navigate(`/cart/${id}?artworkQuantity=${artworkQuantity}`)
     };
 
     const handleFavorite = () => {
         if (!userInformation) {
-            setShowModal(true);
+            setShowModal(true)
             return;
         }
 
-        const _id = parseInt(id);
+        const _id = parseInt(id)
 
         if (isFavorite) {
-            dispatch(removeFavorite(_id));
+            dispatch(removeFavorite(_id))
         } else {
-            dispatch(addFavorite(_id));
+            dispatch(addFavorite(_id))
         }
 
-        setIsFavorite(!isFavorite);
+        setIsFavorite(!isFavorite)
     };
 
-    const handleModalClose = () => setShowModal(false);
+    const handleModalClose = () => setShowModal(false)
 
-    const reactionList = useSelector(state => state.reactionList);
-    const { loading: loadingReaction, error: errorReaction, reactions } = reactionList;
+    const reactionList = useSelector(state => state.reactionList)
+    const { loading: loadingReaction, error: errorReaction, reactions } = reactionList
 
     const submitCommentHandler = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (userInformation) {
-            dispatch(addComment(id, comment));
-            setComment('');
+            dispatch(addComment(id, comment))
+            setComment('')
         } else {
-            setShowModal(true);
+            setShowModal(true)
         }
     };
 
     const handleArtworkLike = () => {
         if (userInformation) {
-            dispatch(addArtworkLike(id));
+            dispatch(addArtworkLike(id))
             setIsLiked(!isLiked);
         } else {
-            setShowModal(true);
+            setShowModal(true)
         }
     };
 

@@ -8,7 +8,7 @@ import TrashIconToogle from '../components/TrashIconToogle';
 import Message from '../components/Message';
 
 function Cart() {
-    const { id } = useParams();
+    const { id } = useParams(); //extrage id-ul din url
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Cart() {
     const { cartItems } = cart;
 
     const searchParams = new URLSearchParams(location.search);
-    const quantity = searchParams.get('artworkQuantity') ? Number(searchParams.get('artworkQuantity')) : 1;
+    const quantity = searchParams.get('artworkQuantity') ? Number(searchParams.get('artworkQuantity')) : 1; //se extrage cantitatea din url, este pusa pe 1 initial
 
     useEffect(() => {
         if (id) {
@@ -87,7 +87,7 @@ function Cart() {
                     <Card className='cardCart' style={{marginTop: '94px'}}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Total ({cartItems.reduce((x, item) => x + item.quantity, 0)}) items</h2>
+                                <h2>Total ({cartItems.reduce((x, item) => x + item.quantity, 0)}) items</h2> 
                                 {cartItems.reduce((x, item) => x + item.quantity * item.price, 0)}LEI
                             </ListGroup.Item>
                         </ListGroup>
@@ -101,6 +101,7 @@ function Cart() {
             </Row>
         </Container>
     );
+    //reduce - calculeaza o valoare cumulativa array-ului
 }
 
 export default Cart;

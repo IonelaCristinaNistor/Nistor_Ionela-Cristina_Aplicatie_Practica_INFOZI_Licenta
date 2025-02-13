@@ -49,7 +49,7 @@ def updateUserProfile(request):
     serializers = UserSerializerWithToken(user, many=False)
     data = request.data
     user.first_name = data['name']
-    user.username = data['name'] #am modificat aici
+    user.username = data['name']
     user.email = data['email']
 
     if data['password'] != '':
@@ -80,7 +80,7 @@ def getUsersById(request,pk):
     serializers = UserSerializer(user, many=False)
     return Response(serializers.data)
 
-#update user by the Admin
+#update user Admin
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
 def updateUser(request, pk):
@@ -90,7 +90,6 @@ def updateUser(request, pk):
     user.username = data['email']
     user.email = data['email']
     user.is_staff = data['isAdmin'] 
-    #is_staff in django, isAdmin in React
     user.save()
     serializers = UserSerializer(user, many=False)
     return Response(serializers.data)

@@ -214,6 +214,7 @@ function Artwork() {
             <ModalCustom show={showModal} handleClose={handleModalClose} />
         </div>
     );
+    //map - acceseaza fiecare element al array-ului
 }
 
 export default Artwork;
