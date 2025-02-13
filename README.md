@@ -1,3 +1,8 @@
+## Repository gitlab.upt
+
+https://gitlab.upt.ro/ionela.nistor/Nistor_Ionela-Cristina_Aplicatie_Practica_INFOZI_Licenta.git
+
+
 ## Metoda de Instalare
 
 ### Instalare Django
