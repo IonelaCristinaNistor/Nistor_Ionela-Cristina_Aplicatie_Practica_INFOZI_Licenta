@@ -115,7 +115,7 @@ export const listArtworkDetails = (id) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.delete(`/api/artworks/delete/${id}/`, config);
+        await axios.delete(`/api/artworks/delete/${id}/`, config);
 
         dispatch({
             type: ARTWORK_DELETE_SUCCESS,
